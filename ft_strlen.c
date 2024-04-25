@@ -6,19 +6,22 @@
 /*   By: tkondo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:00 by tkondo            #+#    #+#             */
-/*   Updated: 2024/01/16 19:28:44 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/25 16:29:11 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strlen(char *str)
+#include <stddef.h>
+#include "libft.h"
+size_t	ft_strlen(const char *s)
+
 {
-	int	cnt;
+	size_t	cnt;
 
 	cnt = 0;
-	while (*str)
+	while (*s)
 	{
 		cnt++;
-		str++;
+		s++;
 	}
 	return (cnt);
 }
