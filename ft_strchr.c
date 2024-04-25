@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 00:58:14 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/17 01:03:11 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/25 18:47:23 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ char	*ft_strchr(const char *s, int c)
 	int	i;
 
 	i = 0;
-	while (s[i] && s[i] != c)
+	while (s[i] && ((s[i] ^ c) & 255))
 		i++;
-	if (s[i] == c)
-		return ((char*)s + i);
-	return (NULL);
+	if ((s[i] ^ c) & 255)
+		return (NULL);
+	return ((char*)s + i);
 }
 /*
 #include <stdio.h>
@@ -34,10 +34,12 @@ void	test(char *s, int c)
 }
 int	main(void)
 {
+char *s ="libft-test-tokyo";
 	test("123", '0');
 	test("123", '1');
 	test("123", '3');
 	test("123", 0);
 	test("", '3');
+	test(s,'l'+256);
 }
 //*/
