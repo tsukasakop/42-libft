@@ -6,14 +6,14 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 22:24:16 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/17 00:28:32 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/25 15:44:24 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 void	ft_bzero(void *s, size_t n)
 {
-	int	i;
+	size_t	i;
 	char *sc= (char *)s;
 	i = 0;
 	while (i < n && sc[i])

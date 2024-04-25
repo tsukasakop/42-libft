@@ -6,11 +6,11 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 06:11:17 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/16 06:21:46 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/25 15:38:12 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	isalpha(int c)
+int	ft_isalpha(int c)
 {
-	return (c >= 'A' && c <= 'Z' + c >= 'a' && c <= 'z');
+	return ((c >= 'A' && c <= 'Z' ) || (c >= 'a' && c <= 'z'));
 }
