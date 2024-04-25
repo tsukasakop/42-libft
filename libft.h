@@ -13,7 +13,7 @@ char	*ft_strchr(const char *s, int c);
 char	*ft_strdup(char *src);
 unsigned int	ft_strlcat(char *dest, char *src, unsigned int size);
 unsigned int	ft_strlcpy(char *dest, char *src, unsigned int size);
-int	ft_strlen(char *str);
+size_t	ft_strlen(const char *str);
 int	ft_strncmp(const char *s1, const char *s2, unsigned int n);
 char	*ft_strrchr(const char *s, int c);
 int	ft_tolower(int c);
