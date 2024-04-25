@@ -6,25 +6,28 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 00:58:14 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/17 01:11:53 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/25 18:54:34 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
+#include "libft.h"
+#include <stdio.h>
 char	*ft_strrchr(const char *s, int c)
 {
-	int		i;
-	char	*l;
+	size_t		i;
 
-	l = NULL;
-	i = 0;
-	while (!i || s[i - 1])
+	i = ft_strlen(s) - 1;
+	if (c=='\0')
+		return ((char *)s + i + 1);
+	while (1)
 	{
-		if (s[i] == c)
-			l = (char *)s + i;
-		i++;
+		if (!((s[i] ^ c) & 255))
+			return ((char *)s + i);
+		if (i==0)
+			return (NULL);
+		i--;
 	}
-	return (l);
 }
 /*
 #include <stdio.h>
@@ -38,10 +41,12 @@ void	test(char *s, int c)
 }
 int	main(void)
 {
-	test("123", '0');
+	char* s= "libft-test-tokyo";
 	test("123", '1');
 	test("123", '3');
 	test("123", 0);
+	test("123", '0');
 	test("", '3');
+test(s,'s');
 }
 //*/
