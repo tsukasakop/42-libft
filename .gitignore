@@ -1,2 +1,4 @@
 *.txt
 a.out
+.DS_Store*
+*.swp
