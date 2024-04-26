@@ -6,13 +6,15 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:27:57 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/25 19:16:16 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/26 13:47:11 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdbool.h>
 #include "libft.h"
+#include <limits.h>
+#include <stdbool.h>
 #include <stdio.h>
+
 bool	ft_isspace(char c)
 {
 	return ((c >= 9 && c <= 13) || c == ' ');
@@ -20,27 +22,29 @@ bool	ft_isspace(char c)
 
 int	ft_atoi(const char *str)
 {
-	int	sign;
-	int	num;
-	int	cur;
+	int		cur;
+	char		sign;
+	long	num;
+	long	limit;
 
-	num = 0;
 	cur = 0;
 	while (ft_isspace(str[cur]))
 		cur++;
 	sign = 1 - 2 * (str[cur] == '-');
-	if (str[cur] == '+' || str[cur] == '-')
-		cur++;
+	cur += (str[cur] == '+' || str[cur] == '-');
+	limit = LONG_MIN + (sign + 1) / 2;
+	num = 0;
 	while (ft_isdigit(str[cur]))
 	{
+		if (sign * -1 * num < (limit + str[cur] - '0') / 10)
+			return ((sign + 1) * -1 / 2);
 		num = num * 10 + sign * (str[cur] - '0');
 		cur++;
 	}
-//	printf("| %d <- ",num);
-	return (num);
+	return (num & -1);
 }
 
-//*
+/*
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -66,8 +70,31 @@ int	main(void)
 	test(" +42");
 	test(" -42");
 	test(" \r\t\f\v\n42");
+	test("9223372036854775800");
+	test("9223372036854775801");
+	test("9223372036854775802");
+	test("9223372036854775803");
+	test("9223372036854775804");
+	test("9223372036854775805");
+	test("9223372036854775806");
+	test("9223372036854775807");
 	test("9223372036854775808");
-	test("-9223372036854775809");
+	test("9223372036854775808");
+	test("9223372036854775809");
+	test("9223372036854775810");
+	test("9223372036854775811");
+	test("9223372036854775812");
+	test("-9223372036854775808");
+	test("-9223372036854775808");
+	test("-9223372036854775808");
+	test("-9223372036854775807");
+	test("-9223372036854775806");
+	test("-9223372036854775805");
+	test("-9223372036854775804");
+	test("-9223372036854775803");
+	test("-9223372036854775802");
+	test("-9223372036854775801");
+	test("-9223372036854775800");
 	test("18446744073709551616");
 	test("18446744073709551614");
 	test("-+122");
