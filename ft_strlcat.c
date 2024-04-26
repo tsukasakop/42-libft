@@ -6,7 +6,7 @@
 /*   By: tkondo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 05:22:29 by tkondo            #+#    #+#             */
-/*   Updated: 2024/01/29 11:30:01 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/26 14:31:57 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stddef.h>
 unsigned int	ft_strlcat(char *dest, char *src, unsigned int size)
 {
 	unsigned int	dest_len;
@@ -31,7 +32,7 @@ unsigned int	ft_strlcat(char *dest, char *src, unsigned int size)
 	dest_len = 0;
 	src_len = 0;
 	i = 0;
-	while (dest[dest_len] != '\0')
+	while (dest && dest[dest_len] != '\0')
 		dest_len++;
 	while (src[src_len] != '\0')
 		src_len++;
