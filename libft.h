@@ -22,3 +22,4 @@ int				ft_toupper(int c);
 void			*ft_memcpy(void *dst, const void *src, size_t n);
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 void	*ft_memset(void *b, int c, size_t len);
+void	*ft_memmove(void *dst, const void *src, size_t len);
