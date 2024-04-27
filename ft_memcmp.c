@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 11:46:06 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/27 11:49:10 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/27 19:19:28 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ft_memcmp(const void *s1, const void *s2, size_t n)
 	while (i < n)
 	{
 		if (c1[i] != c2[i])
-			return (int)(c1[i] - c2[i]);
+			return ((int)(c1[i] - c2[i]));
 		i++;
 	}
 	return (0);

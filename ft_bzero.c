@@ -6,20 +6,22 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 22:24:16 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/25 15:44:24 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/27 19:17:43 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
+
 void	ft_bzero(void *s, size_t n)
 {
 	size_t	i;
-	char *sc= (char *)s;
+	char	*sc;
+
+	sc = (char *)s;
 	i = 0;
 	while (i < n && sc[i])
 		sc[i++] = 0;
 }
-
 /*
 #include <unistd.h>
 
@@ -106,7 +108,7 @@ void	*ft_print_memory(void *addr, unsigned int size)
 	}
 	return (addr);
 }
-int main(){
+int	main(void){
 	char s [20]="1234567890qwertyuiop";
 	ft_print_memory(s,50);
 }
@@ -117,7 +119,6 @@ void	test(char *s, int i)
 {
 	char*	proced1;
 	char*	proced2;
-
 	proced1 = strdup(s);
 	proced2 = strdup(s);
 	bzero(proced1,i);
@@ -134,7 +135,6 @@ void	test2(char *s, int i, int st)
 {
 	char*	proced1;
 	char*	proced2;
-
 	proced1 = strdup(s);
 	proced2 = strdup(s);
 	bzero(proced1+st,i);

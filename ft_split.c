@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 22:50:26 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/27 17:30:41 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/27 19:15:06 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_sep(char c, char comp)
 {
-	return (c==comp);
+	return (c == comp);
 }
 
 char	*word_dup(char *start, int length)
@@ -73,9 +73,9 @@ char	**ft_split(char const *s, char c)
 	int		count;
 	char	**result;
 
-	count = cnt_words((char*)s, c);
+	count = cnt_words((char *)s, c);
 	result = malloc(sizeof(char *) * (count + 1));
-	set_words((char*)s, c, result);
+	set_words((char *)s, c, result);
 	return (result);
 }
 /* RM this line to test

@@ -6,12 +6,13 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 01:20:58 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/27 19:02:34 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/27 19:18:40 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stddef.h>
+
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
 	size_t	s_needle;

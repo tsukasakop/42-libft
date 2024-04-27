@@ -6,12 +6,13 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 15:36:07 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/27 15:36:59 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/27 19:15:14 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
 #include "libft.h"
+#include <stdlib.h>
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*p;

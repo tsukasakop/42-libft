@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 11:55:56 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/27 12:45:25 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/27 19:18:03 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 #include <limits.h>
 #include <stddef.h>
 #include <stdlib.h>
+
 void	*ft_calloc(size_t count, size_t size)
 {
 	void	*p;
-	
+
 	if (size && count > SIZE_MAX / size)
 		return (NULL);
 	p = malloc(count * size);
