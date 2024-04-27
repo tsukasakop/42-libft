@@ -1,5 +1,20 @@
-#include <stdbool.h>
-#include <stddef.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   libft.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/27 19:52:48 by tkondo            #+#    #+#             */
+/*   Updated: 2024/04/27 19:53:19 by tkondo           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef LIBFT_H
+
+# define LIBFT_H
+# include <stdbool.h>
+# include <stddef.h>
 
 bool			ft_isspace(char c);
 int				ft_atoi(const char *str);
@@ -30,13 +45,18 @@ void			*ft_calloc(size_t count, size_t size);
 char			*ft_substr(char const *s, unsigned int start, size_t len);
 char			*ft_strjoin(char const *s1, char const *s2);
 char			*ft_strtrim(char const *s1, char const *set);
-char **ft_split(char const *s, char c);
-char *ft_itoa(int n);
-char *ft_strmapi(char const *s, char (*f)(unsigned
-int, char));
-void ft_striteri(char *s, void (*f)(unsigned int,
-char*));
-void ft_putchar_fd(char c, int fd);
-void ft_putstr_fd(char *s, int fd);
-void ft_putendl_fd(char *s, int fd);
-void ft_putnbr_fd(int n, int fd);
+char			**ft_split(char const *s, char c);
+char			*ft_itoa(int n);
+char			*ft_strmapi(char const *s, char (*f)(unsigned int, char));
+void			ft_striteri(char *s, void (*f)(unsigned int, char *));
+void			ft_putchar_fd(char c, int fd);
+void			ft_putstr_fd(char *s, int fd);
+void			ft_putendl_fd(char *s, int fd);
+void			ft_putnbr_fd(int n, int fd);
+typedef struct s_list
+{
+	s_list		*content;
+	*next;
+}				t_list;
+
+#endif
