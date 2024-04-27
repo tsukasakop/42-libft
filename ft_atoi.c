@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:27:57 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/26 13:47:11 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/27 19:08:09 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,15 @@
 #include <stdbool.h>
 #include <stdio.h>
 
-bool	ft_isspace(char c)
-{
-	return ((c >= 9 && c <= 13) || c == ' ');
-}
-
 int	ft_atoi(const char *str)
 {
 	int		cur;
-	char		sign;
+	char	sign;
 	long	num;
 	long	limit;
 
 	cur = 0;
-	while (ft_isspace(str[cur]))
+	while ((str[cur] >= 9 && str[cur] <= 13) || str[cur] == ' ')
 		cur++;
 	sign = 1 - 2 * (str[cur] == '-');
 	cur += (str[cur] == '+' || str[cur] == '-');
