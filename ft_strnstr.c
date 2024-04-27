@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 01:20:58 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/26 16:50:20 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/27 19:02:34 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 
 	if (len == 0)
 	{
-		if (haystack && *haystack == '\0' && *needle == '\0')
+		if (haystack && *needle == '\0')
 			return ((char *)haystack);
 		else
 			return (NULL);
@@ -70,5 +70,6 @@ int	main(void)
 	test("1234567890", "234", 10);
 	test("", "", 0);
 	test(NULL, "1", 0);
+	test("1234567890", "", 0);
 	//test("1", NULL, 0);
 } //*/
