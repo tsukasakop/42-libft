@@ -6,20 +6,20 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 05:07:23 by tkondo            #+#    #+#             */
-/*   Updated: 2024/01/25 09:44:43 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/28 18:22:00 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-char	*ft_strdup(char *src)
+char	*ft_strdup(const char *s1)
 {
 	int		len;
 	char	*dup;
 	int		i;
 
 	len = 0;
-	while (src[len] != '\0')
+	while (s1[len] != '\0')
 		len++;
 	dup = malloc(len + 1);
 	if (dup == NULL)
@@ -27,7 +27,7 @@ char	*ft_strdup(char *src)
 	i = 0;
 	while (i <= len)
 	{
-		dup[i] = src[i];
+		dup[i] = s1[i];
 		i++;
 	}
 	return (dup);

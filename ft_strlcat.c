@@ -6,38 +6,38 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 04:16:43 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/27 19:18:25 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/28 18:29:04 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 
-unsigned int	ft_strlcat(char *dest, char *src, unsigned int size)
+size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
-	unsigned int	dest_len;
+	unsigned int	dst_len;
 	unsigned int	src_len;
 	unsigned int	i;
 
-	dest_len = 0;
+	dst_len = 0;
 	src_len = 0;
 	i = 0;
-	while (dest && dest[dest_len] != '\0')
-		dest_len++;
+	while (dst && dst[dst_len] != '\0')
+		dst_len++;
 	while (src[src_len] != '\0')
 		src_len++;
-	if (dest_len >= size)
-		return (src_len + size);
-	if (dest_len < size - 1)
+	if (dst_len >= dstsize)
+		return (src_len + dstsize);
+	if (dst_len < dstsize - 1)
 	{
-		while (src[i] != '\0' && dest_len < size - 1)
+		while (src[i] != '\0' && dst_len < dstsize - 1)
 		{
-			dest[dest_len] = src[i];
-			dest_len++;
+			dst[dst_len] = src[i];
+			dst_len++;
 			i++;
 		}
-		dest[dest_len] = '\0';
+		dst[dst_len] = '\0';
 	}
-	return (src_len + dest_len - i);
+	return (src_len + dst_len - i);
 }
 /* RM this line
 #include <stdio.h>
