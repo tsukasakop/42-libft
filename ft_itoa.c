@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:49:42 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/27 19:18:13 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/28 21:56:20 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ char	*ft_itoa(int n)
 
 	len = digit(n) + (n < 0);
 	p = malloc(len + 1);
-	p[len] = '\0';
 	if (p == NULL)
 		return (NULL);
+	p[len] = '\0';
 	if (n < 0)
 		p[0] = '-';
 	set_digit(n, p, len - 1);

@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 22:50:26 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/28 20:42:01 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/28 22:02:05 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*word_dup(char *start, int length)
 	int		i;
 
 	word = malloc(length + 1);
+	if (word == NULL)
+		return (NULL);
 	i = 0;
 	while (i < length)
 	{
