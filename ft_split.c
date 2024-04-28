@@ -6,11 +6,16 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 22:50:26 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/28 18:57:05 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/27 19:15:06 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
+
+int	is_sep(char c, char comp)
+{
+	return (c == comp);
+}
 
 char	*word_dup(char *start, int length)
 {
@@ -18,8 +23,6 @@ char	*word_dup(char *start, int length)
 	int		i;
 
 	word = malloc(length + 1);
-	if (word == NULL)
-		return (NULL);
 	i = 0;
 	while (i < length)
 	{
@@ -39,14 +42,14 @@ int	cnt_words(char *str, char c)
 	s = str;
 	while (*s)
 	{
-		if (*s != c && s != str && *(s - 1) != c)
+		if (!is_sep(*s, c) && (s == str || is_sep(*(s - 1), c)))
 			cnt += 1;
 		s++;
 	}
 	return (cnt);
 }
 
-char	**set_words(char *str, char c, char **res)
+void	set_words(char *str, char c, char **res)
 {
 	char	*start;
 	char	*s;
@@ -56,19 +59,13 @@ char	**set_words(char *str, char c, char **res)
 	index = 0;
 	while (*s)
 	{
-		if (*s != c && s != str && *(s - 1) != c)
+		if (!is_sep(*s, c) && (s == str || is_sep(*(s - 1), c)))
 			start = s;
-		if (*s != c && *(s + 1) && *(s + 1) != c)
-		{
-			res[index] = word_dup(start, s - start + 1);
-			if (res[index] == NULL)
-				return (NULL);
-			index++;
-		}
+		if (!is_sep(*s, c) && (!*(s + 1) || is_sep(*(s + 1), c)))
+			res[index++] = word_dup(start, s - start + 1);
 		s++;
 	}
 	res[index] = NULL;
-	return (res);
 }
 
 char	**ft_split(char const *s, char c)
@@ -77,18 +74,8 @@ char	**ft_split(char const *s, char c)
 	char	**result;
 
 	count = cnt_words((char *)s, c);
-	words = malloc(sizeof(char *) * (count + 1));
-	if (words == NULL)
-		return (NULL);
-	if (set_words((char *)s, c, words) == NULL)
-	{
-		while (*words)
-		{
-			free(*words);
-			words++;
-		}
-		return (NULL);
-	}
+	result = malloc(sizeof(char *) * (count + 1));
+	set_words((char *)s, c, result);
 	return (result);
 }
 /* RM this line to test
