@@ -6,16 +6,11 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 22:50:26 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/27 19:15:06 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/28 19:36:57 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
-
-int	is_sep(char c, char comp)
-{
-	return (c == comp);
-}
 
 char	*word_dup(char *start, int length)
 {
@@ -42,14 +37,14 @@ int	cnt_words(char *str, char c)
 	s = str;
 	while (*s)
 	{
-		if (!is_sep(*s, c) && (s == str || is_sep(*(s - 1), c)))
+		if (*s != c && (s == str || *(s - 1) == c))
 			cnt += 1;
 		s++;
 	}
 	return (cnt);
 }
 
-void	set_words(char *str, char c, char **res)
+char	**set_words(char *str, char c, char **res)
 {
 	char	*start;
 	char	*s;
@@ -59,24 +54,38 @@ void	set_words(char *str, char c, char **res)
 	index = 0;
 	while (*s)
 	{
-		if (!is_sep(*s, c) && (s == str || is_sep(*(s - 1), c)))
+		if (*s != c && (s == str || *(s - 1) == c))
 			start = s;
-		if (!is_sep(*s, c) && (!*(s + 1) || is_sep(*(s + 1), c)))
-			res[index++] = word_dup(start, s - start + 1);
+		if (*s != c && (!*(s + 1) || *(s + 1) == c))
+		{
+			res[index] = word_dup(start, s - start + 1);
+			if (res[index] == NULL)
+				return (NULL);
+			index++;
+		}
 		s++;
 	}
 	res[index] = NULL;
+	return (res);
 }
 
 char	**ft_split(char const *s, char c)
 {
 	int		count;
-	char	**result;
+	char	**words;
 
 	count = cnt_words((char *)s, c);
-	result = malloc(sizeof(char *) * (count + 1));
-	set_words((char *)s, c, result);
-	return (result);
+	words = malloc(sizeof(char *) * (count + 1));
+	if (set_words((char *)s, c, words) == NULL)
+	{
+		while (*words)
+		{
+			free(*words);
+			words++;
+		}
+		return (NULL);
+	}
+	return (words);
 }
 /* RM this line to test
 
