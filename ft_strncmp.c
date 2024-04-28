@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 04:53:19 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/27 19:18:36 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/28 21:43:16 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	while (n > 0 && (*s1 || *s2))
 	{
-		if ((*s1 ^ *s2) & 255)
+		if (*s1 != *s2)
 			return ((unsigned char)*s1 - (unsigned char)*s2);
 		s1++;
 		s2++;
