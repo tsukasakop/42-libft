@@ -1,3 +1,6 @@
 [submodule "libft-tester-tokyo"]
 	path = libft-tester-tokyo
 	url = https://github.com/usatie/libft-tester-tokyo
+[submodule "libftTester"]
+	path = libftTester
+	url = https://github.com/Tripouille/libftTester
