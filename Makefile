@@ -53,6 +53,10 @@ S_BONUS =\
 O_ALL = $(S_ALL:%.c=%.o)
 O_BONUS = $(S_BONUS:%.c=%.o)
 
+ifdef ADD_BONUS
+O_ALL += $(O_BONUS)
+endif
+
 # Name of the library
 LIB = libft.a
 
@@ -63,9 +67,10 @@ all: $(LIB)
 $(LIB): $(O_ALL)
 	ar rcs $(LIB) $(O_ALL)
 
+# Rule for bonus target
+bonus:
+	@make ADD_BONUS=1
 # Rule for creating extra
-bonus: $(O_BONUS)
-	ar rcs $(LIB) $(O_BONUS)
 
 # Rule for compiling source files
 %.o: %.c
