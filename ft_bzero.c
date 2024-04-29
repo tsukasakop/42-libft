@@ -6,21 +6,16 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 22:24:16 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/27 19:17:43 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/29 20:39:50 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
 #include <stddef.h>
 
 void	ft_bzero(void *s, size_t n)
 {
-	size_t	i;
-	char	*sc;
-
-	sc = (char *)s;
-	i = 0;
-	while (i < n && sc[i])
-		sc[i++] = 0;
+	ft_memset(s, 0, n);
 }
 /*
 #include <unistd.h>
