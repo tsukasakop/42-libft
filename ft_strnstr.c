@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 01:20:58 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/27 19:18:40 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/29 19:58:10 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 	i = 0;
 	s_haystack = ft_strlen(haystack);
 	s_needle = ft_strlen(needle);
-	while (i + s_needle < s_haystack && i + s_needle <= len)
+	while (i + s_needle <= s_haystack && i + s_needle <= len)
 	{
 		j = 0;
 		while (j < s_needle && haystack[i + j] == needle[j])
@@ -55,6 +55,7 @@ void	test(const char *h, const char *n, size_t l)
 
 int	main(void)
 {
+	char*s="1234567890";
 	test("1234567890", "234", 2);
 	test("1234567890", "234", 3);
 	test("1234567890", "234", 4);
@@ -65,6 +66,7 @@ int	main(void)
 	test("1234567890", "234", -1);
 	test("1234567890", "23456789012", 0);
 	test("1234567890", "", 10);
+	test(s,s+5,10);
 	test("1234567890", "234", 10);
 	test("1234567890", "234", 10);
 	test("1234567890", "234", 10);

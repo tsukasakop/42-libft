@@ -6,27 +6,12 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 22:29:26 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/27 23:36:17 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/29 19:47:40 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
-
-void	ft_lstclear(t_list **lst, void (*del)(void *))
-{
-	t_list	*prev;
-
-	if (lst == NULL)
-		return ;
-	while (*lst)
-	{
-		prev = *lst;
-		*lst = (*lst)->next;
-		ft_lstdelone(prev, del);
-	}
-	*lst = NULL;
-}
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
