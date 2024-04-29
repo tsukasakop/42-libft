@@ -61,14 +61,15 @@ all: $(LIB)
 
 # Rule for creating the library
 $(LIB): $(O_ALL)
+	ar rcs $(LIB) $(O_ALL)
 
 # Rule for creating extra
 bonus: $(O_BONUS)
+	ar rcs $(LIB) $(O_BONUS)
 
 # Rule for compiling source files
 %.o: %.c
 	$(CC) $(CFLAGS) -I. -c $< -o $@
-	ar rcs $(LIB) $@
 
 # Rule for cleaning object files
 clean:
