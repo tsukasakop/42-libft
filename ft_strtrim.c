@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 15:52:43 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/27 17:01:04 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/29 20:28:22 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,28 +50,20 @@ char	*ft_strtrim(char const *s1, char const *set)
 	char	*p;
 	size_t	n_pref;
 	size_t	n_p;
-	size_t	i;
+	size_t	n_s1;
 
 	n_pref = strlen_pref(s1, set);
-	n_p = ft_strlen(s1) - n_pref - strlen_suf(s1, set);
-	n_p *= n_p > 0;
-	p = malloc(n_p + 1);
-	if (p == NULL)
-		return (NULL);
-	i = 0;
-	while (i < n_p)
-	{
-		p[i] = s1[n_pref + i];
-		i++;
-	}
-	p[n_p] = '\0';
+	n_s1 = ft_strlen(s1);
+	n_p = (n_pref != n_s1) * (n_s1 - n_pref - strlen_suf(s1, set));
+	p = ft_substr(s1, n_pref, n_p);
 	return (p);
 }
 /*
+
 #include <stdio.h>
 
 int	main(void)
 {
-	printf("%s", "Hello, World");
-	printf("%s", ft_strtrim("Hello, World", "World"));
-}//*/
+	printf("%s", "HeHeHeHe");
+	printf("%s", ft_strtrim("HeHeHeHe", "He"));
+} //*/
