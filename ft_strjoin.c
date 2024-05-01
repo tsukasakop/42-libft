@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 15:36:07 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/30 22:05:06 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/01 00:56:15 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	size_t	n_s1;
 	size_t	n_s2;
 
+	if (s1 == NULL || s2 == NULL)
+		return (NULL);
 	n_s1 = ft_strlen(s1);
 	n_s2 = ft_strlen(s2);
 	if (n_s1 >= SIZE_MAX - n_s1)
@@ -28,6 +30,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	ft_memmove(p, s1, n_s1);
 	ft_memmove(p + n_s1, s2, n_s2);
-	ft_memset(p + n_s1 + n_s2, 0, 1);
+	p[n_s1 + n_s2] = '\0';
 	return (p);
 }

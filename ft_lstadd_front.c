@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 20:29:19 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/27 20:46:17 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/30 23:55:58 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	if (lst == NULL )
+	if (lst == NULL)
 		return ;
 	new->next = *lst;
 	(*lst) = new;

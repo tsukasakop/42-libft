@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 20:58:29 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/27 21:12:32 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/04/30 23:55:24 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,13 @@
 
 void	ft_lstadd_back(t_list **lst, t_list *new)
 {
-	t_list	**cur;
+	t_list	*leaf;
 
 	if (lst == NULL)
 		return ;
-	cur = lst;
-	while (*cur)
-		cur = &((*cur)->next);
-	*cur = new;
+	leaf = ft_lstlast(*lst);
+	if (leaf == NULL)
+		*lst = new;
+	else
+		leaf->next = new;
 }

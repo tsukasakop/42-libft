@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 22:50:26 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/28 22:02:05 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/01 00:57:39 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ char	**ft_split(char const *s, char c)
 	int		count;
 	char	**words;
 
+	if (s == NULL)
+		return (NULL);
 	count = cnt_words((char *)s, c);
 	words = malloc(sizeof(char *) * (count + 1));
 	if (words == NULL)

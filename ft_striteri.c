@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:18:02 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/27 19:15:12 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/01 01:03:20 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	ft_striteri(char *s, void (*f)(unsigned int, char *))
 {
 	size_t	i;
 
+	if (s == NULL)
+		return; 
 	i = 0;
 	while (s[i])
 	{

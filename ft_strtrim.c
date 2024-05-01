@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 15:52:43 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/29 20:28:22 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/01 00:57:00 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ char	*ft_strtrim(char const *s1, char const *set)
 	size_t	n_p;
 	size_t	n_s1;
 
+	if (s1 == NULL || set == NULL)
+		return (NULL);
 	n_pref = strlen_pref(s1, set);
 	n_s1 = ft_strlen(s1);
 	n_p = (n_pref != n_s1) * (n_s1 - n_pref - strlen_suf(s1, set));

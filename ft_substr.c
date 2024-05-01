@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:39:36 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/29 20:02:24 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/01 00:55:49 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	char	*p;
 	size_t	i;
 
+	if (s == NULL)
+		return (NULL);
 	n = (ft_strlen(s) > start) * ft_strlen((char *)s + start);
 	n -= (n - len) * (len < n);
 	p = malloc(n + 1);
