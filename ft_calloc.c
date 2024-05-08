@@ -6,13 +6,12 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 11:55:56 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/27 19:18:03 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/09 05:08:48 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <limits.h>
-#include <stddef.h>
 #include <stdlib.h>
 
 void	*ft_calloc(size_t count, size_t size)
@@ -27,21 +26,3 @@ void	*ft_calloc(size_t count, size_t size)
 	ft_memset(p, 0, count * size);
 	return (p);
 }
-/*
-#include <limits.h>
-#include <stdio.h>
-
-int	main(void)
-{
-	char	*c;
-	size_t	i;
-	size_t	t;
-
-	t = (size_t)SIZE_MAX / 10 + (size_t)1;
-	c = (char *)calloc(t, 10);
-	i = 0;
-	while (i < 1 && c[i] == 0)
-		i++;
-	printf("%zu", t);
-}
-//*/

@@ -6,7 +6,7 @@
 /*   By: tkondo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:00 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/09 00:51:16 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/09 05:18:57 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,3 @@ size_t	ft_strlen(const char *s)
 		t++;
 	return (t - s);
 }
-/*
-
-#include <stdio.h>
-
-int	main(void){
-	char *str = "123456789";
-	int n =strlen(str);
-	printf("%s\n",str);
-	printf("%d",n);
-}//*/

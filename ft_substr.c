@@ -6,12 +6,11 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:39:36 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/01 00:55:49 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/09 05:20:24 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stddef.h>
 #include <stdlib.h>
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
