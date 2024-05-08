@@ -6,7 +6,7 @@
 #    By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
-#    Updated: 2024/05/09 00:36:25 by tkondo           ###   ########.fr        #
+#    Updated: 2024/05/09 08:09:10 by tkondo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -80,8 +80,9 @@ $(NAME): $(O_ALL)
 	ar rcs $(NAME) $(O_ALL)
 
 # Rule for bonus target
-bonus:
-	@make ADD_BONUS=1
+bonus: $(O_BONUS)
+	ar rcs $(NAME) $(O_BONUS)
+
 # Rule for creating extra
 
 # Rule for compiling source files
