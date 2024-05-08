@@ -6,21 +6,20 @@
 /*   By: tkondo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/16 18:37:00 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/01 00:37:33 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/09 00:51:16 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stddef.h>
 
 size_t	ft_strlen(const char *s)
-
 {
-	//size_t	cnt;
-	const char *t=s;
-	//cnt = 0;
+	const char	*t;
+
+	t = s;
 	while (*t)
 		t++;
-	return (t-s);
+	return (t - s);
 }
 /*
 

@@ -1,3 +1,15 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
+#    Updated: 2024/05/09 00:36:25 by tkondo           ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 # Compiler and compiling flags
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
@@ -58,14 +70,14 @@ O_ALL += $(O_BONUS)
 endif
 
 # Name of the library
-LIB = libft.a
+NAME = libft.a
 
 # Default target
-all: $(LIB)
+all: $(NAME)
 
 # Rule for creating the library
-$(LIB): $(O_ALL)
-	ar rcs $(LIB) $(O_ALL)
+$(NAME): $(O_ALL)
+	ar rcs $(NAME) $(O_ALL)
 
 # Rule for bonus target
 bonus:
@@ -82,7 +94,7 @@ clean:
 
 # Rule for full clean
 fclean: clean
-	rm -f $(LIB)
+	rm -f $(NAME)
 
 # Rule for re-making
 re: fclean all
