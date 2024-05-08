@@ -6,12 +6,11 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 22:29:26 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/01 00:12:57 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/09 05:02:52 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdlib.h>
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {

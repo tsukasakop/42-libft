@@ -6,14 +6,13 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:52:48 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/28 17:55:45 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/09 05:09:57 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef LIBFT_H
 
 # define LIBFT_H
-# include <stdbool.h>
 # include <stddef.h>
 
 typedef struct s_list

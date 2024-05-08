@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 05:07:23 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/28 21:24:12 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/09 05:17:40 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,3 @@ char	*ft_strdup(const char *s1)
 	ft_memcpy(p, s1, len + 1);
 	return (p);
 }
-
-/*
-#include <stdio.h>
-
-int	main(void) {
-	char *original = "Hello, world!";
-	char *duplicate = ft_strdup(original);
-	if (duplicate != NULL) {
-		printf("Duplicate: %s\n", duplicate);
-		free(duplicate);     }
-	return (0);
-}
-//*/

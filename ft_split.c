@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/26 22:50:26 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/01 00:57:39 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/09 05:17:13 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,32 +94,3 @@ char	**ft_split(char const *s, char c)
 	}
 	return (words);
 }
-/* RM this line to test
-
-#include <stdio.h>
-
-int	main(void)
-{
-	char	str[] = "This is a test string, with several separators.";
-	char	**words;
-
-	char charset[] = " ,."; // Separators are space, comma, and period
-	words = ft_split(str, charset);
-	// Print the result
-	if (words)
-	{
-		printf("Resulting words:\n");
-		for (int i = 0; words[i] != NULL; i++)
-		{
-			printf("Word %d: %s\n", i + 1, words[i]);
-			free(words[i]); // Free each word
-		}
-		free(words); // Free the array
-	}
-	else
-	{
-		printf("Error: Memory allocation failed.\n");
-	}
-	return (0);
-}
-//*/

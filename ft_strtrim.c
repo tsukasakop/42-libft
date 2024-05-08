@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 15:52:43 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/01 00:57:00 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/09 05:19:41 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,3 @@ char	*ft_strtrim(char const *s1, char const *set)
 	p = ft_substr(s1, n_pref, n_p);
 	return (p);
 }
-/*
-
-#include <stdio.h>
-
-int	main(void)
-{
-	printf("%s", "HeHeHeHe");
-	printf("%s", ft_strtrim("HeHeHeHe", "He"));
-} //*/

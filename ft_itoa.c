@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:49:42 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/28 21:56:20 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/09 05:02:03 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,3 @@ char	*ft_itoa(int n)
 	set_digit(n, p, len - 1);
 	return (p);
 }
-
-/*
-#include <stdio.h>
-
-int	main(void)
-{
-	printf("%s\n", ft_itoa(-123));
-}//*/
