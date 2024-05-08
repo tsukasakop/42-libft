@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 14:39:36 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/09 05:20:24 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/09 07:57:37 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,22 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
 	size_t	n;
 	char	*p;
-	size_t	i;
 
-	if (s == NULL)
-		return (NULL);
-	n = (ft_strlen(s) > start) * ft_strlen((char *)s + start);
-	n -= (n - len) * (len < n);
+	if(s == NULL)
+		return NULL;
+	n = ft_strlen(s);
+	if(start)
+	{
+		if (n > start)
+			n = start;
+		return ft_substr(s+n, 0, len);
+	}
+	if(len < n)
+		n = len;
 	p = malloc(n + 1);
 	if (p == NULL)
 		return (NULL);
-	i = 0;
-	while (i < n)
-	{
-		p[i] = s[start + i];
-		i++;
-	}
+	ft_memmove(p,s,n);
 	p[n] = '\0';
 	return (p);
 }
