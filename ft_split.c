@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 13:33:35 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/11 16:41:20 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/11 17:45:07 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,10 @@ static void	free_all(char ***p)
 	char	***begin;
 
 	begin = p;
-	while (**p)
+	while (**p){
 		free(**p);
-	(*p)++;
+		(*p)++;
+	}
 	free(*begin);
 }
 
