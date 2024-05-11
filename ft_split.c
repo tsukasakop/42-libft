@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 13:33:35 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/11 17:45:07 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/11 18:16:29 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ static void	free_all(char ***p)
 	char	***begin;
 
 	begin = p;
-	while (**p){
+	while (**p)
+	{
 		free(**p);
 		(*p)++;
 	}
@@ -74,6 +75,8 @@ char	**ft_split(char const *s, char c)
 	int		cnt;
 	char	**_p;
 
+	if (s == NULL)
+		return (NULL);
 	cnt = 0;
 	split_word_iter(s, c, &cnt, cnt_word);
 	p = ft_calloc(sizeof(char *), cnt + 1);
