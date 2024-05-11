@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 17:45:14 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/09 04:53:59 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/11 16:28:21 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -560,6 +560,9 @@ int	main(void)
 	test_strjoin("12345", "abcde");
 	test_strtrim("129799887hello129841123", "1234567890", "hello");
 	test_split("1 2 3 4 5", ' ', "1\0002\0003\0004\0005");
+	test_split("^^^1^^2a,^^^^3^^^^--h^^^^", '^', "1\0002a,\0003\000--h");
+	test_split("Hello!", ' ', "Hello!");
+	test_split("nonempty", '\0', "nonempty");
 	test_itoa(12345, "12345");
 	test_strmapi("abcde", toupper_im, "ABCDE");
 	test_striteri("abcde", toupper_mu, "ABCDE");
