@@ -6,20 +6,20 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 17:49:42 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/09 05:02:03 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/11 16:48:26 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 
-size_t	digit(int n)
+static size_t	digit(int n)
 {
 	if (n / 10 == 0)
 		return (1);
 	return (digit(n / 10) + 1);
 }
 
-void	set_digit(int n, char *p, size_t cur)
+static void	set_digit(int n, char *p, size_t cur)
 {
 	p[cur] = n % 10 * ((n > 0) * 2 - 1) + '0';
 	if (n / 10)

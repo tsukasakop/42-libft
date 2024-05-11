@@ -6,14 +6,14 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 15:52:43 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/09 05:19:41 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/11 16:49:53 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 
-size_t	strlen_pref(char const *s1, char const *set)
+static size_t	strlen_pref(char const *s1, char const *set)
 {
 	size_t	i;
 	size_t	len;
@@ -29,7 +29,7 @@ size_t	strlen_pref(char const *s1, char const *set)
 	return (i);
 }
 
-size_t	strlen_suf(char const *s1, char const *set)
+static size_t	strlen_suf(char const *s1, char const *set)
 {
 	size_t	i;
 	size_t	len;
