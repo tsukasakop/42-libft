@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 22:29:26 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/09 05:02:52 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/11 18:47:13 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,14 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
 	t_list	*node;
 	t_list	*leaf;
+	void	*p;
 
-	if (lst == NULL)
+	if (lst == NULL || f == NULL || del == NULL)
 		return (NULL);
-	node = ft_lstnew(f(lst->content));
+	p = f(lst->content);
+	if (p == NULL)
+		return (NULL);
+	node = ft_lstnew(p);
 	if (node == NULL)
 		return (NULL);
 	if (lst->next == NULL)
