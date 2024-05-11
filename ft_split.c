@@ -5,92 +5,79 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/26 22:50:26 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/09 05:17:13 by tkondo           ###   ########.fr       */
+/*   Created: 2024/05/11 13:33:35 by tkondo            #+#    #+#             */
+/*   Updated: 2024/05/11 16:41:20 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft.h"
+#include <stdbool.h>
 #include <stdlib.h>
 
-char	*word_dup(char *start, int length)
+static bool	cnt_word(char const *begin, char const *end, void *p)
 {
-	char	*word;
-	int		i;
-
-	word = malloc(length + 1);
-	if (word == NULL)
-		return (NULL);
-	i = 0;
-	while (i < length)
-	{
-		word[i] = start[i];
-		i++;
-	}
-	word[length] = '\0';
-	return (word);
+	(void)begin;
+	(void)end;
+	(*((int *)p))++;
+	return (true);
 }
 
-int	cnt_words(char *str, char c)
+static bool	append_word(char const *begin, char const *end, void *p)
 {
-	char	*s;
-	int		cnt;
+	char	***addr;
 
-	cnt = 0;
-	s = str;
-	while (*s)
-	{
-		if (*s != c && (s == str || *(s - 1) == c))
-			cnt += 1;
-		s++;
-	}
-	return (cnt);
+	addr = (char ***)p;
+	**addr = ft_substr(begin, 0, end - begin);
+	if (**addr == NULL)
+		return (false);
+	(*addr)++;
+	return (true);
 }
 
-char	**set_words(char *str, char c, char **res)
+static bool	split_word_iter(char const *s, char c, void *p,
+		bool (*f)(char const *, char const *, void *))
 {
-	char	*start;
-	char	*s;
-	int		index;
+	char const	*cur_begin;
+	char const	*cur_end;
 
-	s = str;
-	index = 0;
-	while (*s)
+	cur_begin = s;
+	while (true)
 	{
-		if (*s != c && (s == str || *(s - 1) == c))
-			start = s;
-		if (*s != c && (!*(s + 1) || *(s + 1) == c))
-		{
-			res[index] = word_dup(start, s - start + 1);
-			if (res[index] == NULL)
-				return (NULL);
-			index++;
-		}
-		s++;
+		while (*cur_begin && *cur_begin == c)
+			cur_begin++;
+		if (*cur_begin == '\0')
+			return (true);
+		cur_end = ft_strchr(cur_begin, c);
+		if (cur_end == NULL)
+			cur_end = cur_begin + ft_strlen(cur_begin);
+		if (!f(cur_begin, cur_end, p))
+			return (false);
+		cur_begin = cur_end;
 	}
-	res[index] = NULL;
-	return (res);
+}
+
+static void	free_all(char ***p)
+{
+	char	***begin;
+
+	begin = p;
+	while (**p)
+		free(**p);
+	(*p)++;
+	free(*begin);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	int		count;
-	char	**words;
+	char	**p;
+	int		cnt;
+	char	**_p;
 
-	if (s == NULL)
-		return (NULL);
-	count = cnt_words((char *)s, c);
-	words = malloc(sizeof(char *) * (count + 1));
-	if (words == NULL)
-		return (NULL);
-	if (set_words((char *)s, c, words) == NULL)
-	{
-		while (*words)
-		{
-			free(*words);
-			words++;
-		}
-		free(words);
-		return (NULL);
-	}
-	return (words);
+	cnt = 0;
+	split_word_iter(s, c, &cnt, cnt_word);
+	p = ft_calloc(sizeof(char *), cnt + 1);
+	_p = p;
+	if (p != NULL && !split_word_iter(s, c, &_p, append_word))
+		free_all(&p);
+	return (p);
 }
