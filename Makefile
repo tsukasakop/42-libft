@@ -6,13 +6,14 @@
 #    By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
-#    Updated: 2024/05/13 13:16:50 by tkondo           ###   ########.fr        #
+#    Updated: 2024/05/13 16:34:56 by tkondo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # Compiler and compiling flags
 CC = cc
-CFLAGS = -g -fsanitize=address -Wall -Wextra -Werror
+#CFLAGS = -g -fsanitize=address -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 # Source and object files
 S_ALL =\
