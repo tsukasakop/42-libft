@@ -6,12 +6,19 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 22:29:26 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/13 16:39:26 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/13 17:54:31 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
+
+static void	free_all(t_list *n, void *c, t_list **root, void (*del)(void *))
+{
+	free(n);
+	free(c);
+	ft_lstclear(root, del);
+}
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
@@ -19,17 +26,17 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	t_list	*new;
 	t_list	*prev;
 	t_list	*cur;
+	void	*content;
 
-	if (lst == NULL || f == NULL || del == NULL)
-		return (NULL);
 	cur = lst;
 	root = NULL;
-	while (cur)
+	while (lst && f && del && cur)
 	{
-		new = ft_lstnew(f(cur->content));
-		if (new == NULL)
+		content = f(cur->content);
+		new = ft_lstnew(content);
+		if (content == NULL || new == NULL)
 		{
-			ft_lstclear(&root, del);
+			free_all(new, content, &root, del);
 			return (NULL);
 		}
 		if (root == NULL)
