@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 22:29:26 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/13 16:04:32 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/13 16:39:26 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	t_list	*prev;
 	t_list	*cur;
 
+	if (lst == NULL || f == NULL || del == NULL)
+		return (NULL);
 	cur = lst;
 	root = NULL;
 	while (cur)
