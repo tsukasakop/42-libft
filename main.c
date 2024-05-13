@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/02 17:45:14 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/11 16:28:21 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/05/11 22:55:12 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -543,6 +543,10 @@ int	main(void)
 	test_bzero(3);
 	test_memcpy("abcde", 3);
 	test_memmove("abcde", 3);
+	int size = 128*1024*1024;
+	char *data = malloc(size);
+	test_memmove(data, size);
+	free(data);
 	test_strlcpy("abcde", 3);
 	test_strlcat("12345", "abcde", 3);
 	test_toupper('a');
