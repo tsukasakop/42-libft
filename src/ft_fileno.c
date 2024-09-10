@@ -1,24 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_stdio.h                                         :+:      :+:    :+:   */
+/*   ft_fileno.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/27 19:52:48 by tkondo            #+#    #+#             */
-/*   Updated: 2024/09/11 01:56:15 by tkondo           ###   ########.fr       */
+/*   Created: 2024/08/25 15:50:13 by tkondo            #+#    #+#             */
+/*   Updated: 2024/09/11 01:43:41 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STDIO_H
-# define FT_STDIO_H
+#include <stdio.h>
 
-# include <stdio.h>
+#ifdef __APPLE__
 
-void	ft_putchar_fd(char c, int fd);
-void	ft_putstr_fd(char *s, int fd);
-void	ft_putendl_fd(char *s, int fd);
-void	ft_putnbr_fd(int n, int fd);
-int		ft_fileno(FILE *stream);
+int	ft_fileno(FILE *stream)
+{
+	return (stream->_file);
+}
+#elif __linux__
 
+int	ft_fileno(FILE *stream)
+{
+	return (stream->_fileno);
+}
 #endif
