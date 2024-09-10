@@ -6,11 +6,12 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 13:33:35 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/13 15:48:16 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/09/11 01:08:21 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_stdlib.h"
+#include "ft_string.h"
 #include <stdbool.h>
 #include <stdlib.h>
 

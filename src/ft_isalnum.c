@@ -6,11 +6,11 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 06:27:14 by tkondo            #+#    #+#             */
-/*   Updated: 2024/04/25 15:35:23 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/09/11 01:01:14 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_ctype.h"
 
 int	ft_isalnum(int c)
 {

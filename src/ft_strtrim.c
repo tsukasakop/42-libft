@@ -6,11 +6,11 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 15:52:43 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/11 16:49:53 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/09/11 01:11:10 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_string.h"
 #include <stdlib.h>
 
 static size_t	strlen_pref(char const *s1, char const *set)

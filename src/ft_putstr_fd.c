@@ -6,11 +6,12 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:32:25 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/01 00:58:38 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/09/11 01:07:01 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_string.h"
+#include <stddef.h>
 #include <unistd.h>
 
 void	ft_putstr_fd(char *s, int fd)

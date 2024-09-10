@@ -6,11 +6,11 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 22:24:16 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/09 04:59:11 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/09/11 00:59:43 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_string.h"
 
 void	ft_bzero(void *s, size_t n)
 {
