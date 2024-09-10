@@ -6,7 +6,7 @@
 #    By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
-#    Updated: 2024/05/09 00:36:25 by tkondo           ###   ########.fr        #
+#    Updated: 2024/09/11 00:08:32 by tkondo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,91 +14,72 @@
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-# Source and object files
-S_ALL =\
-	ft_isalpha.c\
-	ft_isdigit.c\
-	ft_isalnum.c\
-	ft_isascii.c\
-	ft_isprint.c\
-	ft_strlen.c\
-	ft_memset.c\
-	ft_bzero.c\
-	ft_memcpy.c\
-	ft_memmove.c\
-	ft_strlcpy.c\
-	ft_strlcat.c\
-	ft_toupper.c\
-	ft_tolower.c\
-	ft_strchr.c\
-	ft_strrchr.c\
-	ft_strncmp.c\
-	ft_memchr.c\
-	ft_memcmp.c\
-	ft_strnstr.c\
-	ft_atoi.c\
-	ft_calloc.c\
-	ft_strdup.c\
-	ft_substr.c\
-	ft_strjoin.c\
-	ft_strtrim.c\
-	ft_split.c\
-	ft_itoa.c\
-	ft_strmapi.c\
-	ft_striteri.c\
-	ft_putchar_fd.c\
-	ft_putstr_fd.c\
-	ft_putendl_fd.c\
-	ft_putnbr_fd.c\
-
-S_BONUS =\
-	ft_lstnew.c\
-	ft_lstadd_front.c\
-	ft_lstsize.c\
-	ft_lstlast.c\
-	ft_lstadd_back.c\
-	ft_lstdelone.c\
-	ft_lstclear.c\
-	ft_lstiter.c\
-	ft_lstmap.c\
-
-O_ALL = $(S_ALL:%.c=%.o)
-O_BONUS = $(S_BONUS:%.c=%.o)
-
-ifdef ADD_BONUS
-O_ALL += $(O_BONUS)
-endif
-
-# Name of the library
+SRC_DIR = src
+OBJ_DIR = bin
+INC_DIR = include
 NAME = libft.a
+TARGET =\
+	ft_isalpha\
+	ft_isdigit\
+	ft_isalnum\
+	ft_isascii\
+	ft_isprint\
+	ft_strlen\
+	ft_memset\
+	ft_bzero\
+	ft_memcpy\
+	ft_memmove\
+	ft_strlcpy\
+	ft_strlcat\
+	ft_toupper\
+	ft_tolower\
+	ft_strchr\
+	ft_strrchr\
+	ft_strncmp\
+	ft_memchr\
+	ft_memcmp\
+	ft_strnstr\
+	ft_atoi\
+	ft_calloc\
+	ft_strdup\
+	ft_substr\
+	ft_strjoin\
+	ft_strtrim\
+	ft_split\
+	ft_itoa\
+	ft_strmapi\
+	ft_striteri\
+	ft_putchar_fd\
+	ft_putstr_fd\
+	ft_putendl_fd\
+	ft_putnbr_fd\
+	ft_lstnew\
+	ft_lstadd_front\
+	ft_lstsize\
+	ft_lstlast\
+	ft_lstadd_back\
+	ft_lstdelone\
+	ft_lstclear\
+	ft_lstiter\
+	ft_lstmap\
 
-# Default target
+OBJS = $(addprefix $(OBJ_DIR)/,$(addsuffix .o,$(TARGET)))
+
 all: $(NAME)
 
-# Rule for creating the library
-$(NAME): $(O_ALL)
-	ar rcs $(NAME) $(O_ALL)
+$(NAME): $(OBJS)
+	ar rcs $(NAME) $(OBJS)
 
-# Rule for bonus target
-bonus:
-	@make ADD_BONUS=1
-# Rule for creating extra
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	@mkdir -p $(OBJ_DIR)
+	$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
 
-# Rule for compiling source files
-%.o: %.c
-	$(CC) $(CFLAGS) -I. -c $< -o $@
-
-# Rule for cleaning object files
 clean:
-	rm -f $(O_ALL) $(O_BONUS)
+	rm -f $(OBJS)
 
-# Rule for full clean
 fclean: clean
 	rm -f $(NAME)
 
-# Rule for re-making
 re: fclean all
 
-# Phony targets
 .PHONY: all bonus clean fclean re
-
