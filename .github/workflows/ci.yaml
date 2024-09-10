@@ -1,0 +1,33 @@
+name: C Function CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install dependencies
+      run: sudo apt-get update && sudo apt-get install -y clang build-essential python3-pip
+
+    - name: Install Norminette
+      run: pip install norminette==3.3.51
+
+    - name: Run Norminette CheckForbiddenSourceHeader
+      run: norminette -R CheckForbiddenSourceHeader include/
+
+    - name: Run Norminette CheckDefine
+      run: norminette -R CheckDefine src/
+
+    - name: Build the project using clang
+      run: make CC=clang
+
