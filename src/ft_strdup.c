@@ -6,11 +6,11 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 05:07:23 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/09 05:17:40 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/09/11 01:08:58 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_string.h"
 #include <stdlib.h>
 
 char	*ft_strdup(const char *s1)

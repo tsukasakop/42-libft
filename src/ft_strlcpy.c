@@ -6,11 +6,11 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/28 17:26:27 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/09 05:18:49 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/09/11 01:09:57 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_string.h"
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {

@@ -6,12 +6,12 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/16 10:27:57 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/09 06:21:45 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/09/11 00:50:57 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include <limits.h>
+#include "ft_ctype.h"
 
 int	ft_atoi(const char *str)
 {

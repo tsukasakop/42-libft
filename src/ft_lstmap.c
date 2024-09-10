@@ -6,11 +6,11 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 22:29:26 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/13 17:54:31 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/09/11 01:03:56 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_lst.h"
 #include <stdlib.h>
 
 static void	free_all(t_list *n, void *c, t_list **root, void (*del)(void *))

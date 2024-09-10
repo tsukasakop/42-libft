@@ -6,12 +6,11 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 00:58:14 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/09 08:06:13 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/09/11 01:10:47 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
-#include <stdio.h>
+#include "ft_string.h"
 
 char	*ft_strrchr(const char *s, int c)
 {

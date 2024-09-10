@@ -6,11 +6,11 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 01:20:58 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/09 05:19:23 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/09/11 01:10:24 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_string.h"
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {

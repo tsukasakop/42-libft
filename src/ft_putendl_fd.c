@@ -6,11 +6,12 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:35:05 by tkondo            #+#    #+#             */
-/*   Updated: 2024/05/01 01:00:07 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/09/11 01:06:15 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_stdio.h"
+#include <stddef.h>
 #include <unistd.h>
 
 void	ft_putendl_fd(char *s, int fd)
