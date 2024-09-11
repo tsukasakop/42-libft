@@ -6,21 +6,11 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/19 04:16:43 by tkondo            #+#    #+#             */
-/*   Updated: 2024/09/11 01:09:42 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/09/11 18:09:48 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_string.h"
-
-static size_t	ft_strnlen(const char *s, size_t maxlen)
-{
-	size_t	cnt;
-
-	cnt = 0;
-	while (cnt < maxlen && s[cnt])
-		cnt++;
-	return (cnt);
-}
 
 size_t	ft_strlcat(char *dst, const char *src, size_t dstsize)
 {
