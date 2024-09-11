@@ -1,25 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_stdio.h                                         :+:      :+:    :+:   */
+/*   ft_fwrite.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/27 19:52:48 by tkondo            #+#    #+#             */
-/*   Updated: 2024/09/11 11:27:04 by tkondo           ###   ########.fr       */
+/*   Created: 2024/07/06 01:02:25 by tkondo            #+#    #+#             */
+/*   Updated: 2024/09/11 11:25:38 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STDIO_H
-# define FT_STDIO_H
+#include "ft_stdio.h"
+#include <unistd.h>
 
-# include <stdio.h>
+size_t	ft_fwrite(const void *ptr, size_t size, size_t n_items, FILE *stream)
+{
+	size_t	cnt;
+	ssize_t	writen;
+	int		fileno;
 
-void	ft_putchar_fd(char c, int fd);
-void	ft_putstr_fd(char *s, int fd);
-void	ft_putendl_fd(char *s, int fd);
-void	ft_putnbr_fd(int n, int fd);
-int		ft_fileno(FILE *stream);
-size_t	ft_fwrite(const void *ptr, size_t size, size_t n_items, FILE *stream);
-
-#endif
+	fileno = ft_fileno(stream);
+	cnt = 0;
+	while (cnt < n_items)
+	{
+		writen = write(fileno, ptr + size * cnt, size);
+		if (writen < 0 || (size_t)writen < size)
+			break ;
+		cnt++;
+	}
+	return (cnt);
+}
