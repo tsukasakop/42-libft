@@ -6,16 +6,16 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:19:13 by tkondo            #+#    #+#             */
-/*   Updated: 2024/09/11 11:22:36 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/09/11 23:08:30 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_stdio.h"
+#include <unistd.h>
 
 int	ft_fputc(int c, FILE *stream)
 {
-	unsigned char	uc;
-
-	uc = (unsigned char)c;
-	return (ft_fwrite((const char *)&uc, 1, 1, stream) * 2 - 1);
+	if (write(ft_fileno(stream), &c, 1) == -1)
+		return (EOF);
+	return (c);
 }
