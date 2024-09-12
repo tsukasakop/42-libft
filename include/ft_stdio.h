@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:52:48 by tkondo            #+#    #+#             */
-/*   Updated: 2024/09/11 11:30:36 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/09/12 20:31:15 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ void	ft_putnbr_fd(int n, int fd);
 int		ft_fileno(FILE *stream);
 size_t	ft_fwrite(const void *ptr, size_t size, size_t n_items, FILE *stream);
 int		ft_fputc(int c, FILE *stream);
+int		ft_fflush(FILE *stream);
 
 #endif
