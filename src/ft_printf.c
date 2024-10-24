@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_fflush.c                                        :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/12 20:05:24 by tkondo            #+#    #+#             */
-/*   Updated: 2024/09/19 14:51:57 by tkondo           ###   ########.fr       */
+/*   Created: 2024/09/13 03:20:31 by tkondo            #+#    #+#             */
+/*   Updated: 2024/09/13 03:31:54 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef __APPLE__
-# include "ft_stdio.h"
-# include <unistd.h>
+#include "ft_stdio.h"
 
-int	ft_fflush(FILE *stream)
+int	ft_printf(const char *format, ...)
 {
-	size_t	nbyte;
-	size_t	ret;
+	va_list	args;
+	int		n;
 
-	if (stream->_p == NULL)
-		return (0);
-	nbyte = (size_t)(stream->_w * ((stream->_w > 0) * 2 - 1));
-	ret = write(ft_fileno(stream), stream->_bf._base, nbyte);
-	if (ret != nbyte)
-		return (EOF);
-	stream->_p = stream->_bf._base;
-	stream->_w = 0;
-	return (0);
+	va_start(args, format);
+	n = ft_vfprintf(stdout, format, args);
+	va_end(args);
+	return (n);
 }
-#endif

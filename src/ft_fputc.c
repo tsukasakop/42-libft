@@ -6,13 +6,18 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:19:13 by tkondo            #+#    #+#             */
-/*   Updated: 2024/09/12 20:32:20 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/09/19 14:53:44 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifdef __APPLE__
 # include "ft_stdio.h"
+#ifdef __APPLE__
 # include "ft_stdlib.h"
+#elif __linux__
+# include <unistd.h>
+#endif
+
+#ifdef __APPLE__
 
 int	ft_fputc(int c, FILE *stream)
 {
@@ -36,8 +41,6 @@ int	ft_fputc(int c, FILE *stream)
 }
 
 #elif __linux__
-# include "ft_stdio.h"
-# include <unistd.h>
 
 int	ft_fputc(int c, FILE *stream)
 {
