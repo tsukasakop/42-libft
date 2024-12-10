@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+         #
+#    By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
-#    Updated: 2024/09/19 18:29:17 by tkondo           ###   ########.fr        #
+#    Updated: 2024/12/11 07:10:26 by tkondo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,6 +36,7 @@ TARGET =\
 	ft_tolower\
 	ft_strchr\
 	ft_strrchr\
+	ft_strcmp\
 	ft_strncmp\
 	ft_memchr\
 	ft_memcmp\
@@ -69,6 +70,8 @@ TARGET =\
 	ft_fflush\
 	ft_vfprintf\
 	ft_printf\
+	ft_htbl0\
+	ft_htbl1\
 
 OBJS = $(addprefix $(OBJ_DIR)/,$(addsuffix .o,$(TARGET)))
 
