@@ -1,4 +1,6 @@
 #include "ft_htbl.h"
+#include "ft_stdlib.h"
+#include "ft_string.h"
 #include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,7 +21,7 @@ static t_htnode	*htnodenew(const char *key, void *val)
 {
 	t_htnode	*p;
 
-	p = (t_htnode *)calloc(sizeof(t_htnode), 1);
+	p = (t_htnode *)ft_calloc(sizeof(t_htnode), 1);
 	if (!p)
 		return (NULL);
 	p->key = key;
@@ -58,7 +60,7 @@ extern t_htbl	htget(t_htbl ht, const char *key)
 	i = ht[h];
 	while (i)
 	{
-		if (!strcmp(i->key, key))
+		if (!ft_strcmp(i->key, key))
 			return (i->val);
 		i = i->next;
 	}
@@ -83,7 +85,7 @@ extern void	htdelone(t_htnode **ht, const char *key, void (*del)(void *))
 	i = ht[h];
 	while (i)
 	{
-		if (!strcmp(i->key, key))
+		if (!ft_strcmp(i->key, key))
 		{
 			*p = i->next;
 			htnodedel(i, del);
