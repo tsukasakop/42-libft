@@ -1,28 +1,23 @@
 #ifndef FT_HTBL_H
 # define FT_HTBL_H
-#include <stdint.h>
+# include <stdint.h>
+# define HTSIZE UINT8_MAX
 
-#define HTSIZE UINT8_MAX
-typedef struct s_htnode t_htnode;
+typedef struct s_htnode	t_htnode;
+typedef t_htnode		**t_htbl;
 
-struct s_htnode
+struct					s_htnode
 {
-	char *key;
-	void *val;
-	t_htnode *next;
+	const char			*key;
+	void				*val;
+	t_htnode			*next;
 };
 
-/*
-struct s_htbl
-{
-	t_htnode *array[UINT8_MAX];
-};
-
-t_htbl  *htnew();
-t_htbl  *htadd(t_htbl *ht, char *key, void *val);
-void    *htget(t_htbl *ht);
-void    htdelone(t_htbl *ht, char *key);
-void    htclear(t_htbl *ht);
-*/
+t_htbl					htnew(void);
+t_htbl					htadd(t_htbl ht, const char *key, void *val);
+t_htbl					htget(t_htbl ht, const char *key);
+void					htdelone(t_htbl ht, const char *key,
+							void (*del)(void *));
+void					htclear(t_htbl ht, void (*del)(void *));
 
 #endif
