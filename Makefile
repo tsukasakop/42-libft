@@ -35,6 +35,7 @@ TARGET =\
 	ft_tolower\
 	ft_strchr\
 	ft_strrchr\
+	ft_strcmp\
 	ft_strncmp\
 	ft_memchr\
 	ft_memcmp\
@@ -62,6 +63,7 @@ TARGET =\
 	ft_lstclear\
 	ft_lstiter\
 	ft_lstmap\
+	ft_htbl
 
 OBJS = $(addprefix $(OBJ_DIR)/,$(addsuffix .o,$(TARGET)))
 
