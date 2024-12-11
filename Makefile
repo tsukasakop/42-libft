@@ -6,7 +6,7 @@
 #    By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
-#    Updated: 2024/12/11 02:23:10 by tkondo           ###   ########.fr        #
+#    Updated: 2024/12/11 14:39:28 by tkondo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ TARGET =\
 	ft_lstmap\
 	ft_htbl0\
 	ft_htbl1\
+	ft_memory\
 
 OBJS = $(addprefix $(OBJ_DIR)/,$(addsuffix .o,$(TARGET)))
 
