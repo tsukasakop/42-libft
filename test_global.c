@@ -1,23 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_global.h                                        :+:      :+:    :+:   */
+/*   test_global.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/11 14:58:57 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/11 15:44:50 by tkondo           ###   ########.fr       */
+/*   Created: 2024/12/11 15:54:46 by tkondo            #+#    #+#             */
+/*   Updated: 2024/12/11 15:55:41 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_GLOBAL_H
-# define FT_GLOBAL_H
+#include "ft_global.h"
+#include "ft_string.h"
 
-# include "ft_htbl.h"
-# include "ft_memory.h"
+void	ch_test(void)
+{
+	char	*p;
 
-t_htbl	ft_get_globals(void);
-int		ft_set_global(const char *key, void *val);
-void	*ft_get_global(const char *key);
+	p = ft_strdup("miyumiyu");
+	ft_set_global("mfunakos", p);
+}
 
-#endif
+int	main(void)
+{
+	char	*p;
+
+	p = ft_strdup("kon.d.tsukasa");
+	ft_set_global("tkondo", p);
+	ch_test();
+	ft_mmfree();
+}
