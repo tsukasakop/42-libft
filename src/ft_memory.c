@@ -6,11 +6,12 @@
 /*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 14:08:39 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/11 14:16:42 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/11 14:22:35 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_memory.h"
+#include "ft_stdlib.h"
 #include <stdlib.h>
 
 t_node	**get_mm(void)
@@ -18,7 +19,7 @@ t_node	**get_mm(void)
 	static t_node	**mm;
 
 	if (!mm)
-		mm = (t_node **)calloc(sizeof(t_node *), 1);
+		mm = (t_node **)ft_calloc(sizeof(t_node *), 1);
 	return (mm);
 }
 
@@ -33,7 +34,7 @@ int	ft_mmadd(void *ptr)
 			return (0);
 		p = get_mm();
 	}
-	mmnode = (t_node *)calloc(sizeof(t_node), 1);
+	mmnode = (t_node *)ft_calloc(sizeof(t_node), 1);
 	if (!mmnode)
 		return (0);
 	mmnode->p = ptr;
@@ -64,7 +65,7 @@ void	*ft_mmcalloc(size_t cnt, size_t size)
 {
 	void	*p;
 
-	p = calloc(cnt, size);
+	p = ft_calloc(cnt, size);
 	if (!p)
 		return (NULL);
 	if (!ft_mmadd(p))
