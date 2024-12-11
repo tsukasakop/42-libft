@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/09/19 18:47:21 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/11 19:01:11 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,6 +323,8 @@ int	put_pad(s_print *p, int is_before)
 	int		vallen;
 	int		i;
 
+	if(p->mod == '%')
+		return (0);
 	if ((is_before != 0) ^ ((p->opt[0] & ADJUST_LEFT) == 0))
 		return (0);
 	pad_c = ' ';
