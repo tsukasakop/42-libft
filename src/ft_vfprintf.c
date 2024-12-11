@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/11 19:01:11 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/11 20:24:28 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 int	ft_fputc_f(int c, FILE *stream, int flag)
 {
 	if (flag && ft_fputc(c, stream) == EOF)
-		return EOF;
+		return (EOF);
 	return (1);
 }
 
@@ -45,7 +45,9 @@ int	print_c(s_print *p, int do_print)
 
 int	print_s(s_print *p, int do_print)
 {
-	return (ft_fputs_f(*(char **)(p->val), p->s, do_print));
+	if (*(char **)(p->val))
+		return (ft_fputs_f(*(char **)(p->val), p->s, do_print));
+	return (ft_fputs_f("(null)", p->s, do_print));
 }
 
 int	print_nbr(s_print *p, unsigned int val, int do_print, char *base)
@@ -162,6 +164,8 @@ int	print_p(s_print *p, int do_print)
 	unsigned int	v;
 
 	v = *(unsigned int *)p->val;
+	if(!v)
+		return (ft_fputs_f("(nil)", p->s, do_print));
 	ret = ft_fputs_f("0x", p->s, do_print);
 	if (ret == EOF)
 		return (EOF);
@@ -323,7 +327,7 @@ int	put_pad(s_print *p, int is_before)
 	int		vallen;
 	int		i;
 
-	if(p->mod == '%')
+	if (p->mod == '%')
 		return (0);
 	if ((is_before != 0) ^ ((p->opt[0] & ADJUST_LEFT) == 0))
 		return (0);
@@ -332,8 +336,8 @@ int	put_pad(s_print *p, int is_before)
 			&& p->opt[0] & PRECITION))
 		pad_c = '0';
 	vallen = p->print_val(p, 0);
-	if(vallen == EOF)
-		return EOF;
+	if (vallen == EOF)
+		return (EOF);
 	i = 0;
 	while (i + vallen < p->opt[1])
 	{
@@ -377,7 +381,7 @@ static s_print	*init_s_print(FILE *s, char **f, va_list ap)
 	read_field(p);
 	read_prec(p);
 	if (get_mod_config(p, ap) == EOF)
-		return free_s_print(p);
+		return (free_s_print(p));
 	return (p);
 }
 
