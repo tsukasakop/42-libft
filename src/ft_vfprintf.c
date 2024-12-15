@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/11 20:24:28 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/15 18:53:40 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ int	ft_fputc_f(int c, FILE *stream, int flag)
 	return (1);
 }
 
-int	ft_fputs_f(char *s, FILE *stream, int flag)
+int	ft_fputs_f(char *s, FILE *stream, int n, int flag)
 {
 	int	cnt;
 
 	cnt = 0;
-	while (s[cnt] != '\0')
+	while (s[cnt] != '\0' && cnt <=n)
 	{
 		if (ft_fputc_f(s[cnt], stream, flag) == EOF || cnt == INT_MAX)
 			return (EOF);
@@ -46,8 +46,8 @@ int	print_c(s_print *p, int do_print)
 int	print_s(s_print *p, int do_print)
 {
 	if (*(char **)(p->val))
-		return (ft_fputs_f(*(char **)(p->val), p->s, do_print));
-	return (ft_fputs_f("(null)", p->s, do_print));
+		return (ft_fputs_f(*(char **)(p->val), p->s, p->opt[2], do_print));
+	return (ft_fputs_f("(null)", p->s, 6, do_print));
 }
 
 int	print_nbr(s_print *p, unsigned int val, int do_print, char *base)
@@ -70,7 +70,7 @@ int	print_nbr(s_print *p, unsigned int val, int do_print, char *base)
 		str[cur] = base[val % base_len];
 		val /= base_len;
 	}
-	return (ft_fputs_f(str + cur, p->s, do_print));
+	return (ft_fputs_f(str + cur, p->s, p->opt[2], do_print));
 }
 
 int	print_d(s_print *p, int do_print)
@@ -127,11 +127,12 @@ int	print_x(s_print *p, int do_print)
 
 	v = *(unsigned int *)p->val;
 	if (p->opt[0] & ALTER_FORM)
-		ret = ft_fputs_f("0x", p->s, do_print);
+		ret = ft_fputs_f("0x", p->s, p->opt[2], do_print);
 	else
 		ret = 0;
 	if (ret == EOF)
 		return (EOF);
+	p->opt[2] -= ret;
 	_t = print_nbr(p, v, do_print, "0123456789abcdef");
 	if (_t == EOF || ret > INT_MAX - _t)
 		return (EOF);
@@ -146,11 +147,12 @@ int	print_X(s_print *p, int do_print)
 
 	v = *(unsigned int *)p->val;
 	if (p->opt[0] & ALTER_FORM)
-		ret = ft_fputs_f("0X", p->s, do_print);
+		ret = ft_fputs_f("0X", p->s, p->opt[2], do_print);
 	else
 		ret = 0;
 	if (ret == EOF)
 		return (EOF);
+	p->opt[2] -= ret;
 	_t = print_nbr(p, v, do_print, "0123456789ABCDEF");
 	if (_t == EOF || ret > INT_MAX - _t)
 		return (EOF);
@@ -165,10 +167,11 @@ int	print_p(s_print *p, int do_print)
 
 	v = *(unsigned int *)p->val;
 	if(!v)
-		return (ft_fputs_f("(nil)", p->s, do_print));
-	ret = ft_fputs_f("0x", p->s, do_print);
+		return (ft_fputs_f("(nil)", p->s, 5, do_print));
+	ret = ft_fputs_f("0x", p->s, p->opt[2], do_print);
 	if (ret == EOF)
 		return (EOF);
+	p->opt[2] -= ret;
 	_t = print_nbr(p, v, do_print, "0123456789abcdef");
 	if (_t == EOF || ret > INT_MAX - _t)
 		return (EOF);
