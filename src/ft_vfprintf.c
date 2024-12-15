@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/15 18:53:40 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/15 18:57:48 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,7 +264,7 @@ static void	read_field(s_print *p)
 
 static void	read_prec(s_print *p)
 {
-	p->opt[2] = 0;
+	p->opt[2] = INT_MAX;
 	if (curc(p) != '.')
 		return ;
 	p->opt[0] |= PRECITION;
