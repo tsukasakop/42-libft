@@ -6,17 +6,16 @@
 #    By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
-#    Updated: 2024/12/15 00:12:55 by tkondo           ###   ########.fr        #
+#    Updated: 2024/12/15 02:15:42 by tkondo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Compiler and compiling flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+INC_DIR = include
+CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR)
 
 SRC_DIR = src
 OBJ_DIR = bin
-INC_DIR = include
 NAME = libft.a
 TARGET =\
 	ft_isalpha\
@@ -72,12 +71,15 @@ OBJS = $(addprefix $(OBJ_DIR)/,$(addsuffix .o,$(TARGET)))
 
 all: $(NAME)
 
+dev: CFLAGS+=-g -fsanitize=address
+dev: all
+
 $(NAME): $(OBJS)
 	ar rcs $(NAME) $?
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
@@ -87,4 +89,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all bonus clean fclean re
+.PHONY: dev all clean fclean re init
