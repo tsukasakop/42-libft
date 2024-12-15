@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/11 20:24:28 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/15 18:29:27 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -400,8 +400,102 @@ static int	print_unit(FILE *s, char **f, va_list ap)
 	return (ret);
 }
 
+
+static t_print_format *format_literal(const char **s)
+{
+	char *end;
+
+	t_print_format *fmt;
+	fmt = (t_print_format *)ft_mmcalloc(sizeof(t_print_format), 1);
+	end = *s
+	while(*end && s *end != '%')
+		end++;
+	fmt->mod = 's';
+	fmt->val = (void *)strndup(*s, end - *s);
+	if(!fmt->val)
+		return NULL;
+	ft_mmadd(fmt->val);
+	*s = end;
+	return fmt;
+}
+
+static t_print_format *format_modifyed(const char **s)
+{
+	t_print_format *fmt;
+
+	++*s;
+	fmt = (t_print_format *)ft_mmcalloc(sizeof(t_print_format), 1);
+	if(!fmt)
+		return NULL;
+	read flags;
+	
+}
+
+static t_print_format *parse_format(const char *s)
+{
+	t_print_format *fmt;
+	t_print_format **i_fmt;
+
+	fmt = (t_print_format *)ft_mmcalloc(sizeof(t_print_format), 1);
+	if(!fmt)
+		return NULL;
+	i_fmt = &(fmt->next);
+	while(*s)
+	{
+		if(*s == '%')
+			tmp = format_literal(&s);
+		else
+			tmp = format_modifyed(&s);
+		if(!tmp)
+			return NULL;
+		*i_fmt = tmp;
+		i_fmt = &((*i_fmt)->next;
+	}
+	return fmt;
+}
+
+static int load_fmt(const char *fmt);
+
+static t_node *read_va(const char *fmt, va_args);
+
+static int apply_va(const char *fmt, t_node *rva);
+
+static t_print_format	get_formats*(const char *fmt, va_list ap)
+{
+	t_print_format *fmt;
+	t_node*	rva;
+
+	fmt = load_format(fmt);
+	if(!fmt)
+		return NULL;
+	rva = read_va(fmt, ap)
+	if(!rva)
+		return NULL;
+	if(!apply_va(fmt, rva))
+		return NULL;
+	return
+}
+
+int	print_fmt(t_print_format *fmt);
+
 int	ft_vfprintf(FILE *s, const char *format, va_list ap)
 {
+	int		cnt;
+	int		_cnt;
+	t_print_format *fmt;
+	
+	fmt = get_formats(format, ap);
+	while(fmt)
+	{
+		tmp = print_fmt(fmt);
+		if(tmp = EOF)
+			return EOF;
+		cnt += tmp;
+		fmt = fmt->next;
+	}
+	return cnt;
+}
+/*{
 	int		cnt;
 	int		_cnt;
 	char	*f;
@@ -416,4 +510,4 @@ int	ft_vfprintf(FILE *s, const char *format, va_list ap)
 		cnt += _cnt;
 	}
 	return (cnt);
-}
+}*/
