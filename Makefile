@@ -6,19 +6,17 @@
 #    By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
-#    Updated: 2024/12/11 07:10:26 by tkondo           ###   ########.fr        #
+#    Updated: 2024/12/16 18:05:56 by tkondo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# Compiler and compiling flags
 CC = cc
-CFLAGS = -Wall -Wextra -Werror
+INC_DIR = include
+CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR)
 
 SRC_DIR = src
 OBJ_DIR = bin
-INC_DIR = include
-#NAME = libft.a
-NAME = libftprintf.a
+NAME = libft.a
 TARGET =\
 	ft_isalpha\
 	ft_isdigit\
@@ -72,17 +70,22 @@ TARGET =\
 	ft_printf\
 	ft_htbl0\
 	ft_htbl1\
+	ft_memory\
+	ft_global\
 
 OBJS = $(addprefix $(OBJ_DIR)/,$(addsuffix .o,$(TARGET)))
 
 all: $(NAME)
 
+dev: CFLAGS+=-g -fsanitize=address
+dev: all
+
 $(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS)
+	ar rcs $(NAME) $?
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -I$(INC_DIR) -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	rm -f $(OBJS)
@@ -92,4 +95,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all bonus clean fclean re
+.PHONY: dev all clean fclean re init
