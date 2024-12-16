@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/16 22:39:03 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/16 22:52:40 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,21 @@ int	print_c(s_print *p, int do_print)
 
 int	print_s(s_print *p, int do_print)
 {
-	if (*(char **)(p->val))
-		return (ft_fputs_f(*(char **)(p->val), p->s, p->opt[2], do_print));
-	return (ft_fputs_f("(null)", p->s, 6, do_print));
+	int cnt;
+	if (!*(char **)(p->val))
+		*(char **)(p->val) = "(null)";
+	if(p->opt[0] & PRECITION)
+	{
+		cnt = 0;
+		while(cnt < p->opt[2] && (*(char **)(p->val))[cnt])
+		{
+			if(ft_fputc_f((*(char **)(p->val))[cnt], p->s, do_print) == EOF)
+				return EOF;
+			cnt++;
+		}
+		return cnt;
+	}
+	return (ft_fputs_f(*(char **)(p->val), p->s, p->opt[2], do_print));
 }
 
 int	print_nbr(s_print *p, unsigned int val, int do_print, char *base)
