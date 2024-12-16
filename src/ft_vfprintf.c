@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/15 18:57:48 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/16 22:39:03 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,10 @@ int	ft_fputc_f(int c, FILE *stream, int flag)
 int	ft_fputs_f(char *s, FILE *stream, int n, int flag)
 {
 	int	cnt;
-
+	(void)n;
 	cnt = 0;
-	while (s[cnt] != '\0' && cnt <=n)
+//	while (s[cnt] != '\0' && cnt <n)
+	while (s[cnt] != '\0')
 	{
 		if (ft_fputc_f(s[cnt], stream, flag) == EOF || cnt == INT_MAX)
 			return (EOF);
@@ -90,7 +91,7 @@ int	print_d(s_print *p, int do_print)
 		ret = 0;
 	if (ret == EOF)
 		return (EOF);
-	if (v < 0)
+	if(v < 0)	
 		v *= -1;
 	_t = print_nbr(p, (unsigned int)v, do_print, "0123456789");
 	if (_t == EOF || ret > INT_MAX - _t)
@@ -185,7 +186,7 @@ int	print_per(s_print *p, int do_print)
 	return (1);
 }
 
-static int	print_raw(FILE *s, char **f)
+int	print_raw(FILE *s, char **f)
 {
 	int	cnt;
 
@@ -214,7 +215,7 @@ unsigned char	step_cur(s_print *p)
 	return (c);
 }
 
-static void	*free_s_print(s_print *p)
+void	*free_s_print(s_print *p)
 {
 	if (p->orig != NULL && p->cur != NULL)
 		*(p->orig) = p->cur;
@@ -223,7 +224,7 @@ static void	*free_s_print(s_print *p)
 	return (NULL);
 }
 
-static void	read_flag(s_print *p)
+void	read_flag(s_print *p)
 {
 	p->opt[0] = 0;
 	while (1)
@@ -250,7 +251,7 @@ static void	read_flag(s_print *p)
 	}
 }
 
-static void	read_field(s_print *p)
+void	read_field(s_print *p)
 {
 	p->opt[1] = 0;
 	if (!ft_isdigit(curc(p)))
@@ -262,9 +263,9 @@ static void	read_field(s_print *p)
 	}
 }
 
-static void	read_prec(s_print *p)
+void	read_prec(s_print *p)
 {
-	p->opt[2] = INT_MAX;
+	p->opt[2] = 0;
 	if (curc(p) != '.')
 		return ;
 	p->opt[0] |= PRECITION;
@@ -276,9 +277,9 @@ static void	read_prec(s_print *p)
 	}
 }
 
-static int	set_mod(s_print *p, va_list ap)
+int	set_mod(s_print *p, va_list ap)
 {
-	if (ft_strchr("cdixX", p->mod))
+	if (ft_strchr("cdiuxX", p->mod))
 	{
 		p->val = calloc(sizeof(int), 1);
 		if (p->val == NULL)
@@ -297,9 +298,9 @@ static int	set_mod(s_print *p, va_list ap)
 	return (0);
 }
 
-static int	get_mod_config(s_print *p, va_list ap)
+int	get_mod_config(s_print *p, va_list ap)
 {
-	if (curc(p) == '\0' || ft_strchr("csdipxX%", curc(p)) == NULL)
+	if (curc(p) == '\0' || ft_strchr("csdiupxX%", curc(p)) == NULL)
 		return (-1);
 	p->mod = curc(p);
 	step_cur(p);
@@ -313,6 +314,8 @@ static int	get_mod_config(s_print *p, va_list ap)
 		p->print_val = print_d;
 	else if (p->mod == 'i')
 		p->print_val = print_d;
+	else if (p->mod == 'u')
+		p->print_val = print_u;
 	else if (p->mod == 'x')
 		p->print_val = print_x;
 	else if (p->mod == 'X')
@@ -351,7 +354,7 @@ int	put_pad(s_print *p, int is_before)
 	return (i);
 }
 
-static int	print_s_print(s_print *p)
+int	print_s_print(s_print *p)
 {
 	int	ret;
 	int	_t;
@@ -369,7 +372,7 @@ static int	print_s_print(s_print *p)
 	return (ret + _t);
 }
 
-static s_print	*init_s_print(FILE *s, char **f, va_list ap)
+s_print	*init_s_print(FILE *s, char **f, va_list ap)
 {
 	s_print	*p;
 
@@ -388,7 +391,7 @@ static s_print	*init_s_print(FILE *s, char **f, va_list ap)
 	return (p);
 }
 
-static int	print_unit(FILE *s, char **f, va_list ap)
+int	print_unit(FILE *s, char **f, va_list ap)
 {
 	s_print	*p;
 	int		ret;

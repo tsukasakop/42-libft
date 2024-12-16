@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 03:11:49 by tkondo            #+#    #+#             */
-/*   Updated: 2024/09/19 00:00:17 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/16 18:00:01 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ typedef enum e_print_flag
 typedef struct t_print
 {
 	unsigned char	mod;
-	char			**orig;
+//	char			**orig;
 	char			*cur;
 	void			*val;
 	int				opt[3];

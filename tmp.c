@@ -1,16 +1,4 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   tmp.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/12 21:03:25 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/11 08:00:20 by tkondo           ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-// usr/bin/cc $0 -g -Iinclude -L. -lft -o ./a.out && ./a.out; exit
+//usr/bin/cc $0 -g -Iinclude -L. -lft -o ./a.out && ./a.out; exit
 
 #include "ft_stdio.h"
 #include "ft_string.h"
@@ -39,7 +27,6 @@ void	test(int (*f)(const char *restrict format, ...))
 	f("[%d]\n", f("%015.10d", 12345));
 	f("[%d]\n", f("%015.0d", 12345));
 	f("[%d]\n", f("%015d", 12345));
-	ft_fflush(stdout);
 	// f("[%d]\n", f("%2$d%1$d", 11,22));
 	/*
 	printf("[%d]\n", printf("%d", 2147483650));
