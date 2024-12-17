@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/17 11:07:15 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/17 13:46:24 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -395,6 +395,7 @@ void set_prec(t_print *p, t_format *f)
 		return;
 	if(f->opt[0] & PRECITION)
 		p->zero_len = prec;
+	set_f_width(p, f);
 }
 
 t_print *init_print_percent(t_format *f)
