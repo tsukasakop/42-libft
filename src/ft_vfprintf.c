@@ -6,45 +6,72 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/16 22:52:40 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/17 11:07:15 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_ft_stdio.h"
 #include "ft_stdio.h"
+#include "ft_memory.h"
 #include <limits.h>
 #include <stdlib.h>
 
-int	ft_fputc_f(int c, FILE *stream, int flag)
+static int *get_cnt_p()
 {
-	if (flag && ft_fputc(c, stream) == EOF)
-		return (EOF);
-	return (1);
+	static int cnt;
+	return &cnt;
 }
 
-int	ft_fputs_f(char *s, FILE *stream, int n, int flag)
+static int get_cnt()
+{
+	return *get_cnt_p();
+}
+
+void	set_cnt(int cnt)
+{
+	*get_cnt_p() = cnt;
+}
+
+static int add_cnt(int rhs)
+{
+	int lhs;
+	lhs = get_cnt();
+	if(rhs < 0 || lhs > INT_MAX - rhs)
+		set_cnt(EOF);
+	else
+		set_cnt(lhs + rhs);
+	return get_cnt();
+}
+
+void	ft_fputc_wrapper(int c, FILE *stream)
+{
+	if (get_cnt() == EOF)
+		return;
+	if(ft_fputc(c, stream) == EOF)
+		set_cnt(EOF);
+	else
+		add_cnt(1);
+}
+
+/*
+void	ft_fputs_f(char *s, FILE *stream, int n, int flag)
 {
 	int	cnt;
 	(void)n;
 	cnt = 0;
-//	while (s[cnt] != '\0' && cnt <n)
 	while (s[cnt] != '\0')
 	{
-		if (ft_fputc_f(s[cnt], stream, flag) == EOF || cnt == INT_MAX)
-			return (EOF);
+		ft_fputc_f(s[cnt], stream, flag);
 		cnt++;
 	}
-	return (cnt);
 }
 
-int	print_c(s_print *p, int do_print)
+void print_c(t_format *p, int do_print)
 {
-	if (ft_fputc_f((int)*(char *)(p->val), p->s, do_print) == EOF)
-		return (EOF);
-	return (1);
+	ft_fputc_f((int)*(char *)(p->val), p->s, do_print);
 }
 
-int	print_s(s_print *p, int do_print)
+void print_s(t_format *p, int do_print)
 {
 	int cnt;
 	if (!*(char **)(p->val))
@@ -54,16 +81,15 @@ int	print_s(s_print *p, int do_print)
 		cnt = 0;
 		while(cnt < p->opt[2] && (*(char **)(p->val))[cnt])
 		{
-			if(ft_fputc_f((*(char **)(p->val))[cnt], p->s, do_print) == EOF)
-				return EOF;
+			ft_fputc_f((*(char **)(p->val))[cnt], p->s, do_print);
 			cnt++;
 		}
-		return cnt;
+		return;
 	}
-	return (ft_fputs_f(*(char **)(p->val), p->s, p->opt[2], do_print));
+	ft_fputs_f(*(char **)(p->val), p->s, p->opt[2], do_print);
 }
 
-int	print_nbr(s_print *p, unsigned int val, int do_print, char *base)
+void	print_nbr(t_format *p, unsigned int val, int do_print, char *base)
 {
 	size_t	base_len;
 	char	str[33];
@@ -83,119 +109,79 @@ int	print_nbr(s_print *p, unsigned int val, int do_print, char *base)
 		str[cur] = base[val % base_len];
 		val /= base_len;
 	}
-	return (ft_fputs_f(str + cur, p->s, p->opt[2], do_print));
+	ft_fputs_f(str + cur, p->s, p->opt[2], do_print);
 }
 
-int	print_d(s_print *p, int do_print)
+void	print_d(t_format *p, int do_print)
 {
 	int	v;
-	int	ret;
-	int	_t;
 
 	v = *(int *)p->val;
 	if (v < 0)
-		ret = ft_fputc_f('-', p->s, do_print);
+		ft_fputc_f('-', p->s, do_print);
 	else if (p->opt[0] & SIGN_NUM)
-		ret = ft_fputc_f('+', p->s, do_print);
+		ft_fputc_f('+', p->s, do_print);
 	else if (p->opt[0] & BLANK_PNUM)
-		ret = ft_fputc_f(' ', p->s, do_print);
-	else
-		ret = 0;
-	if (ret == EOF)
-		return (EOF);
+		ft_fputc_f(' ', p->s, do_print);
+	//print_sign(p);
 	if(v < 0)	
 		v *= -1;
-	_t = print_nbr(p, (unsigned int)v, do_print, "0123456789");
-	if (_t == EOF || ret > INT_MAX - _t)
-		return (EOF);
-	return (ret + _t);
+	print_nbr(p, (unsigned int)v, do_print, "0123456789");
 }
 
-int	print_u(s_print *p, int do_print)
+void	print_u(t_format *p, int do_print)
 {
-	int				ret;
-	int				_t;
 	unsigned int	v;
 
 	v = *(unsigned int *)p->val;
 	if (p->opt[0] & SIGN_NUM)
-		ret = ft_fputc_f('+', p->s, do_print);
+		ft_fputc_f('+', p->s, do_print);
 	else if (p->opt[0] & BLANK_PNUM)
-		ret = ft_fputc_f(' ', p->s, do_print);
-	else
-		ret = 0;
-	if (ret == EOF)
-		return (EOF);
-	_t = print_nbr(p, v, do_print, "0123456789");
-	if (_t == EOF || ret > INT_MAX - _t)
-		return (EOF);
-	return (ret + _t);
+		ft_fputc_f(' ', p->s, do_print);
+	print_nbr(p, v, do_print, "0123456789");
 }
 
-int	print_x(s_print *p, int do_print)
+void	print_x(t_format *p, int do_print)
 {
-	int				ret;
-	int				_t;
 	unsigned int	v;
 
 	v = *(unsigned int *)p->val;
 	if (p->opt[0] & ALTER_FORM)
-		ret = ft_fputs_f("0x", p->s, p->opt[2], do_print);
-	else
-		ret = 0;
-	if (ret == EOF)
-		return (EOF);
-	p->opt[2] -= ret;
-	_t = print_nbr(p, v, do_print, "0123456789abcdef");
-	if (_t == EOF || ret > INT_MAX - _t)
-		return (EOF);
-	return (ret + _t);
+		ft_fputs_f("0x", p->s, p->opt[2], do_print);
+	print_nbr(p, v, do_print, "0123456789abcdef");
 }
 
-int	print_X(s_print *p, int do_print)
+void	print_X(t_format *p, int do_print)
 {
-	int				ret;
-	int				_t;
 	unsigned int	v;
 
 	v = *(unsigned int *)p->val;
 	if (p->opt[0] & ALTER_FORM)
-		ret = ft_fputs_f("0X", p->s, p->opt[2], do_print);
-	else
-		ret = 0;
-	if (ret == EOF)
-		return (EOF);
-	p->opt[2] -= ret;
-	_t = print_nbr(p, v, do_print, "0123456789ABCDEF");
-	if (_t == EOF || ret > INT_MAX - _t)
-		return (EOF);
-	return (ret + _t);
+	{
+		ft_fputs_f("0X", p->s, p->opt[2], do_print);
+		p->opt[2] -= 2;
+	}
+	print_nbr(p, v, do_print, "0123456789ABCDEF");
 }
 
-int	print_p(s_print *p, int do_print)
+void	print_p(t_format *p, int do_print)
 {
-	int				ret;
-	int				_t;
 	unsigned int	v;
 
 	v = *(unsigned int *)p->val;
 	if(!v)
-		return (ft_fputs_f("(nil)", p->s, 5, do_print));
-	ret = ft_fputs_f("0x", p->s, p->opt[2], do_print);
-	if (ret == EOF)
-		return (EOF);
-	p->opt[2] -= ret;
-	_t = print_nbr(p, v, do_print, "0123456789abcdef");
-	if (_t == EOF || ret > INT_MAX - _t)
-		return (EOF);
-	return (ret + _t);
+	{
+		(ft_fputs_f("(nil)", p->s, 5, do_print));
+		return;
+	}
+	ft_fputs_f("0x", p->s, p->opt[2], do_print);
+	p->opt[2] -= 2;
+	print_nbr(p, v, do_print, "0123456789abcdef");
 }
 
-int	print_per(s_print *p, int do_print)
+void	print_per(t_format *p, int do_print)
 {
-	if (ft_fputc_f('%', p->s, do_print) == EOF)
-		return (EOF);
-	return (1);
+	ft_fputc_f('%', p->s, do_print);
 }
 
 int	print_raw(FILE *s, char **f)
@@ -205,20 +191,17 @@ int	print_raw(FILE *s, char **f)
 	cnt = 0;
 	while (ft_strchr("%\0", **f) == NULL)
 	{
-		if (ft_fputc(*(*f)++, s) == EOF)
-			return (-1);
-		if (++cnt == INT_MAX)
-			return (-1);
+		ft_fputc(*(*f)++, s);
 	}
 	return (cnt);
 }
-
-unsigned char	curc(s_print *p)
+*/
+unsigned char	curc(t_format *p)
 {
 	return (*(p->cur));
 }
 
-unsigned char	step_cur(s_print *p)
+unsigned char	step_cur(t_format *p)
 {
 	unsigned char	c;
 
@@ -227,7 +210,7 @@ unsigned char	step_cur(s_print *p)
 	return (c);
 }
 
-void	*free_s_print(s_print *p)
+void	*free_s_print(t_format *p)
 {
 	if (p->orig != NULL && p->cur != NULL)
 		*(p->orig) = p->cur;
@@ -236,7 +219,7 @@ void	*free_s_print(s_print *p)
 	return (NULL);
 }
 
-void	read_flag(s_print *p)
+void	read_flag(t_format *p)
 {
 	p->opt[0] = 0;
 	while (1)
@@ -263,7 +246,7 @@ void	read_flag(s_print *p)
 	}
 }
 
-void	read_field(s_print *p)
+void	read_field(t_format *p)
 {
 	p->opt[1] = 0;
 	if (!ft_isdigit(curc(p)))
@@ -275,7 +258,7 @@ void	read_field(s_print *p)
 	}
 }
 
-void	read_prec(s_print *p)
+void	read_prec(t_format *p)
 {
 	p->opt[2] = 0;
 	if (curc(p) != '.')
@@ -289,8 +272,10 @@ void	read_prec(s_print *p)
 	}
 }
 
-int	set_mod(s_print *p, va_list ap)
+int	set_mod(t_format *p, va_list ap)
 {
+	p->mod = curc(p);
+	step_cur(p);
 	if (ft_strchr("cdiuxX", p->mod))
 	{
 		p->val = calloc(sizeof(int), 1);
@@ -310,128 +295,412 @@ int	set_mod(s_print *p, va_list ap)
 	return (0);
 }
 
-int	get_mod_config(s_print *p, va_list ap)
+t_format	*load_fmt(const char **f, va_list ap)
 {
-	if (curc(p) == '\0' || ft_strchr("csdiupxX%", curc(p)) == NULL)
-		return (-1);
-	p->mod = curc(p);
-	step_cur(p);
-	if (set_mod(p, ap) == -1)
-		return (-1);
-	if (p->mod == 'c')
-		p->print_val = print_c;
-	else if (p->mod == 's')
-		p->print_val = print_s;
-	else if (p->mod == 'd')
-		p->print_val = print_d;
-	else if (p->mod == 'i')
-		p->print_val = print_d;
-	else if (p->mod == 'u')
-		p->print_val = print_u;
-	else if (p->mod == 'x')
-		p->print_val = print_x;
-	else if (p->mod == 'X')
-		p->print_val = print_X;
-	else if (p->mod == 'p')
-		p->print_val = print_p;
-	else if (p->mod == '%')
-		p->print_val = print_per;
-	return (0);
-}
+	(void)ap;
+	t_format	*p;
 
-int	put_pad(s_print *p, int is_before)
-{
-	char	pad_c;
-	int		vallen;
-	int		i;
-
-	if (p->mod == '%')
-		return (0);
-	if ((is_before != 0) ^ ((p->opt[0] & ADJUST_LEFT) == 0))
-		return (0);
-	pad_c = ' ';
-	if (p->opt[0] & PAD_ZERO && !(ft_strchr("diuxX", p->mod) != NULL
-			&& p->opt[0] & PRECITION))
-		pad_c = '0';
-	vallen = p->print_val(p, 0);
-	if (vallen == EOF)
-		return (EOF);
-	i = 0;
-	while (i + vallen < p->opt[1])
-	{
-		if (ft_fputc(pad_c, p->s) == EOF)
-			return (EOF);
-		i++;
-	}
-	return (i);
-}
-
-int	print_s_print(s_print *p)
-{
-	int	ret;
-	int	_t;
-
-	ret = put_pad(p, 1);
-	if (ret == EOF)
-		return (EOF);
-	_t = p->print_val(p, 1);
-	if (_t == -1 || ret > INT_MAX - _t)
-		return (EOF);
-	ret += _t;
-	_t = put_pad(p, 0);
-	if (_t == -1 || ret > INT_MAX - _t)
-		return (EOF);
-	return (ret + _t);
-}
-
-s_print	*init_s_print(FILE *s, char **f, va_list ap)
-{
-	s_print	*p;
-
-	p = ft_calloc(1, sizeof(s_print));
+	p = ft_calloc(1, sizeof(t_format));
 	if (p == NULL)
 		return (NULL);
-	p->s = s;
+	if (**f != '%')
+	{
+		p->mod = 'R';
+		p->cur = *f;
+		p->orig = f;
+		p->begin = *f;
+		while(curc(p) && curc(p) != '%')
+			step_cur(p);
+		return p;
+	}
+
+		p->cur = *f;
 	p->orig = f;
-	p->cur = *f;
+	p->begin = *f;
 	step_cur(p);
 	read_flag(p);
 	read_field(p);
 	read_prec(p);
-	if (get_mod_config(p, ap) == EOF)
-		return (free_s_print(p));
+	if (set_mod(p, ap) == -1)
+		return (NULL);
 	return (p);
 }
 
-int	print_unit(FILE *s, char **f, va_list ap)
+t_print *init_print_raw(t_format *f)
 {
-	s_print	*p;
-	int		ret;
+	t_print	*p;
+	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	if(!p)
+		return NULL;
+	while(f->begin[p->inner_len] && f->begin[p->inner_len] != '%')
+	{
+		if(p->inner_len > INT_MAX - 1)
+			return NULL;
+		p->inner_len++;
+	}
+	p->p = (const unsigned char *)f->begin;	
+	return p;
+}
 
-	if (**f != '%')
-		return (print_raw(s, f));
-	p = init_s_print(s, f, ap);
-	if (p == NULL)
-		return (-1);
-	ret = print_s_print(p);
-	free_s_print(p);
-	return (ret);
+char get_sign(t_format *f)
+{
+	int v;v = *(int *)f->val;
+
+	if(v<0)	return '-';
+	if(f->opt[0] & SIGN_NUM) return '+';
+	if(f->opt[0] & BLANK_PNUM) return ' ';
+	return '\0';
+}
+
+void set_f_width(t_print *p, t_format *f)
+{
+	int f_width;
+	f_width = f->opt[1] - p->inner_len - p-> zero_len;
+	if(p->sign)
+		f_width--;
+	if(p->prefix)
+		f_width -= ft_strlen(p->prefix);
+	if(f_width < 0)
+		return;
+	if(f->opt[0] & ADJUST_LEFT)
+		p->r_ws_len = f_width; 
+	else if(f->opt[0] & PAD_ZERO)
+		p->zero_len += f_width;
+	else
+		p->l_ws_len = f_width;
+}
+
+void set_f_width_nbr(t_print *p, t_format *f)
+{
+	int f_width;
+	f_width = f->opt[1] - p->inner_len - p-> zero_len;
+	if(p->sign)
+		f_width--;
+	if(p->prefix)
+		f_width -= ft_strlen(p->prefix);
+	if(f_width < 0)
+		return;
+	if(f->opt[0] & ADJUST_LEFT)
+		p->r_ws_len = f_width; 
+	else if(f->opt[0] & PAD_ZERO && ~f->opt[0] & PRECITION)
+		p->zero_len += f_width;
+	else
+		p->l_ws_len = f_width;
+}
+
+void set_prec(t_print *p, t_format *f)
+{
+	int prec;prec = f->opt[2] - p->inner_len;
+	if(prec<0)
+		return;
+	if(f->opt[0] & PRECITION)
+		p->zero_len = prec;
+}
+
+t_print *init_print_percent(t_format *f)
+{
+	t_print	*p;
+	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	if(!p)
+		return NULL;
+	p->inner_len = 1;
+	p->p = (const unsigned char *)f->begin;	
+	set_f_width(p, f);
+	return p;
+}
+
+t_print *init_print_s(t_format *f)
+{
+	t_print	*p;
+	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	if(!p)
+		return NULL;
+	if(*(char **)f->val == NULL)
+		*(char **)f->val = "(null)";
+	size_t n; n = ft_strlen(*(char **)f->val);
+	if(n > INT_MAX)
+		p->inner_len = INT_MAX;
+	else
+		p->inner_len = (int)n;
+	if(f->opt[0] & PRECITION && f->opt[2] < p->inner_len)
+		p->inner_len = f->opt[2];
+	p->p = *(const unsigned char **)f->val;
+	set_f_width(p, f);
+	return p;
+}
+
+t_print *init_print_c(t_format *f)
+{
+	t_print	*p;
+	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	if(!p)
+		return NULL;
+	p->inner_len = 1;
+	p->p = (const unsigned char *)f->val;
+	set_f_width(p, f);
+	return p;
+}
+
+char *ft_uitoa_base(unsigned int i, const char* base, unsigned char base_len)
+{
+	char	buf[33];
+	int		cur;
+
+	buf[32] = '\0';
+	cur = 32;
+	if (!i)
+	{
+		cur--;
+		buf[cur] = base[0];
+	}
+	while (i)
+	{
+		cur--;
+		buf[cur] = base[i % base_len];
+		i /= base_len;
+	}
+	return ft_strdup(buf + cur);
+}
+
+char *ft_ui64toa_base(uint64_t i, const char* base, unsigned char base_len)
+{
+	char	buf[65];
+	int		cur;
+
+	buf[64] = '\0';
+	cur = 64;
+	if (!i)
+	{
+		cur--;
+		buf[cur] = base[0];
+	}
+	while (i)
+	{
+		cur--;
+		buf[cur] = base[i % base_len];
+		i /= base_len;
+	}
+	return ft_strdup(buf + cur);
+}
+
+t_print *init_print_d(t_format *f)
+{
+	t_print	*p;
+	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	if(!p)
+		return NULL;
+	p->sign = get_sign(f);
+	if(p->sign == '-')
+		*(int *)f->val *= -1;
+	p->p = (const unsigned char *)ft_uitoa_base(*(unsigned int *)f->val, "0123456789", 10);
+	size_t n; n = ft_strlen((const char *)p->p);
+	if(n > INT_MAX)
+		p->inner_len = INT_MAX;
+	else if(!*(int *)f->val && f->opt[0] & PRECITION && !f->opt[2])
+		p->inner_len = 0;
+	else
+		p->inner_len = (int)n;
+	set_prec(p, f);
+	set_f_width_nbr(p, f);
+	return p;
+}
+
+t_print *init_print_u(t_format *f)
+{
+	t_print	*p;
+	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	if(!p)
+		return NULL;
+	p->p = (const unsigned char *)ft_uitoa_base(*(unsigned int *)f->val, "0123456789", 10);
+	size_t n; n = ft_strlen((const char *)p->p);
+	if(n > INT_MAX)
+		p->inner_len = INT_MAX;
+	else if(!*(int *)f->val && f->opt[0] & PRECITION && !f->opt[2])
+		p->inner_len = 0;
+	else
+		p->inner_len = (int)n;
+	set_prec(p, f);
+	set_f_width_nbr(p, f);
+	return p;
+}
+
+t_print *init_print_x(t_format *f)
+{
+	t_print	*p;
+	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	if(!p)
+		return NULL;
+	p->p = (const unsigned char *)ft_uitoa_base(*(unsigned int *)f->val, "0123456789abcdef", 16);
+	size_t n; n = ft_strlen((const char *)p->p);
+	if(n > INT_MAX)
+		p->inner_len = INT_MAX;
+	else if(!*(int *)f->val && f->opt[0] & PRECITION && !f->opt[2])
+		p->inner_len = 0;
+	else
+		p->inner_len = (int)n;
+	if(f->opt[0] & ALTER_FORM)
+		p->prefix = "0x";
+	set_prec(p, f);
+	set_f_width_nbr(p, f);
+	return p;
+}
+
+t_print *init_print_X(t_format *f)
+{
+	t_print	*p;
+	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	if(!p)
+		return NULL;
+	p->p = (const unsigned char *)ft_uitoa_base(*(unsigned int *)f->val, "0123456789ABCDEF", 16);
+	size_t n; n = ft_strlen((const char *)p->p);
+	if(n > INT_MAX)
+		p->inner_len = INT_MAX;
+	else if(!*(int *)f->val && f->opt[0] & PRECITION && !f->opt[2])
+		p->inner_len = 0;
+	else
+		p->inner_len = (int)n;
+	if(f->opt[0] & ALTER_FORM)
+		p->prefix = "0X";
+	set_prec(p, f);
+	set_f_width_nbr(p, f);
+	return p;
+}
+
+t_print *init_print_p(t_format *f)
+{
+	t_print	*p;
+	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	if(!p)
+		return NULL;
+	if(!*(int *)f->val)
+		p->p = (const unsigned char *)"(nil)";
+	else
+		p->p = (const unsigned char *)ft_ui64toa_base(*(uint64_t *)f->val, "0123456789abcdef", 16);
+	size_t n; n = ft_strlen((const char *)p->p);
+	if(n > INT_MAX)
+		p->inner_len = INT_MAX;
+	else
+		p->inner_len = (int)n;
+	p->prefix = "0x";
+	set_prec(p, f);
+	set_f_width_nbr(p, f);
+	return p;
+}
+
+t_print	*norm_fmt(t_format *f)
+{
+	if(f->mod == 'R')
+		return init_print_raw(f);
+	if(f->mod == '%')
+		return init_print_percent(f);
+	if(f->mod == 'c')
+		return init_print_c(f);
+	if(f->mod == 's')
+		return init_print_s(f);
+	if(f->mod == 'd')
+		return init_print_d(f);
+	if(f->mod == 'i')
+		return init_print_d(f);
+	if(f->mod == 'u')
+		return init_print_u(f);
+	if(f->mod == 'x')
+		return init_print_x(f);
+	if(f->mod == 'X')
+		return init_print_X(f);
+	if(f->mod == 'p')
+		return init_print_p(f);
+	return NULL;
+}
+
+void	print_l_ws(FILE *s, t_print *p)
+{
+	int cnt;cnt =0;
+	while(cnt++ < p->l_ws_len)
+		ft_fputc_wrapper(' ', s);
+}
+void	print_sign(FILE *s, t_print *p)
+{
+	if(p->sign)
+		ft_fputc_wrapper(p->sign, s);
+}
+void	print_pref(FILE *s, t_print *p)
+{
+	int cnt;cnt = 0;
+	if(p->prefix)
+	{
+		while(p->prefix[cnt])
+			ft_fputc_wrapper(p->prefix[cnt++], s);
+	}
+}
+void	print_zero(FILE *s, t_print *p)
+{
+	int cnt;cnt =0;
+	while(cnt++ < p->zero_len)
+		ft_fputc_wrapper('0', s);
+}
+
+void	print_data(FILE *s, t_print *p)
+{
+	int cnt;cnt=0;
+
+	char c;
+	while(cnt < p->inner_len)
+	{
+		if(!p->base)
+			c = p->p[cnt];
+		else
+			c = p->base[p->p[cnt]];
+		ft_fputc_wrapper(c, s);
+		if(get_cnt() == EOF)
+			return ;
+		cnt++;
+	}
+}
+
+void	print_r_ws(FILE *s, t_print *p)
+{
+	int cnt;cnt =0;
+	while(cnt++ < p->r_ws_len)
+		ft_fputc_wrapper(' ', s);
+}
+
+void print_unit(FILE *s, t_print *p)
+{
+	print_l_ws(s, p);
+	print_sign(s, p);
+	print_pref(s, p);
+	print_zero(s, p);
+	print_data(s, p);
+	print_r_ws(s, p);
+}
+
+void	print_by_unit(FILE *s, const char **f, va_list ap)
+{
+	t_format *fmt; fmt = load_fmt(f, ap);
+	if(!fmt)
+	{
+		set_cnt(EOF);
+		return ;
+	}
+	t_print	*p; 
+	p = norm_fmt(fmt);
+	if(!p)
+	{
+		set_cnt(EOF);
+		return ;
+	}
+	print_unit(s, p);
+	free_s_print(fmt);
 }
 
 int	ft_vfprintf(FILE *s, const char *format, va_list ap)
 {
-	int		cnt;
-	int		_cnt;
-	char	*f;
-
-	cnt = 0;
-	f = (char *)format;
-	while (*f != '\0')
+	set_cnt(0);
+	while (*format != '\0')
 	{
-		_cnt = print_unit(s, &f, ap);
-		if (_cnt < 0 || cnt >= INT_MAX - _cnt)
-			return (-1);
-		cnt += _cnt;
+		print_by_unit(s, &format, ap);
+		if(get_cnt() == EOF)
+			return EOF;
 	}
-	return (cnt);
+	return (get_cnt());
 }
