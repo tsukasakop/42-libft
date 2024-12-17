@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/17 11:07:15 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/17 14:20:24 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -364,7 +364,7 @@ void set_f_width(t_print *p, t_format *f)
 		return;
 	if(f->opt[0] & ADJUST_LEFT)
 		p->r_ws_len = f_width; 
-	else if(f->opt[0] & PAD_ZERO)
+	else if(f->opt[0] & PAD_ZERO && ~f->opt[0] & PRECITION)
 		p->zero_len += f_width;
 	else
 		p->l_ws_len = f_width;
@@ -395,6 +395,7 @@ void set_prec(t_print *p, t_format *f)
 		return;
 	if(f->opt[0] & PRECITION)
 		p->zero_len = prec;
+	set_f_width(p, f);
 }
 
 t_print *init_print_percent(t_format *f)
@@ -405,7 +406,7 @@ t_print *init_print_percent(t_format *f)
 		return NULL;
 	p->inner_len = 1;
 	p->p = (const unsigned char *)f->begin;	
-	set_f_width(p, f);
+//	set_f_width(p, f);
 	return p;
 }
 
@@ -416,15 +417,25 @@ t_print *init_print_s(t_format *f)
 	if(!p)
 		return NULL;
 	if(*(char **)f->val == NULL)
+	{
 		*(char **)f->val = "(null)";
-	size_t n; n = ft_strlen(*(char **)f->val);
-	if(n > INT_MAX)
-		p->inner_len = INT_MAX;
+		if(f->opt[2] < 6)
+			p->inner_len = 0;
+		else
+			p->inner_len = 6;
+	}
 	else
-		p->inner_len = (int)n;
+	{
+		size_t n; n = ft_strlen(*(char **)f->val);
+		if(n > INT_MAX)
+			p->inner_len = INT_MAX;
+		else
+			p->inner_len = (int)n;
+	}
 	if(f->opt[0] & PRECITION && f->opt[2] < p->inner_len)
 		p->inner_len = f->opt[2];
 	p->p = *(const unsigned char **)f->val;
+	f->opt[0] &= ~PAD_ZERO;
 	set_f_width(p, f);
 	return p;
 }
@@ -437,6 +448,7 @@ t_print *init_print_c(t_format *f)
 		return NULL;
 	p->inner_len = 1;
 	p->p = (const unsigned char *)f->val;
+	f->opt[0] &= ~PAD_ZERO;
 	set_f_width(p, f);
 	return p;
 }
