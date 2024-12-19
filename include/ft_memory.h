@@ -6,35 +6,24 @@
 /*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 14:16:02 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/19 15:51:13 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/19 17:16:33 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_MEMORY_H
 # define FT_MEMORY_H
 
-# include <stdlib.h>
+# include "ft_blocked_node.h"
 
-#define BN_STORE_MAX 256
+typedef t_blocked_node	t_memory_manager;
 
-typedef struct s_blocked_node t_blocked_node;
-
-struct					s_blocked_node
-{
-	void				*p[BN_STORE_MAX];
-	size_t				cnt;
-	t_blocked_node				*next;
-};
-
-typedef struct s_blocked_node t_memory_manager;
-
-t_memory_manager		*ft_mmnew();
+t_memory_manager		*ft_mmnew(void);
 int						ft_mmadd(t_memory_manager *mm, void *ptr);
 void					*ft_mmmalloc(t_memory_manager *mm, size_t size);
 void					*ft_mmcalloc(t_memory_manager *mm, size_t s, size_t c);
 void					ft_mmfree(t_memory_manager *mm);
 
-t_memory_manager		*ft_g_mmget();
+t_memory_manager		*ft_g_mmget(void);
 int						ft_g_mmadd(void *ptr);
 void					*ft_g_mmmalloc(size_t size);
 void					*ft_g_mmcalloc(size_t size, size_t cnt);
