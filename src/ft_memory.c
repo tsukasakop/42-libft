@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 14:08:39 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/19 15:32:07 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/19 16:28:07 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,40 +14,43 @@
 #include "ft_stdlib.h"
 #include <stdlib.h>
 
-static struct s__blocked_node	*_blocked_node_new(void)
+static t_blocked_node	*ft_bnnew(void)
 {
-	return (struct s__blocked_node *)ft_calloc(sizeof(struct s__blocked_node),
-		1);
+	return ((t_blocked_node *)ft_calloc(sizeof(t_blocked_node), 1));
 }
 
-static int	_blocked_node_add(struct s__blocled_node *bn, void *ptr)
+static int	ft_bnadd(t_blocked_node *bn, void *ptr)
 {
-	while (bn->cnt == _MEM_STORE_MAX && bn->next)
+	while (bn->cnt == BN_STORE_MAX && bn->next)
 	{
 		if (!bn->next)
 		{
-			bn->next = _blocked_node_new();
+			bn->next = ft_bnnew();
 			if (!bn->next)
 				return (0);
 		}
 		bn = bn->next;
 	}
-	bn[bn->cnt] = ptr;
+	bn->p[bn->cnt] = ptr;
 	bn->cnt += 1;
 	return (1);
 }
 
-void	_blocked_node_free(struct s__blocked_node *bn)
+void	ft_bnfree_shallow(t_blocked_node *bn)
 {
-	struct s__blocked_node	cur;
-	struct s__blocked_node	tmp;
+	t_blocked_node	*cur;
+	t_blocked_node	*tmp;
+	size_t			i;
 
 	cur = bn;
 	while (cur)
 	{
 		i = 0;
 		while (i < cur->cnt)
+		{
 			free(cur->p[i]);
+			i++;
+		}
 		tmp = cur;
 		cur = cur->next;
 		free(tmp);
@@ -56,22 +59,28 @@ void	_blocked_node_free(struct s__blocked_node *bn)
 
 t_memory_manager	*ft_mmnew(void)
 {
-	return (t_memory_manager *)_blocked_node_new();
+	t_memory_manager	*(*_mmnew)(void);
+
+	_mmnew = ft_bnnew;
+	return ((t_memory_manager *)_mmnew());
 }
 
 int	ft_mmadd(t_memory_manager *mm, void *ptr)
 {
-	if (!mmnode)
+	int	(*_mmadd)(t_memory_manager *, void *);
+
+	_mmadd = ft_bnadd;
+	if (!mm)
 		return (0);
-	return (_blocked_node_add(mm, ptr));
+	return (_mmadd(mm, ptr));
 }
 
 void	*ft_mmmalloc(t_memory_manager *mm, size_t size)
 {
 	void	*p;
 
-	if (!mmnode)
-		return (0);
+	if (!mm)
+		return (NULL);
 	p = malloc(size);
 	if (!p)
 		return (NULL);
@@ -87,7 +96,7 @@ void	*ft_mmcalloc(t_memory_manager *mm, size_t cnt, size_t size)
 {
 	void	*p;
 
-	if (!mmnode)
+	if (!mm)
 		return (0);
 	p = ft_calloc(cnt, size);
 	if (!p)
@@ -102,9 +111,12 @@ void	*ft_mmcalloc(t_memory_manager *mm, size_t cnt, size_t size)
 
 void	ft_mmfree(t_memory_manager *mm)
 {
-	if (!mmnode)
+	void	(*_mmfree)(t_memory_manager *);
+
+	_mmfree = ft_bnfree_shallow;
+	if (!mm)
 		return ;
-	_blocked_node_free(mm);
+	_mmfree(mm);
 }
 
 t_memory_manager	*ft_g_mmget(void)
@@ -122,31 +134,31 @@ int	ft_g_mmadd(void *ptr)
 
 	mm = ft_g_mmget();
 	if (!mm)
-		return ;
+		return (0);
 	return (ft_mmadd(mm, ptr));
 }
 
-int	ft_g_mmmalloc(size_t size)
+void	*ft_g_mmmalloc(size_t size)
 {
 	t_memory_manager	*mm;
 
 	mm = ft_g_mmget();
 	if (!mm)
-		return ;
-	return (ft_g_mmmalloc(mm, size));
+		return (NULL);
+	return (ft_mmmalloc(mm, size));
 }
 
-int	ft_g_mmmalloc(size_t size)
+void	*ft_g_mmcalloc(size_t size, size_t cnt)
 {
 	t_memory_manager	*mm;
 
 	mm = ft_g_mmget();
 	if (!mm)
-		return ;
-	return (ft_mmcalloc(mm, size));
+		return (NULL);
+	return (ft_mmcalloc(mm, size, cnt));
 }
 
-void	ft_g_mmfree(t_memory_manager *mm)
+void	ft_g_mmfree(void)
 {
 	t_memory_manager	*mm;
 

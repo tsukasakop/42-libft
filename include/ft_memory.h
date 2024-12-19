@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 14:16:02 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/19 15:34:51 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/19 15:51:13 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,29 @@
 
 # include <stdlib.h>
 
-#define _MEM_STORE_MAX 256
-struct					s__blocked_node
+#define BN_STORE_MAX 256
+
+typedef struct s_blocked_node t_blocked_node;
+
+struct					s_blocked_node
 {
-	void				*_p[_MEM_STORE_MAX];
-	size_t				_cur;
-	t_node				*_next;
+	void				*p[BN_STORE_MAX];
+	size_t				cnt;
+	t_blocked_node				*next;
 };
 
-typedef struct s__blocked node	t_memory_manager;
+typedef struct s_blocked_node t_memory_manager;
 
 t_memory_manager		*ft_mmnew();
 int						ft_mmadd(t_memory_manager *mm, void *ptr);
 void					*ft_mmmalloc(t_memory_manager *mm, size_t size);
-void					*ft_mmcalloc(t_memory_manager *mm, size_t c, size_t sz);
+void					*ft_mmcalloc(t_memory_manager *mm, size_t s, size_t c);
 void					ft_mmfree(t_memory_manager *mm);
 
 t_memory_manager		*ft_g_mmget();
 int						ft_g_mmadd(void *ptr);
 void					*ft_g_mmmalloc(size_t size);
-void					*ft_g_mmcalloc(size_t cnt, size_t size);
+void					*ft_g_mmcalloc(size_t size, size_t cnt);
 void					ft_g_mmfree(void);
 
 #endif
