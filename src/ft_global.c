@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:44:16 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/19 20:36:26 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/20 00:58:00 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 t_htbl	ft_get_globals(void)
 {
-	static t_htbl	dict;
+	static t_htnode	*dict[HTSIZE];
 
-	if (!dict)
-		dict = htnew();
 	return (dict);
 }
 
