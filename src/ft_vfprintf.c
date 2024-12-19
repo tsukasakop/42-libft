@@ -6,12 +6,13 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 01:55:19 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/20 03:04:15 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_ft_stdio.h"
 #include "ft_stdio.h"
+#include "ft_string.h"
 #include "ft_memory.h"
 #include "ft_global.h"
 #include <limits.h>
@@ -25,6 +26,11 @@ static int get_cnt()
 void	set_cnt(int cnt)
 {
 	ft_set_global("_vfp_cnt", (void *)(long long)cnt);
+}
+
+void	del_cnt()
+{
+	ft_delone_global("_vfp_cnt", NULL);
 }
 
 static int add_cnt(int rhs)
@@ -48,20 +54,6 @@ void	ft_fputc_wrapper(int c, FILE *stream)
 		add_cnt(1);
 }
 
-unsigned char	curc(t_format *p)
-{
-	return (*(p->cur));
-}
-
-unsigned char	step_cur(t_format *p)
-{
-	unsigned char	c;
-
-	c = curc(p);
-	(p->cur)++;
-	return (c);
-}
-
 void	*free_s_print(t_format *p)
 {
 	free(p->val);
@@ -69,80 +61,80 @@ void	*free_s_print(t_format *p)
 	return (NULL);
 }
 
-void	read_flag(t_format *p)
+void	read_flag(const char **f, t_format *p)
 {
 	p->opt[0] = 0;
 	while (1)
 	{
-		if (curc(p) == '#')
+		if (**f == '#')
 			p->opt[0] |= ALTER_FORM;
-		else if (curc(p) == '0')
+		else if (**f == '0')
 			p->opt[0] |= PAD_ZERO;
-		else if (curc(p) == '-')
+		else if (**f == '-')
 		{
 			p->opt[0] |= ADJUST_LEFT;
 			p->opt[0] &= ~PAD_ZERO;
 		}
-		else if (curc(p) == ' ')
+		else if (**f == ' ')
 			p->opt[0] |= BLANK_PNUM;
-		else if (curc(p) == '+')
+		else if (**f == '+')
 		{
 			p->opt[0] |= SIGN_NUM;
 			p->opt[0] &= ~BLANK_PNUM;
 		}
 		else
 			return ;
-		step_cur(p);
+		++*f;
 	}
 }
 
-void	read_field(t_format *p)
+void	read_field(const char **f, t_format *p)
 {
 	p->opt[1] = 0;
-	if (!ft_isdigit(curc(p)))
+	if (!ft_isdigit(**f))
 		return ;
-	while (ft_isdigit(curc(p)))
+	while (ft_isdigit(**f))
 	{
-		p->opt[1] = curc(p) - '0' + p->opt[1] * 10;
-		step_cur(p);
+		p->opt[1] = **f - '0' + p->opt[1] * 10;
+		++*f;
 	}
 }
 
-void	read_prec(t_format *p)
+void	read_prec(const char **f, t_format *p)
 {
 	p->opt[2] = 0;
-	if (curc(p) != '.')
+	if (**f != '.')
 		return ;
 	p->opt[0] |= PRECITION;
-	step_cur(p);
-	while (ft_isdigit(curc(p)))
+	++*f;
+	while (ft_isdigit(**f))
 	{
-		p->opt[2] = curc(p) - '0' + p->opt[2] * 10;
-		step_cur(p);
+		p->opt[2] = **f - '0' + p->opt[2] * 10;
+		++*f;
 	}
 }
 
-int	set_mod(t_format *p, va_list ap)
+int	set_mod(const char **f, t_format *p, va_list ap)
 {
-	p->mod = curc(p);
-	step_cur(p);
+	p->mod = **f;
+	++*f;
 	if (ft_strchr("cdiuxX", p->mod))
 	{
 		p->val = ft_g_mmcalloc(sizeof(int), 1);
 		if (p->val == NULL)
-			return (-1);
+			return (0);
 		*(int *)p->val = va_arg(ap, int);
 	}
 	else if (ft_strchr("sp", p->mod))
 	{
 		p->val = ft_g_mmcalloc(sizeof(void *), 1);
 		if (p->val == NULL)
-			return (-1);
+			return (0);
 		*(void **)p->val = va_arg(ap, void *);
 	}
 	else if (p->mod == '%')
 		;
-	return (0);
+	return (1);
 }
 
 t_format	*load_fmt(const char **f, va_list ap)
@@ -156,40 +148,27 @@ t_format	*load_fmt(const char **f, va_list ap)
 	if (**f != '%')
 	{
 		p->mod = 'R';
-		p->cur = *f;
-		p->orig = f;
-		p->begin = *f;
-		while(curc(p) && curc(p) != '%')
-			step_cur(p);
-		return p;
+		size_t i;
+		i=0;
+		while((*f)[i] && (*f)[i] != '%')
+			++i;
+		p->val = ft_g_mmcalloc(sizeof(void *), 1);
+		if (p->val == NULL)
+			return (0);
+		*(void **)p->val = (void *)ft_strndup(*f, i);
+		ft_g_mmadd(*(void **)p->val);
+		*f += i;
 	}
-
-		p->cur = *f;
-	p->orig = f;
-	p->begin = *f;
-	step_cur(p);
-	read_flag(p);
-	read_field(p);
-	read_prec(p);
-	if (set_mod(p, ap) == -1)
-		return (NULL);
-	return (p);
-}
-
-t_print *init_print_raw(t_format *f)
-{
-	t_print	*p;
-	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
-	if(!p)
-		return NULL;
-	while(f->begin[p->inner_len] && f->begin[p->inner_len] != '%')
+	else
 	{
-		if(p->inner_len > INT_MAX - 1)
-			return NULL;
-		p->inner_len++;
+		++*f;
+		read_flag(f, p);
+		read_field(f, p);
+		read_prec(f, p);
+		if (!set_mod(f, p, ap))
+			return (NULL);
 	}
-	p->p = (const unsigned char *)f->begin;	
-	return p;
+	return (p);
 }
 
 char get_sign(t_format *f)
@@ -251,12 +230,13 @@ void set_prec(t_print *p, t_format *f)
 t_print *init_print_percent(t_format *f)
 {
 	t_print	*p;
+
+	(void)f;
 	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
 	if(!p)
 		return NULL;
 	p->inner_len = 1;
-	p->p = (const unsigned char *)f->begin;	
-//	set_f_width(p, f);
+	p->p = (const unsigned char *)"%";
 	return p;
 }
 
@@ -288,6 +268,25 @@ t_print *init_print_s(t_format *f)
 	f->opt[0] &= ~PAD_ZERO;
 	set_f_width(p, f);
 	return p;
+}
+
+t_print *init_print_raw(t_format *f)
+{
+	return init_print_s(f);
+/*
+	t_print	*p;
+	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
+	if(!p)
+		return NULL;
+	while(f->begin[p->inner_len] && f->begin[p->inner_len] != '%')
+	{
+		if(p->inner_len > INT_MAX - 1)
+			return NULL;
+		p->inner_len++;
+	}
+	p->p = (const unsigned char *)f->begin;	
+	return p;
+*/
 }
 
 t_print *init_print_c(t_format *f)
@@ -551,12 +550,9 @@ void	print_by_unit(FILE *s, const char **f, va_list ap)
 	fmt = load_fmt(f, ap);
 	p = norm_fmt(fmt);
 	if(!p)
-		ft_set_global("_vfp_cnt", (void *)(long long)EOF);
+		set_cnt(EOF);
 	else
 		print_unit(s, p);
-	//TODO: replace progress f to each
-	if (fmt->cur != NULL)
-		*f = fmt->cur;
 	ft_g_mmfree();
 }
 
@@ -564,14 +560,14 @@ int	ft_vfprintf(FILE *s, const char *format, va_list ap)
 {
 	int cnt;
 
-	ft_set_global("_vfp_cnt", 0);
+	set_cnt(0);
 	while (*format != '\0')
 	{
 		print_by_unit(s, &format, ap);
-		if(((long long)ft_get_global("_vfp_cnt") & (int)-1) == EOF)
+		if(get_cnt() == EOF)
 			break;
 	}
-	cnt = (long long)ft_get_global("_vfp_cnt");
-	ft_delone_global("_vfp_cnt", NULL);
+	cnt = get_cnt();
+	del_cnt();
 	return (cnt);
 }

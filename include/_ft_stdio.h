@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 03:11:49 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/17 10:33:13 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/20 02:17:05 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,6 @@ enum e_print_flag
 struct s_format
 {
 	unsigned char	mod;
-	const char			*begin;
-	const char			**orig;
-	const char			*cur;
 	void			*val;
 	int				opt[3];
 };
