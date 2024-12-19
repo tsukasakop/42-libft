@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 01:41:59 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/20 01:55:19 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,13 +444,13 @@ t_print *init_print_p(t_format *f)
 	{
 		p->p = (const unsigned char *)ft_ui64toa_base(*(uint64_t *)f->val, "0123456789abcdef", 16);
 		ft_g_mmadd((void *)p->p);
+		p->prefix = "0x";
 	}
 	size_t n; n = ft_strlen((const char *)p->p);
 	if(n > INT_MAX)
 		p->inner_len = INT_MAX;
 	else
 		p->inner_len = (int)n;
-	p->prefix = "0x";
 	set_prec(p, f);
 	set_f_width_nbr(p, f);
 	return p;
