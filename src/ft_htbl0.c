@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 01:20:53 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/19 20:05:17 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/20 01:16:14 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,30 +45,23 @@ t_htbl	htadd(t_htbl ht, const char *key, void *val)
 {
 	uint8_t		h;
 	t_htnode	*newi;
-	t_htnode	**i;
+	t_htnode	**p;
 
 	h = hash(key);
+	p = &ht[h];
+	while (*p)
+	{
+		if (!ft_strcmp((*p)->key, key))
+		{
+			(*p)->val = val;
+			return (ht);
+		}
+		p = &(*p)->next;
+	}
 	newi = htnodenew(key, val);
 	if (!newi)
 		return (NULL);
-	if (!ht[h])
-	{
-		ht[h] = newi;
-		return (ht);
-	}
-	i = &ht[h];
-	while (*i)
-	{
-		if(!ft_strcmp((*i)->key, key))
-		{
-			t_htnode *tmp = (*i)->next;
-			free((*i));
-			newi->next = tmp;
-			break;
-		}
-		*i = (*i)->next;
-	}
-	(*i) = newi;
+	(*p) = newi;
 	return (ht);
 }
 
