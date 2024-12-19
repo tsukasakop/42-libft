@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 03:04:15 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/20 05:53:38 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,6 @@ void	ft_fputc_wrapper(int c, FILE *stream)
 		set_cnt(EOF);
 	else
 		add_cnt(1);
-}
-
-void	*free_s_print(t_format *p)
-{
-	free(p->val);
-	free(p);
-	return (NULL);
 }
 
 void	read_flag(const char **f, t_format *p)
@@ -119,19 +112,9 @@ int	set_mod(const char **f, t_format *p, va_list ap)
 	p->mod = **f;
 	++*f;
 	if (ft_strchr("cdiuxX", p->mod))
-	{
-		p->val = ft_g_mmcalloc(sizeof(int), 1);
-		if (p->val == NULL)
-			return (0);
-		*(int *)p->val = va_arg(ap, int);
-	}
+		p->u_val.nbr = va_arg(ap, int);
 	else if (ft_strchr("sp", p->mod))
-	{
-		p->val = ft_g_mmcalloc(sizeof(void *), 1);
-		if (p->val == NULL)
-			return (0);
-		*(void **)p->val = va_arg(ap, void *);
-	}
+		p->u_val.ptr = va_arg(ap, void *);
 	else if (p->mod == '%')
 		;
 	return (1);
@@ -152,11 +135,8 @@ t_format	*load_fmt(const char **f, va_list ap)
 		i=0;
 		while((*f)[i] && (*f)[i] != '%')
 			++i;
-		p->val = ft_g_mmcalloc(sizeof(void *), 1);
-		if (p->val == NULL)
-			return (0);
-		*(void **)p->val = (void *)ft_strndup(*f, i);
-		ft_g_mmadd(*(void **)p->val);
+		p->u_val.ptr = (void *)ft_strndup(*f, i);
+		ft_g_mmadd(p->u_val.ptr);
 		*f += i;
 	}
 	else
@@ -173,9 +153,7 @@ t_format	*load_fmt(const char **f, va_list ap)
 
 char get_sign(t_format *f)
 {
-	int v;v = *(int *)f->val;
-
-	if(v<0)	return '-';
+	if(f->u_val.nbr < 0)	return '-';
 	if(f->opt[0] & SIGN_NUM) return '+';
 	if(f->opt[0] & BLANK_PNUM) return ' ';
 	return '\0';
@@ -246,9 +224,9 @@ t_print *init_print_s(t_format *f)
 	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
 	if(!p)
 		return NULL;
-	if(*(char **)f->val == NULL)
+	if(!f->u_val.ptr)
 	{
-		*(char **)f->val = "(null)";
+		f->u_val.ptr = "(null)";
 		if(f->opt[0] & PRECITION && f->opt[2] < 6)
 			p->inner_len = 0;
 		else
@@ -256,7 +234,7 @@ t_print *init_print_s(t_format *f)
 	}
 	else
 	{
-		size_t n; n = ft_strlen(*(char **)f->val);
+		size_t n; n = ft_strlen(f->u_val.ptr);
 		if(n > INT_MAX)
 			p->inner_len = INT_MAX;
 		else
@@ -264,7 +242,7 @@ t_print *init_print_s(t_format *f)
 	}
 	if(f->opt[0] & PRECITION && f->opt[2] < p->inner_len)
 		p->inner_len = f->opt[2];
-	p->p = *(const unsigned char **)f->val;
+	p->p = f->u_val.ptr;
 	f->opt[0] &= ~PAD_ZERO;
 	set_f_width(p, f);
 	return p;
@@ -273,20 +251,6 @@ t_print *init_print_s(t_format *f)
 t_print *init_print_raw(t_format *f)
 {
 	return init_print_s(f);
-/*
-	t_print	*p;
-	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
-	if(!p)
-		return NULL;
-	while(f->begin[p->inner_len] && f->begin[p->inner_len] != '%')
-	{
-		if(p->inner_len > INT_MAX - 1)
-			return NULL;
-		p->inner_len++;
-	}
-	p->p = (const unsigned char *)f->begin;	
-	return p;
-*/
 }
 
 t_print *init_print_c(t_format *f)
@@ -296,7 +260,7 @@ t_print *init_print_c(t_format *f)
 	if(!p)
 		return NULL;
 	p->inner_len = 1;
-	p->p = (const unsigned char *)f->val;
+	p->p = (const unsigned char *)&f->u_val.nbr;
 	f->opt[0] &= ~PAD_ZERO;
 	set_f_width(p, f);
 	return p;
@@ -352,13 +316,13 @@ t_print *init_print_d(t_format *f)
 		return NULL;
 	p->sign = get_sign(f);
 	if(p->sign == '-')
-		*(int *)f->val *= -1;
-	p->p = (const unsigned char *)ft_uitoa_base(*(unsigned int *)f->val, "0123456789", 10);
+		f->u_val.nbr *= -1;
+	p->p = (const unsigned char *)ft_uitoa_base((unsigned int)f->u_val.nbr, "0123456789", 10);
 	ft_g_mmadd((void *)p->p);
 	size_t n; n = ft_strlen((const char *)p->p);
 	if(n > INT_MAX)
 		p->inner_len = INT_MAX;
-	else if(!*(int *)f->val && f->opt[0] & PRECITION && !f->opt[2])
+	else if(!f->u_val.nbr && f->opt[0] & PRECITION && !f->opt[2])
 		p->inner_len = 0;
 	else
 		p->inner_len = (int)n;
@@ -373,12 +337,12 @@ t_print *init_print_u(t_format *f)
 	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
 	if(!p)
 		return NULL;
-	p->p = (const unsigned char *)ft_uitoa_base(*(unsigned int *)f->val, "0123456789", 10);
+	p->p = (const unsigned char *)ft_uitoa_base((unsigned int)f->u_val.nbr, "0123456789", 10);
 	ft_g_mmadd((void *)p->p);
 	size_t n; n = ft_strlen((const char *)p->p);
 	if(n > INT_MAX)
 		p->inner_len = INT_MAX;
-	else if(!*(int *)f->val && f->opt[0] & PRECITION && !f->opt[2])
+	else if(!f->u_val.nbr && f->opt[0] & PRECITION && !f->opt[2])
 		p->inner_len = 0;
 	else
 		p->inner_len = (int)n;
@@ -393,12 +357,12 @@ t_print *init_print_x(t_format *f)
 	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
 	if(!p)
 		return NULL;
-	p->p = (const unsigned char *)ft_uitoa_base(*(unsigned int *)f->val, "0123456789abcdef", 16);
+	p->p = (const unsigned char *)ft_uitoa_base((unsigned int)f->u_val.nbr, "0123456789abcdef", 16);
 	ft_g_mmadd((void *)p->p);
 	size_t n; n = ft_strlen((const char *)p->p);
 	if(n > INT_MAX)
 		p->inner_len = INT_MAX;
-	else if(!*(int *)f->val && f->opt[0] & PRECITION && !f->opt[2])
+	else if(!f->u_val.nbr && f->opt[0] & PRECITION && !f->opt[2])
 		p->inner_len = 0;
 	else
 		p->inner_len = (int)n;
@@ -415,12 +379,12 @@ t_print *init_print_X(t_format *f)
 	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
 	if(!p)
 		return NULL;
-	p->p = (const unsigned char *)ft_uitoa_base(*(unsigned int *)f->val, "0123456789ABCDEF", 16);
+	p->p = (const unsigned char *)ft_uitoa_base((unsigned int)f->u_val.nbr, "0123456789ABCDEF", 16);
 	ft_g_mmadd((void *)p->p);
 	size_t n; n = ft_strlen((const char *)p->p);
 	if(n > INT_MAX)
 		p->inner_len = INT_MAX;
-	else if(!*(int *)f->val && f->opt[0] & PRECITION && !f->opt[2])
+	else if(!f->u_val.nbr && f->opt[0] & PRECITION && !f->opt[2])
 		p->inner_len = 0;
 	else
 		p->inner_len = (int)n;
@@ -437,11 +401,11 @@ t_print *init_print_p(t_format *f)
 	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
 	if(!p)
 		return NULL;
-	if(!*(int *)f->val)
+	if(!f->u_val.ptr)
 		p->p = (const unsigned char *)"(nil)";
 	else
 	{
-		p->p = (const unsigned char *)ft_ui64toa_base(*(uint64_t *)f->val, "0123456789abcdef", 16);
+		p->p = (const unsigned char *)ft_ui64toa_base((uint64_t)f->u_val.ptr, "0123456789abcdef", 16);
 		ft_g_mmadd((void *)p->p);
 		p->prefix = "0x";
 	}
