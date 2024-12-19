@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/24 05:07:23 by tkondo            #+#    #+#             */
-/*   Updated: 2024/09/11 01:08:58 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/20 02:44:04 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,17 @@
 
 char	*ft_strdup(const char *s1)
 {
-	int		len;
+	return (ft_strndup(s1, ft_strlen(s1)));
+}
+
+char	*ft_strndup(const char *s1, size_t size)
+{
 	char	*p;
 
-	len = ft_strlen(s1);
-	p = malloc(len + 1);
+	p = malloc(size + 1);
 	if (p == NULL)
 		return (NULL);
-	ft_memcpy(p, s1, len + 1);
+	ft_memcpy(p, s1, size);
+	ft_memset(p + size, 0, 1);
 	return (p);
 }
