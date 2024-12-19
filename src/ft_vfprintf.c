@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 00:41:17 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/20 01:41:59 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,6 @@
 #include "ft_global.h"
 #include <limits.h>
 #include <stdlib.h>
-
-/*
-static int *get_cnt_p()
-{
-	static int cnt;
-	return &cnt;
-}
-*/
 
 static int get_cnt()
 {
@@ -277,7 +269,7 @@ t_print *init_print_s(t_format *f)
 	if(*(char **)f->val == NULL)
 	{
 		*(char **)f->val = "(null)";
-		if(f->opt[2] < 6)
+		if(f->opt[0] & PRECITION && f->opt[2] < 6)
 			p->inner_len = 0;
 		else
 			p->inner_len = 6;
