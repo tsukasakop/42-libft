@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 14:08:39 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/11 14:22:35 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/19 17:05:46 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,46 +14,34 @@
 #include "ft_stdlib.h"
 #include <stdlib.h>
 
-t_node	**get_mm(void)
+t_memory_manager	*ft_mmnew(void)
 {
-	static t_node	**mm;
+	t_memory_manager	*(*_mmnew)(void);
 
+	_mmnew = ft_bnnew;
+	return ((t_memory_manager *)_mmnew());
+}
+
+int	ft_mmadd(t_memory_manager *mm, void *ptr)
+{
+	int	(*_mmadd)(t_memory_manager *, void *);
+
+	_mmadd = ft_bnadd;
 	if (!mm)
-		mm = (t_node **)ft_calloc(sizeof(t_node *), 1);
-	return (mm);
-}
-
-int	ft_mmadd(void *ptr)
-{
-	static t_node	**p;
-	t_node			*mmnode;
-
-	if (!p)
-	{
-		if (!get_mm())
-			return (0);
-		p = get_mm();
-	}
-	mmnode = (t_node *)ft_calloc(sizeof(t_node), 1);
-	if (!mmnode)
 		return (0);
-	mmnode->p = ptr;
-	if (!*p)
-		*p = mmnode;
-	else
-		(*p)->next = mmnode;
-	p = &(*p)->next;
-	return (1);
+	return (_mmadd(mm, ptr));
 }
 
-void	*ft_mmmalloc(size_t size)
+void	*ft_mmmalloc(t_memory_manager *mm, size_t size)
 {
 	void	*p;
 
+	if (!mm)
+		return (NULL);
 	p = malloc(size);
 	if (!p)
 		return (NULL);
-	if (!ft_mmadd(p))
+	if (!ft_mmadd(mm, p))
 	{
 		free(p);
 		return (NULL);
@@ -61,14 +49,16 @@ void	*ft_mmmalloc(size_t size)
 	return (p);
 }
 
-void	*ft_mmcalloc(size_t cnt, size_t size)
+void	*ft_mmcalloc(t_memory_manager *mm, size_t cnt, size_t size)
 {
 	void	*p;
 
+	if (!mm)
+		return (0);
 	p = ft_calloc(cnt, size);
 	if (!p)
 		return (NULL);
-	if (!ft_mmadd(p))
+	if (!ft_mmadd(mm, p))
 	{
 		free(p);
 		return (NULL);
@@ -76,22 +66,12 @@ void	*ft_mmcalloc(size_t cnt, size_t size)
 	return (p);
 }
 
-void	ft_mmfree(void)
+void	ft_mmfree(t_memory_manager *mm)
 {
-	t_node	**mm;
-	t_node	*i;
-	t_node	*tmp;
+	void	(*_mmfree)(t_memory_manager *);
 
-	mm = get_mm();
+	_mmfree = ft_bnfree_shallow;
 	if (!mm)
 		return ;
-	i = *mm;
-	while (i)
-	{
-		tmp = i->next;
-		free(i->p);
-		free(i);
-		i = tmp;
-	}
-	free(mm);
+	_mmfree(mm);
 }

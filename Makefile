@@ -6,7 +6,7 @@
 #    By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
-#    Updated: 2024/12/16 18:05:56 by tkondo           ###   ########.fr        #
+#    Updated: 2024/12/19 18:30:23 by tkondo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,9 @@ TARGET =\
 	ft_printf\
 	ft_htbl0\
 	ft_htbl1\
+	ft_blocked_node\
 	ft_memory\
+	ft_gmemory\
 	ft_global\
 
 OBJS = $(addprefix $(OBJ_DIR)/,$(addsuffix .o,$(TARGET)))
