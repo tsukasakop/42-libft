@@ -6,30 +6,33 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/17 13:46:24 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/19 20:35:45 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_ft_stdio.h"
 #include "ft_stdio.h"
 #include "ft_memory.h"
+#include "ft_global.h"
 #include <limits.h>
 #include <stdlib.h>
 
+/*
 static int *get_cnt_p()
 {
 	static int cnt;
 	return &cnt;
 }
+*/
 
 static int get_cnt()
 {
-	return *get_cnt_p();
+	return (long long)ft_get_global("_vfp_cnt") & (int)-1;
 }
 
 void	set_cnt(int cnt)
 {
-	*get_cnt_p() = cnt;
+	ft_set_global("_vfp_cnt", (void *)(long long)cnt);
 }
 
 static int add_cnt(int rhs)
@@ -53,149 +56,6 @@ void	ft_fputc_wrapper(int c, FILE *stream)
 		add_cnt(1);
 }
 
-/*
-void	ft_fputs_f(char *s, FILE *stream, int n, int flag)
-{
-	int	cnt;
-	(void)n;
-	cnt = 0;
-	while (s[cnt] != '\0')
-	{
-		ft_fputc_f(s[cnt], stream, flag);
-		cnt++;
-	}
-}
-
-void print_c(t_format *p, int do_print)
-{
-	ft_fputc_f((int)*(char *)(p->val), p->s, do_print);
-}
-
-void print_s(t_format *p, int do_print)
-{
-	int cnt;
-	if (!*(char **)(p->val))
-		*(char **)(p->val) = "(null)";
-	if(p->opt[0] & PRECITION)
-	{
-		cnt = 0;
-		while(cnt < p->opt[2] && (*(char **)(p->val))[cnt])
-		{
-			ft_fputc_f((*(char **)(p->val))[cnt], p->s, do_print);
-			cnt++;
-		}
-		return;
-	}
-	ft_fputs_f(*(char **)(p->val), p->s, p->opt[2], do_print);
-}
-
-void	print_nbr(t_format *p, unsigned int val, int do_print, char *base)
-{
-	size_t	base_len;
-	char	str[33];
-	int		cur;
-
-	str[32] = '\0';
-	cur = 32;
-	base_len = (int)ft_strlen(base);
-	if (val == 0)
-	{
-		cur--;
-		str[cur] = base[0];
-	}
-	while (p->opt[2] > 32 - cur || val != 0)
-	{
-		cur--;
-		str[cur] = base[val % base_len];
-		val /= base_len;
-	}
-	ft_fputs_f(str + cur, p->s, p->opt[2], do_print);
-}
-
-void	print_d(t_format *p, int do_print)
-{
-	int	v;
-
-	v = *(int *)p->val;
-	if (v < 0)
-		ft_fputc_f('-', p->s, do_print);
-	else if (p->opt[0] & SIGN_NUM)
-		ft_fputc_f('+', p->s, do_print);
-	else if (p->opt[0] & BLANK_PNUM)
-		ft_fputc_f(' ', p->s, do_print);
-	//print_sign(p);
-	if(v < 0)	
-		v *= -1;
-	print_nbr(p, (unsigned int)v, do_print, "0123456789");
-}
-
-void	print_u(t_format *p, int do_print)
-{
-	unsigned int	v;
-
-	v = *(unsigned int *)p->val;
-	if (p->opt[0] & SIGN_NUM)
-		ft_fputc_f('+', p->s, do_print);
-	else if (p->opt[0] & BLANK_PNUM)
-		ft_fputc_f(' ', p->s, do_print);
-	print_nbr(p, v, do_print, "0123456789");
-}
-
-void	print_x(t_format *p, int do_print)
-{
-	unsigned int	v;
-
-	v = *(unsigned int *)p->val;
-	if (p->opt[0] & ALTER_FORM)
-		ft_fputs_f("0x", p->s, p->opt[2], do_print);
-	print_nbr(p, v, do_print, "0123456789abcdef");
-}
-
-void	print_X(t_format *p, int do_print)
-{
-	unsigned int	v;
-
-	v = *(unsigned int *)p->val;
-	if (p->opt[0] & ALTER_FORM)
-	{
-		ft_fputs_f("0X", p->s, p->opt[2], do_print);
-		p->opt[2] -= 2;
-	}
-	print_nbr(p, v, do_print, "0123456789ABCDEF");
-}
-
-void	print_p(t_format *p, int do_print)
-{
-	unsigned int	v;
-
-	v = *(unsigned int *)p->val;
-	if(!v)
-	{
-		(ft_fputs_f("(nil)", p->s, 5, do_print));
-		return;
-	}
-	ft_fputs_f("0x", p->s, p->opt[2], do_print);
-	p->opt[2] -= 2;
-	print_nbr(p, v, do_print, "0123456789abcdef");
-}
-
-void	print_per(t_format *p, int do_print)
-{
-	ft_fputc_f('%', p->s, do_print);
-}
-
-int	print_raw(FILE *s, char **f)
-{
-	int	cnt;
-
-	cnt = 0;
-	while (ft_strchr("%\0", **f) == NULL)
-	{
-		ft_fputc(*(*f)++, s);
-	}
-	return (cnt);
-}
-*/
 unsigned char	curc(t_format *p)
 {
 	return (*(p->cur));
@@ -212,8 +72,6 @@ unsigned char	step_cur(t_format *p)
 
 void	*free_s_print(t_format *p)
 {
-	if (p->orig != NULL && p->cur != NULL)
-		*(p->orig) = p->cur;
 	free(p->val);
 	free(p);
 	return (NULL);
@@ -329,7 +187,7 @@ t_format	*load_fmt(const char **f, va_list ap)
 t_print *init_print_raw(t_format *f)
 {
 	t_print	*p;
-	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
 	if(!p)
 		return NULL;
 	while(f->begin[p->inner_len] && f->begin[p->inner_len] != '%')
@@ -401,7 +259,7 @@ void set_prec(t_print *p, t_format *f)
 t_print *init_print_percent(t_format *f)
 {
 	t_print	*p;
-	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
 	if(!p)
 		return NULL;
 	p->inner_len = 1;
@@ -413,7 +271,7 @@ t_print *init_print_percent(t_format *f)
 t_print *init_print_s(t_format *f)
 {
 	t_print	*p;
-	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
 	if(!p)
 		return NULL;
 	if(*(char **)f->val == NULL)
@@ -433,7 +291,7 @@ t_print *init_print_s(t_format *f)
 t_print *init_print_c(t_format *f)
 {
 	t_print	*p;
-	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
 	if(!p)
 		return NULL;
 	p->inner_len = 1;
@@ -487,7 +345,7 @@ char *ft_ui64toa_base(uint64_t i, const char* base, unsigned char base_len)
 t_print *init_print_d(t_format *f)
 {
 	t_print	*p;
-	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
 	if(!p)
 		return NULL;
 	p->sign = get_sign(f);
@@ -509,7 +367,7 @@ t_print *init_print_d(t_format *f)
 t_print *init_print_u(t_format *f)
 {
 	t_print	*p;
-	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
 	if(!p)
 		return NULL;
 	p->p = (const unsigned char *)ft_uitoa_base(*(unsigned int *)f->val, "0123456789", 10);
@@ -528,7 +386,7 @@ t_print *init_print_u(t_format *f)
 t_print *init_print_x(t_format *f)
 {
 	t_print	*p;
-	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
 	if(!p)
 		return NULL;
 	p->p = (const unsigned char *)ft_uitoa_base(*(unsigned int *)f->val, "0123456789abcdef", 16);
@@ -549,7 +407,7 @@ t_print *init_print_x(t_format *f)
 t_print *init_print_X(t_format *f)
 {
 	t_print	*p;
-	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
 	if(!p)
 		return NULL;
 	p->p = (const unsigned char *)ft_uitoa_base(*(unsigned int *)f->val, "0123456789ABCDEF", 16);
@@ -570,7 +428,7 @@ t_print *init_print_X(t_format *f)
 t_print *init_print_p(t_format *f)
 {
 	t_print	*p;
-	p = (t_print *)ft_mmcalloc(sizeof(t_print), 1);
+	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
 	if(!p)
 		return NULL;
 	if(!*(int *)f->val)
@@ -677,31 +535,33 @@ void print_unit(FILE *s, t_print *p)
 
 void	print_by_unit(FILE *s, const char **f, va_list ap)
 {
-	t_format *fmt; fmt = load_fmt(f, ap);
-	if(!fmt)
-	{
-		set_cnt(EOF);
-		return ;
-	}
-	t_print	*p; 
+	t_print	*p;
+	t_format *fmt;
+
+	fmt = load_fmt(f, ap);
 	p = norm_fmt(fmt);
 	if(!p)
-	{
-		set_cnt(EOF);
-		return ;
-	}
-	print_unit(s, p);
-	free_s_print(fmt);
+		ft_set_global("_vfp_cnt", (void *)(long long)EOF);
+	else
+		print_unit(s, p);
+	//TODO: replace progress f to each
+	if (fmt->cur != NULL)
+		*f = fmt->cur;
+	ft_g_mmfree();
 }
 
 int	ft_vfprintf(FILE *s, const char *format, va_list ap)
 {
-	set_cnt(0);
+	int cnt;
+
+	ft_set_global("_vfp_cnt", 0);
 	while (*format != '\0')
 	{
 		print_by_unit(s, &format, ap);
-		if(get_cnt() == EOF)
-			return EOF;
+		if(((long long)ft_get_global("_vfp_cnt") & (int)-1) == EOF)
+			break;
 	}
-	return (get_cnt());
+	cnt = (long long)ft_get_global("_vfp_cnt");
+	ft_delone_global("_vfp_cnt", NULL);
+	return (cnt);
 }
