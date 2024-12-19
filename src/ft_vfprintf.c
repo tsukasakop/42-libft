@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/19 22:45:35 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/20 00:41:17 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,14 +136,14 @@ int	set_mod(t_format *p, va_list ap)
 	step_cur(p);
 	if (ft_strchr("cdiuxX", p->mod))
 	{
-		p->val = calloc(sizeof(int), 1);
+		p->val = ft_g_mmcalloc(sizeof(int), 1);
 		if (p->val == NULL)
 			return (-1);
 		*(int *)p->val = va_arg(ap, int);
 	}
 	else if (ft_strchr("sp", p->mod))
 	{
-		p->val = calloc(sizeof(void *), 1);
+		p->val = ft_g_mmcalloc(sizeof(void *), 1);
 		if (p->val == NULL)
 			return (-1);
 		*(void **)p->val = va_arg(ap, void *);
@@ -158,7 +158,7 @@ t_format	*load_fmt(const char **f, va_list ap)
 	(void)ap;
 	t_format	*p;
 
-	p = ft_calloc(1, sizeof(t_format));
+	p = ft_g_mmcalloc(1, sizeof(t_format));
 	if (p == NULL)
 		return (NULL);
 	if (**f != '%')
@@ -363,6 +363,7 @@ t_print *init_print_d(t_format *f)
 	if(p->sign == '-')
 		*(int *)f->val *= -1;
 	p->p = (const unsigned char *)ft_uitoa_base(*(unsigned int *)f->val, "0123456789", 10);
+	ft_g_mmadd((void *)p->p);
 	size_t n; n = ft_strlen((const char *)p->p);
 	if(n > INT_MAX)
 		p->inner_len = INT_MAX;
@@ -382,6 +383,7 @@ t_print *init_print_u(t_format *f)
 	if(!p)
 		return NULL;
 	p->p = (const unsigned char *)ft_uitoa_base(*(unsigned int *)f->val, "0123456789", 10);
+	ft_g_mmadd((void *)p->p);
 	size_t n; n = ft_strlen((const char *)p->p);
 	if(n > INT_MAX)
 		p->inner_len = INT_MAX;
@@ -401,6 +403,7 @@ t_print *init_print_x(t_format *f)
 	if(!p)
 		return NULL;
 	p->p = (const unsigned char *)ft_uitoa_base(*(unsigned int *)f->val, "0123456789abcdef", 16);
+	ft_g_mmadd((void *)p->p);
 	size_t n; n = ft_strlen((const char *)p->p);
 	if(n > INT_MAX)
 		p->inner_len = INT_MAX;
@@ -422,6 +425,7 @@ t_print *init_print_X(t_format *f)
 	if(!p)
 		return NULL;
 	p->p = (const unsigned char *)ft_uitoa_base(*(unsigned int *)f->val, "0123456789ABCDEF", 16);
+	ft_g_mmadd((void *)p->p);
 	size_t n; n = ft_strlen((const char *)p->p);
 	if(n > INT_MAX)
 		p->inner_len = INT_MAX;
@@ -445,7 +449,10 @@ t_print *init_print_p(t_format *f)
 	if(!*(int *)f->val)
 		p->p = (const unsigned char *)"(nil)";
 	else
+	{
 		p->p = (const unsigned char *)ft_ui64toa_base(*(uint64_t *)f->val, "0123456789abcdef", 16);
+		ft_g_mmadd((void *)p->p);
+	}
 	size_t n; n = ft_strlen((const char *)p->p);
 	if(n > INT_MAX)
 		p->inner_len = INT_MAX;
