@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 03:11:49 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 14:32:25 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/20 15:19:04 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,6 @@
 
 typedef struct s_format		t_format;
 typedef struct s_print		t_print;
-
-enum						e_print_flag
-{
-	PAD_ZERO = 1,
-	ADJUST_LEFT = 2,
-	BLANK_PNUM = 4,
-	SIGN_NUM = 8,
-	ALTER_FORM = 16,
-	PRECITION = 32,
-};
 
 struct						s_format
 {

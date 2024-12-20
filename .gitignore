@@ -1,7 +1,9 @@
 *.txt
 a.out
+a.out.dSYM
 .DS_Store*
 *.swp
 *.o
 *.a
 *.bk
+*.bak

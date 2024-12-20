@@ -6,13 +6,13 @@
 #    By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
-#    Updated: 2024/12/20 17:49:49 by tkondo           ###   ########.fr        #
+#    Updated: 2024/12/20 18:03:45 by tkondo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 INC_DIR = include
-CFLAGS = -O0 -Wall -Wextra -Werror -I$(INC_DIR)
+CFLAGS = -fPIE -Wall -Wextra -Werror -I$(INC_DIR)
 
 SRC_DIR = src
 OBJ_DIR = bin
@@ -79,7 +79,7 @@ OBJS = $(addprefix $(OBJ_DIR)/,$(addsuffix .o,$(TARGET)))
 
 all: $(NAME)
 
-dev: CFLAGS+=-g -fsanitize=address
+dev: CFLAGS+=-O0 -g -fsanitize=address
 dev: all
 
 $(NAME): $(OBJS)
