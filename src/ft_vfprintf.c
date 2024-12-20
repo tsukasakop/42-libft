@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 16:03:16 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/20 18:08:11 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,17 +63,11 @@ void	read_flag(const char **f, t_format *fmt)
 		else if (**f == '0')
 			fmt->s_flag.zero = 1;
 		else if (**f == '-')
-		{
 			fmt->s_flag.minus = 1;
-			fmt->s_flag.zero = 0;
-		}
 		else if (**f == ' ')
 			fmt->s_flag.space = 1;
 		else if (**f == '+')
-		{
 			fmt->s_flag.plus = 1;
-			fmt->s_flag.space = 0;
-		}
 		else
 			return ;
 		++*f;
