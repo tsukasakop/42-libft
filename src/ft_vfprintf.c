@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 19:48:16 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/20 21:43:49 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <limits.h>
 #include <stdlib.h>
 
-static	int	get_cnt(void)
+static int	get_cnt(void)
 {
 	return ((long long)ft_get_global("_vfp_cnt") & (int)-1);
 }
@@ -43,16 +43,6 @@ static int	add_cnt(int rhs)
 	else
 		set_cnt(lhs + rhs);
 	return (get_cnt());
-}
-
-void	ft_fputc_wrapper(int c, FILE *stream)
-{
-	if (get_cnt() == EOF)
-		return ;
-	if (ft_fputc(c, stream) == EOF)
-		set_cnt(EOF);
-	else
-		add_cnt(1);
 }
 
 void	read_flag(const char **f, t_format *fmt)
@@ -343,42 +333,6 @@ t_print	*norm_fmt(t_format *f)
 	return (p);
 }
 
-void	print_l_ws(FILE *s, t_print *p)
-{
-	int	cnt;
-
-	cnt = 0;
-	while (cnt++ < p->l_ws_len)
-		ft_fputc_wrapper(' ', s);
-}
-
-void	print_sign(FILE *s, t_print *p)
-{
-	if (p->sign)
-		ft_fputc_wrapper(p->sign, s);
-}
-
-void	print_pref(FILE *s, t_print *p)
-{
-	int	cnt;
-
-	cnt = 0;
-	if (p->prefix)
-	{
-		while (p->prefix[cnt])
-			ft_fputc_wrapper(p->prefix[cnt++], s);
-	}
-}
-
-void	print_zero(FILE *s, t_print *p)
-{
-	int	cnt;
-
-	cnt = 0;
-	while (cnt++ < p->zero_len)
-		ft_fputc_wrapper('0', s);
-}
-
 void	print_data(FILE *s, t_print *p)
 {
 	int		cnt;
@@ -398,23 +352,65 @@ void	print_data(FILE *s, t_print *p)
 	}
 }
 
-void	print_r_ws(FILE *s, t_print *p)
+int	is_overflow(t_print *p)
 {
 	int	cnt;
 
-	cnt = 0;
-	while (cnt++ < p->r_ws_len)
-		ft_fputc_wrapper(' ', s);
+	cnt = get_cnt();
+	if (cnt == EOF)
+		return (1);
+	if (p->sign && cnt > INT_MAX - 1)
+		return (1);
+	cnt += !!p->sign;
+	if (p->prefix && cnt > INT_MAX - 2)
+		return (1);
+	cnt += 2 * !!p->prefix;
+	if (p->l_ws_len > 0 && cnt > INT_MAX - p->l_ws_len)
+		return (1);
+	cnt += p->l_ws_len * (p->l_ws_len > 0)
+	if (p->zero_len > 0 && cnt > INT_MAX - p->zero_len)
+		return (1);
+	cnt += p->zero_len * (p->zero_len > 0)
+	if (p->inner_len > 0 && cnt > INT_MAX - p->inner_len)
+		return (1);
+	cnt += p->inner_len * (p->inner_len > 0)
+	if (p->r_ws_len > 0 && cnt > INT_MAX - p->r_ws_len)
+		return (1);
+	return (0);
+}
+
+void	ft_fputc_wrapper(int c, FILE *stream)
+{
+	if (get_cnt() == EOF)
+		return ;
+	if (ft_fputc(c, stream) == EOF)
+		set_cnt(EOF);
+	else
+		add_cnt(1);
 }
 
 void	print_unit(FILE *s, t_print *p)
 {
-	print_l_ws(s, p);
-	print_sign(s, p);
-	print_pref(s, p);
-	print_zero(s, p);
+	int	cnt;
+
+	cnt = 0;
+	while (cnt++ < p->l_ws_len)
+		ft_fputc_wrapper(' ', s);
+	if (p->sign)
+		ft_fputc_wrapper(p->sign, s);
+	cnt = 0;
+	if (p->prefix)
+	{
+		while (p->prefix[cnt])
+			ft_fputc_wrapper(p->prefix[cnt++], s);
+	}
+	cnt = 0;
+	while (cnt++ < p->zero_len)
+		ft_fputc_wrapper('0', s);
 	print_data(s, p);
-	print_r_ws(s, p);
+	cnt = 0;
+	while (cnt++ < p->r_ws_len)
+		ft_fputc_wrapper(' ', s);
 }
 
 void	print_by_unit(FILE *s, const char **f, va_list ap)
@@ -424,7 +420,7 @@ void	print_by_unit(FILE *s, const char **f, va_list ap)
 
 	fmt = read_fmt(f, ap);
 	p = norm_fmt(fmt);
-	if (!p)
+	if (!p || is_overflow(p))
 		set_cnt(EOF);
 	else
 		print_unit(s, p);
