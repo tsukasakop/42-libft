@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 18:12:18 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/20 19:27:51 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,88 +177,6 @@ void set_prec(t_print *p, t_format *f)
 	set_f_width(p, f);
 }
 
-t_print *init_print_percent(t_format *f)
-{
-	t_print	*p;
-
-	(void)f;
-	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
-	if(!p)
-		return NULL;
-	p->inner_len = 1;
-	p->p = (const unsigned char *)"%";
-	return p;
-}
-
-t_print *init_print_s(t_format *f)
-{
-	t_print	*p;
-	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
-	if(!p)
-		return NULL;
-	if(!f->u_val.ptr)
-	{
-		f->u_val.ptr = "(null)";
-		if(f->s_flag.period && f->prec < 6)
-			p->inner_len = 0;
-		else
-			p->inner_len = 6;
-	}
-	else
-	{
-		size_t n; n = ft_strlen(f->u_val.ptr);
-		if(n > INT_MAX)
-			p->inner_len = INT_MAX;
-		else
-			p->inner_len = (int)n;
-	}
-	if(f->s_flag.period && f->prec < p->inner_len)
-		p->inner_len = f->prec;
-	p->p = f->u_val.ptr;
-	f->s_flag.zero = 0;
-	set_f_width(p, f);
-	return p;
-}
-
-t_print *init_print_raw(t_format *f)
-{
-	return init_print_s(f);
-}
-
-t_print *init_print_c(t_format *f)
-{
-	t_print	*p;
-	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
-	if(!p)
-		return NULL;
-	p->inner_len = 1;
-	p->p = (const unsigned char *)&f->u_val.nbr;
-	f->s_flag.zero = 0;
-	set_f_width(p, f);
-	return p;
-}
-
-char *ft_uitoa_base(unsigned int i, const char* base, unsigned char base_len)
-{
-	char	buf[33];
-	int		cur;
-
-	buf[32] = '\0';
-	cur = 32;
-	if (!i)
-	{
-		cur--;
-		buf[cur] = base[0];
-	}
-	while (i)
-	{
-		cur--;
-		buf[cur] = base[i % base_len];
-		i /= base_len;
-	}
-	return ft_strdup(buf + cur);
-}
-
 char *ft_ui64toa_base(uint64_t i, const char* base, unsigned char base_len)
 {
 	char	buf[65];
@@ -280,140 +198,129 @@ char *ft_ui64toa_base(uint64_t i, const char* base, unsigned char base_len)
 	return ft_strdup(buf + cur);
 }
 
-t_print *init_print_d(t_format *f)
+void	init_print_percent(t_format *f, t_print *p)
 {
-	t_print	*p;
-	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
-	if(!p)
-		return NULL;
+	p->p = (const unsigned char *)"%";
+	p->inner_len = 1;
+	(void)f;
+}
+
+void	init_print_s(t_format *f, t_print *p)
+{
+	f->s_flag.zero = 0;
+	if(!f->u_val.ptr && !(f->s_flag.period && f->prec < 6))
+		f->u_val.ptr = "(null)";
+	if(!f->u_val.ptr)
+		p->inner_len = 0;
+	else
+		p->inner_len = ft_strnlen(f->u_val.ptr, (size_t)INT_MAX);
+	if(f->s_flag.period && f->prec < p->inner_len)
+		p->inner_len = f->prec;
+	p->p = f->u_val.ptr;
+	set_f_width(p, f);
+}
+
+void	init_print_c(t_format *f, t_print *p)
+{
+	f->s_flag.zero = 0;
+	p->p = (const unsigned char *)&f->u_val.nbr;
+	p->inner_len = 1;
+	set_f_width(p, f);
+}
+
+void	init_print_d(t_format *f, t_print *p)
+{
 	p->sign = get_sign(f);
 	if(p->sign == '-')
 		f->u_val.nbr *= -1;
-	p->p = (const unsigned char *)ft_uitoa_base((unsigned int)f->u_val.nbr, "0123456789", 10);
+	p->p = (const unsigned char *)ft_ui64toa_base((uint64_t)(uint32_t)f->u_val.nbr, "0123456789", 10);
 	ft_g_mmadd((void *)p->p);
-	size_t n; n = ft_strlen((const char *)p->p);
-	if(n > INT_MAX)
-		p->inner_len = INT_MAX;
-	else if(!f->u_val.nbr && f->s_flag.period && !f->prec)
+	p->inner_len = ft_strnlen((const char *)p->p, (size_t)INT_MAX);
+	if(!f->u_val.nbr && f->s_flag.period && !f->prec)
 		p->inner_len = 0;
-	else
-		p->inner_len = (int)n;
 	set_prec(p, f);
 	set_f_width(p, f);
-	return p;
 }
 
-t_print *init_print_u(t_format *f)
+void init_print_u(t_format *f, t_print *p)
 {
-	t_print	*p;
-	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
-	if(!p)
-		return NULL;
-	p->p = (const unsigned char *)ft_uitoa_base((unsigned int)f->u_val.nbr, "0123456789", 10);
+	p->p = (const unsigned char *)ft_ui64toa_base((uint64_t)(uint32_t)f->u_val.nbr, "0123456789", 10);
 	ft_g_mmadd((void *)p->p);
-	size_t n; n = ft_strlen((const char *)p->p);
-	if(n > INT_MAX)
-		p->inner_len = INT_MAX;
-	else if(!f->u_val.nbr && f->s_flag.period && !f->prec)
+	p->inner_len = ft_strnlen((const char *)p->p, (size_t)INT_MAX);
+	if(!f->u_val.nbr && f->s_flag.period && !f->prec)
 		p->inner_len = 0;
-	else
-		p->inner_len = (int)n;
 	set_prec(p, f);
 	set_f_width(p, f);
-	return p;
 }
 
-t_print *init_print_x(t_format *f)
+void init_print_x(t_format *f, t_print *p)
 {
-	t_print	*p;
-	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
-	if(!p)
-		return NULL;
-	p->p = (const unsigned char *)ft_uitoa_base((unsigned int)f->u_val.nbr, "0123456789abcdef", 16);
-	ft_g_mmadd((void *)p->p);
-	size_t n; n = ft_strlen((const char *)p->p);
-	if(n > INT_MAX)
-		p->inner_len = INT_MAX;
-	else if(!f->u_val.nbr && f->s_flag.period && !f->prec)
-		p->inner_len = 0;
-	else
-		p->inner_len = (int)n;
 	if(f->s_flag.num)
 		p->prefix = "0x";
+	p->p = (const unsigned char *)ft_ui64toa_base((uint64_t)(uint32_t)f->u_val.nbr, "0123456789abcdef", 16);
+	ft_g_mmadd((void *)p->p);
+	p->inner_len = ft_strnlen((const char *)p->p, (size_t)INT_MAX);
+	if(!f->u_val.nbr && f->s_flag.period && !f->prec)
+		p->inner_len = 0;
 	set_prec(p, f);
 	set_f_width(p, f);
-	return p;
 }
 
-t_print *init_print_X(t_format *f)
+void init_print_X(t_format *f, t_print *p)
 {
-	t_print	*p;
-	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
-	if(!p)
-		return NULL;
-	p->p = (const unsigned char *)ft_uitoa_base((unsigned int)f->u_val.nbr, "0123456789ABCDEF", 16);
-	ft_g_mmadd((void *)p->p);
-	size_t n; n = ft_strlen((const char *)p->p);
-	if(n > INT_MAX)
-		p->inner_len = INT_MAX;
-	else if(!f->u_val.nbr && f->s_flag.period && !f->prec)
-		p->inner_len = 0;
-	else
-		p->inner_len = (int)n;
 	if(f->s_flag.num)
 		p->prefix = "0X";
+	p->p = (const unsigned char *)ft_ui64toa_base((uint64_t)(uint32_t)f->u_val.nbr, "0123456789ABCDEF", 16);
+	ft_g_mmadd((void *)p->p);
+	p->inner_len = ft_strnlen((const char *)p->p, (size_t)INT_MAX);
+	if(!f->u_val.nbr && f->s_flag.period && !f->prec)
+		p->inner_len = 0;
 	set_prec(p, f);
 	set_f_width(p, f);
-	return p;
 }
 
-t_print *init_print_p(t_format *f)
+void init_print_p(t_format *f, t_print *p)
 {
-	t_print	*p;
-	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
-	if(!p)
-		return NULL;
 	if(!f->u_val.ptr)
 		p->p = (const unsigned char *)"(nil)";
 	else
 	{
-		p->p = (const unsigned char *)ft_ui64toa_base((uint64_t)f->u_val.ptr, "0123456789abcdef", 16);
-		ft_g_mmadd((void *)p->p);
 		p->prefix = "0x";
+		p->p = (const unsigned char *)ft_ui64toa_base((uint64_t)f->u_val.nbr, "0123456789abcdef", 16);
+		ft_g_mmadd((void *)p->p);
 	}
-	size_t n; n = ft_strlen((const char *)p->p);
-	if(n > INT_MAX)
-		p->inner_len = INT_MAX;
-	else
-		p->inner_len = (int)n;
+	p->inner_len = ft_strnlen((const char *)p->p, (size_t)INT_MAX);
 	set_prec(p, f);
 	set_f_width(p, f);
-	return p;
 }
 
 t_print	*norm_fmt(t_format *f)
 {
+	t_print	*p;
+	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
+	if(!p)
+		return NULL;
 	if(f->mod == 'R')
-		return init_print_raw(f);
+		init_print_s(f, p);
 	if(f->mod == '%')
-		return init_print_percent(f);
+		init_print_percent(f, p);
 	if(f->mod == 'c')
-		return init_print_c(f);
+		init_print_c(f, p);
 	if(f->mod == 's')
-		return init_print_s(f);
+		init_print_s(f, p);
 	if(f->mod == 'd')
-		return init_print_d(f);
+		init_print_d(f, p);
 	if(f->mod == 'i')
-		return init_print_d(f);
+		init_print_d(f, p);
 	if(f->mod == 'u')
-		return init_print_u(f);
+		init_print_u(f, p);
 	if(f->mod == 'x')
-		return init_print_x(f);
+		init_print_x(f, p);
 	if(f->mod == 'X')
-		return init_print_X(f);
+		init_print_X(f, p);
 	if(f->mod == 'p')
-		return init_print_p(f);
-	return NULL;
+		init_print_p(f, p);
+	return p;
 }
 
 void	print_l_ws(FILE *s, t_print *p)
