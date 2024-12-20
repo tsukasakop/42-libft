@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 14:49:40 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/20 16:03:16 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ void set_f_width(t_print *p, t_format *f)
 		return;
 	if(f->s_flag.minus)
 		p->r_ws_len = f_width; 
-	else if(f->s_flag.zero && ~f->s_flag.period)
+	else if(f->s_flag.zero && !f->s_flag.period)
 		p->zero_len += f_width;
 	else
 		p->l_ws_len = f_width;
