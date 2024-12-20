@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 13:42:59 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/20 14:49:40 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,26 +54,25 @@ void	ft_fputc_wrapper(int c, FILE *stream)
 		add_cnt(1);
 }
 
-void	read_flag(const char **f, t_format *p)
+void	read_flag(const char **f, t_format *fmt)
 {
-	p->opt[0] = 0;
 	while (1)
 	{
 		if (**f == '#')
-			p->opt[0] |= ALTER_FORM;
+			fmt->s_flag.num = 1;
 		else if (**f == '0')
-			p->opt[0] |= PAD_ZERO;
+			fmt->s_flag.zero = 1;
 		else if (**f == '-')
 		{
-			p->opt[0] |= ADJUST_LEFT;
-			p->opt[0] &= ~PAD_ZERO;
+			fmt->s_flag.minus = 1;
+			fmt->s_flag.zero = 0;
 		}
 		else if (**f == ' ')
-			p->opt[0] |= BLANK_PNUM;
+			fmt->s_flag.space = 1;
 		else if (**f == '+')
 		{
-			p->opt[0] |= SIGN_NUM;
-			p->opt[0] &= ~BLANK_PNUM;
+			fmt->s_flag.plus = 1;
+			fmt->s_flag.space = 0;
 		}
 		else
 			return ;
@@ -94,34 +93,6 @@ int	read_nbr(const char **f)
 	}
 	return n;
 }
-
-/*
-void	read_field(const char **f, t_format *p)
-{
-	p->opt[1] = 0;
-	if (!ft_isdigit(**f))
-		return ;
-	while (ft_isdigit(**f))
-	{
-		p->opt[1] = **f - '0' + p->opt[1] * 10;
-		++*f;
-	}
-}
-
-void	read_prec(const char **f, t_format *p)
-{
-	p->opt[2] = 0;
-	if (**f != '.')
-		return ;
-	p->opt[0] |= PRECITION;
-	++*f;
-	while (ft_isdigit(**f))
-	{
-		p->opt[2] = **f - '0' + p->opt[2] * 10;
-		++*f;
-	}
-}
-*/
 
 int	read_arg(const char **f, t_format *p, va_list ap)
 {
@@ -164,12 +135,12 @@ t_format	*read_fmt(const char **f, va_list ap)
 	{
 		++*f;
 		read_flag(f, fmt);
-		fmt->opt[1] = read_nbr(f);
+		fmt->field = read_nbr(f);
 		if(**f == '.')
 		{
 			++*f;
-			fmt->opt[0] |= PRECITION;
-			fmt->opt[2] = read_nbr(f);
+			fmt->s_flag.period = 1;
+			fmt->prec = read_nbr(f);
 		}
 		read_arg(f, fmt, ap);
 	}
@@ -179,24 +150,24 @@ t_format	*read_fmt(const char **f, va_list ap)
 char get_sign(t_format *f)
 {
 	if(f->u_val.nbr < 0)	return '-';
-	if(f->opt[0] & SIGN_NUM) return '+';
-	if(f->opt[0] & BLANK_PNUM) return ' ';
+	if(f->s_flag.plus) return '+';
+	if(f->s_flag.space) return ' ';
 	return '\0';
 }
 
 void set_f_width(t_print *p, t_format *f)
 {
 	int f_width;
-	f_width = f->opt[1] - p->inner_len - p-> zero_len;
+	f_width = f->field - p->inner_len - p-> zero_len;
 	if(p->sign)
 		f_width--;
 	if(p->prefix)
 		f_width -= ft_strlen(p->prefix);
 	if(f_width < 0)
 		return;
-	if(f->opt[0] & ADJUST_LEFT)
+	if(f->s_flag.minus)
 		p->r_ws_len = f_width; 
-	else if(f->opt[0] & PAD_ZERO && ~f->opt[0] & PRECITION)
+	else if(f->s_flag.zero && ~f->s_flag.period)
 		p->zero_len += f_width;
 	else
 		p->l_ws_len = f_width;
@@ -205,16 +176,16 @@ void set_f_width(t_print *p, t_format *f)
 void set_f_width_nbr(t_print *p, t_format *f)
 {
 	int f_width;
-	f_width = f->opt[1] - p->inner_len - p-> zero_len;
+	f_width = f->field - p->inner_len - p-> zero_len;
 	if(p->sign)
 		f_width--;
 	if(p->prefix)
 		f_width -= ft_strlen(p->prefix);
 	if(f_width < 0)
 		return;
-	if(f->opt[0] & ADJUST_LEFT)
+	if(f->s_flag.minus)
 		p->r_ws_len = f_width; 
-	else if(f->opt[0] & PAD_ZERO && ~f->opt[0] & PRECITION)
+	else if(f->s_flag.zero && !f->s_flag.period)
 		p->zero_len += f_width;
 	else
 		p->l_ws_len = f_width;
@@ -222,10 +193,10 @@ void set_f_width_nbr(t_print *p, t_format *f)
 
 void set_prec(t_print *p, t_format *f)
 {
-	int prec;prec = f->opt[2] - p->inner_len;
+	int prec;prec = f->prec - p->inner_len;
 	if(prec<0)
 		return;
-	if(f->opt[0] & PRECITION)
+	if(f->s_flag.period)
 		p->zero_len = prec;
 	set_f_width(p, f);
 }
@@ -252,7 +223,7 @@ t_print *init_print_s(t_format *f)
 	if(!f->u_val.ptr)
 	{
 		f->u_val.ptr = "(null)";
-		if(f->opt[0] & PRECITION && f->opt[2] < 6)
+		if(f->s_flag.period && f->prec < 6)
 			p->inner_len = 0;
 		else
 			p->inner_len = 6;
@@ -265,10 +236,10 @@ t_print *init_print_s(t_format *f)
 		else
 			p->inner_len = (int)n;
 	}
-	if(f->opt[0] & PRECITION && f->opt[2] < p->inner_len)
-		p->inner_len = f->opt[2];
+	if(f->s_flag.period && f->prec < p->inner_len)
+		p->inner_len = f->prec;
 	p->p = f->u_val.ptr;
-	f->opt[0] &= ~PAD_ZERO;
+	f->s_flag.zero = 0;
 	set_f_width(p, f);
 	return p;
 }
@@ -286,7 +257,7 @@ t_print *init_print_c(t_format *f)
 		return NULL;
 	p->inner_len = 1;
 	p->p = (const unsigned char *)&f->u_val.nbr;
-	f->opt[0] &= ~PAD_ZERO;
+	f->s_flag.zero = 0;
 	set_f_width(p, f);
 	return p;
 }
@@ -347,7 +318,7 @@ t_print *init_print_d(t_format *f)
 	size_t n; n = ft_strlen((const char *)p->p);
 	if(n > INT_MAX)
 		p->inner_len = INT_MAX;
-	else if(!f->u_val.nbr && f->opt[0] & PRECITION && !f->opt[2])
+	else if(!f->u_val.nbr && f->s_flag.period && !f->prec)
 		p->inner_len = 0;
 	else
 		p->inner_len = (int)n;
@@ -367,7 +338,7 @@ t_print *init_print_u(t_format *f)
 	size_t n; n = ft_strlen((const char *)p->p);
 	if(n > INT_MAX)
 		p->inner_len = INT_MAX;
-	else if(!f->u_val.nbr && f->opt[0] & PRECITION && !f->opt[2])
+	else if(!f->u_val.nbr && f->s_flag.period && !f->prec)
 		p->inner_len = 0;
 	else
 		p->inner_len = (int)n;
@@ -387,11 +358,11 @@ t_print *init_print_x(t_format *f)
 	size_t n; n = ft_strlen((const char *)p->p);
 	if(n > INT_MAX)
 		p->inner_len = INT_MAX;
-	else if(!f->u_val.nbr && f->opt[0] & PRECITION && !f->opt[2])
+	else if(!f->u_val.nbr && f->s_flag.period && !f->prec)
 		p->inner_len = 0;
 	else
 		p->inner_len = (int)n;
-	if(f->opt[0] & ALTER_FORM)
+	if(f->s_flag.num)
 		p->prefix = "0x";
 	set_prec(p, f);
 	set_f_width_nbr(p, f);
@@ -409,11 +380,11 @@ t_print *init_print_X(t_format *f)
 	size_t n; n = ft_strlen((const char *)p->p);
 	if(n > INT_MAX)
 		p->inner_len = INT_MAX;
-	else if(!f->u_val.nbr && f->opt[0] & PRECITION && !f->opt[2])
+	else if(!f->u_val.nbr && f->s_flag.period && !f->prec)
 		p->inner_len = 0;
 	else
 		p->inner_len = (int)n;
-	if(f->opt[0] & ALTER_FORM)
+	if(f->s_flag.num)
 		p->prefix = "0X";
 	set_prec(p, f);
 	set_f_width_nbr(p, f);
