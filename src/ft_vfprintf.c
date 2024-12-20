@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 18:08:11 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/20 18:12:18 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,24 +167,6 @@ void set_f_width(t_print *p, t_format *f)
 		p->l_ws_len = f_width;
 }
 
-void set_f_width_nbr(t_print *p, t_format *f)
-{
-	int f_width;
-	f_width = f->field - p->inner_len - p-> zero_len;
-	if(p->sign)
-		f_width--;
-	if(p->prefix)
-		f_width -= ft_strlen(p->prefix);
-	if(f_width < 0)
-		return;
-	if(f->s_flag.minus)
-		p->r_ws_len = f_width; 
-	else if(f->s_flag.zero && !f->s_flag.period)
-		p->zero_len += f_width;
-	else
-		p->l_ws_len = f_width;
-}
-
 void set_prec(t_print *p, t_format *f)
 {
 	int prec;prec = f->prec - p->inner_len;
@@ -317,7 +299,7 @@ t_print *init_print_d(t_format *f)
 	else
 		p->inner_len = (int)n;
 	set_prec(p, f);
-	set_f_width_nbr(p, f);
+	set_f_width(p, f);
 	return p;
 }
 
@@ -337,7 +319,7 @@ t_print *init_print_u(t_format *f)
 	else
 		p->inner_len = (int)n;
 	set_prec(p, f);
-	set_f_width_nbr(p, f);
+	set_f_width(p, f);
 	return p;
 }
 
@@ -359,7 +341,7 @@ t_print *init_print_x(t_format *f)
 	if(f->s_flag.num)
 		p->prefix = "0x";
 	set_prec(p, f);
-	set_f_width_nbr(p, f);
+	set_f_width(p, f);
 	return p;
 }
 
@@ -381,7 +363,7 @@ t_print *init_print_X(t_format *f)
 	if(f->s_flag.num)
 		p->prefix = "0X";
 	set_prec(p, f);
-	set_f_width_nbr(p, f);
+	set_f_width(p, f);
 	return p;
 }
 
@@ -405,7 +387,7 @@ t_print *init_print_p(t_format *f)
 	else
 		p->inner_len = (int)n;
 	set_prec(p, f);
-	set_f_width_nbr(p, f);
+	set_f_width(p, f);
 	return p;
 }
 
