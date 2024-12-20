@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 05:53:38 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/20 13:42:59 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,21 @@ void	read_flag(const char **f, t_format *p)
 	}
 }
 
+int	read_nbr(const char **f)
+{
+	int n;
+	n = 0;
+	while (ft_isdigit(**f))
+	{
+		if(n > (INT_MAX - **f + '0') / 10)
+			return EOF;
+		n = **f - '0' + n * 10;
+		++*f;
+	}
+	return n;
+}
+
+/*
 void	read_field(const char **f, t_format *p)
 {
 	p->opt[1] = 0;
@@ -106,8 +121,9 @@ void	read_prec(const char **f, t_format *p)
 		++*f;
 	}
 }
+*/
 
-int	set_mod(const char **f, t_format *p, va_list ap)
+int	read_arg(const char **f, t_format *p, va_list ap)
 {
 	p->mod = **f;
 	++*f;
@@ -117,38 +133,47 @@ int	set_mod(const char **f, t_format *p, va_list ap)
 		p->u_val.ptr = va_arg(ap, void *);
 	else if (p->mod == '%')
 		;
+	else
+		return 0;
 	return (1);
 }
 
-t_format	*load_fmt(const char **f, va_list ap)
+void read_raw(t_format *fmt, const char **f)
 {
-	(void)ap;
-	t_format	*p;
-
-	p = ft_g_mmcalloc(1, sizeof(t_format));
-	if (p == NULL)
-		return (NULL);
-	if (**f != '%')
-	{
-		p->mod = 'R';
 		size_t i;
+
+		fmt->mod = 'R';
 		i=0;
 		while((*f)[i] && (*f)[i] != '%')
 			++i;
-		p->u_val.ptr = (void *)ft_strndup(*f, i);
-		ft_g_mmadd(p->u_val.ptr);
+		fmt->u_val.ptr = (void *)ft_strndup(*f, i);
+		ft_g_mmadd(fmt->u_val.ptr);
 		*f += i;
-	}
+}
+
+t_format	*read_fmt(const char **f, va_list ap)
+{
+	t_format	*fmt;
+
+	fmt = ft_g_mmcalloc(1, sizeof(t_format));
+	if (fmt == NULL)
+		return (NULL);
+	if (**f != '%')
+		read_raw(fmt, f);
 	else
 	{
 		++*f;
-		read_flag(f, p);
-		read_field(f, p);
-		read_prec(f, p);
-		if (!set_mod(f, p, ap))
-			return (NULL);
+		read_flag(f, fmt);
+		fmt->opt[1] = read_nbr(f);
+		if(**f == '.')
+		{
+			++*f;
+			fmt->opt[0] |= PRECITION;
+			fmt->opt[2] = read_nbr(f);
+		}
+		read_arg(f, fmt, ap);
 	}
-	return (p);
+	return (fmt);
 }
 
 char get_sign(t_format *f)
@@ -511,7 +536,7 @@ void	print_by_unit(FILE *s, const char **f, va_list ap)
 	t_print	*p;
 	t_format *fmt;
 
-	fmt = load_fmt(f, ap);
+	fmt = read_fmt(f, ap);
 	p = norm_fmt(fmt);
 	if(!p)
 		set_cnt(EOF);
