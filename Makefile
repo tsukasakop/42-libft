@@ -6,13 +6,13 @@
 #    By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
-#    Updated: 2024/12/19 18:30:23 by tkondo           ###   ########.fr        #
+#    Updated: 2024/12/20 17:49:49 by tkondo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 INC_DIR = include
-CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR)
+CFLAGS = -O0 -Wall -Wextra -Werror -I$(INC_DIR)
 
 SRC_DIR = src
 OBJ_DIR = bin
@@ -97,4 +97,6 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: dev all clean fclean re init
+devre: fclean dev
+
+.PHONY: dev devre all clean fclean re init
