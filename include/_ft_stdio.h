@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 03:11:49 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/21 19:46:03 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/21 21:22:45 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ struct					s_print
 int						get_cnt(void);
 void					set_cnt(int cnt);
 void					del_cnt(void);
+int						can_add_to_cnt(int c);
 int						add_cnt(int rhs);
 void					read_flag(const char **f, t_format *fmt);
 int						read_nbr(const char **f);

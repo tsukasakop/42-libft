@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/21 19:14:51 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/21 21:21:47 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,25 +42,20 @@ int	is_overflow(t_print *p)
 {
 	int	cnt;
 
-	cnt = get_cnt();
-	if (cnt == EOF)
-		return (1);
-	if (p->sign && cnt > INT_MAX - 1)
-		return (1);
-	cnt += !!p->sign;
-	if (p->prefix && cnt > INT_MAX - 2)
+	cnt = !!p->sign;
+	if (!can_add_to_cnt(cnt))
 		return (1);
 	cnt += 2 * !!p->prefix;
-	if (p->l_ws_len > 0 && cnt > INT_MAX - p->l_ws_len)
+	if (!can_add_to_cnt(cnt))
 		return (1);
 	cnt += p->l_ws_len * (p->l_ws_len > 0);
-	if (p->zero_len > 0 && cnt > INT_MAX - p->zero_len)
+	if (!can_add_to_cnt(cnt))
 		return (1);
 	cnt += p->zero_len * (p->zero_len > 0);
-	if (p->inner_len > 0 && cnt > INT_MAX - p->inner_len)
+	if (!can_add_to_cnt(cnt))
 		return (1);
 	cnt += p->inner_len * (p->inner_len > 0);
-	if (p->r_ws_len > 0 && cnt > INT_MAX - p->r_ws_len)
+	if (!can_add_to_cnt(cnt))
 		return (1);
 	return (0);
 }
