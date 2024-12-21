@@ -6,20 +6,20 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/22 02:33:22 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/22 04:14:38 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_ft_stdio.h"
 
-int	get_cnt(void)
+size_t	get_cnt(void)
 {
-	return ((long long)ft_get_global("_vfp_cnt") & (int)-1);
+	return ((size_t)ft_get_global("_vfp_cnt"));
 }
 
-void	set_cnt(int cnt)
+void	set_cnt(size_t cnt)
 {
-	ft_set_global("_vfp_cnt", (void *)(long long)cnt);
+	ft_set_global("_vfp_cnt", (void *)cnt);
 }
 
 void	del_cnt(void)
@@ -35,11 +35,14 @@ int	can_add_to_cnt(size_t c)
 	return (cnt < INT_MAX && c >= 0 && cnt < INT_MAX - c);
 }
 
-int	add_cnt(size_t rhs)
+size_t	add_cnt(size_t rhs)
 {
-	if (!can_add_to_cnt(rhs))
-		set_cnt(EOF);
+	size_t	lhs;
+
+	lhs = get_cnt();
+	if (lhs > SIZE_MAX - rhs)
+		set_cnt(SIZE_MAX);
 	else
-		set_cnt(get_cnt() + rhs);
+		set_cnt(lhs + rhs);
 	return (get_cnt());
 }

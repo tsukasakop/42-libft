@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/22 02:33:29 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/22 04:48:55 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ void	print_by_unit(t_file *s, const char **f, va_list ap)
 
 	fmt = read_fmt(f, ap);
 	p = norm_fmt(fmt);
-	if (!p)
-		set_cnt(EOF);
-	if (get_cnt() != EOF)
+	if (p)
 		print_unit(s, p);
 	ft_g_mmfree();
 }
@@ -31,11 +29,14 @@ int	ft_vfprintf(t_file *s, const char *format, va_list ap)
 	int	cnt;
 
 	set_cnt(0);
-	while (*format != '\0')
+	while (*format != '\0' && get_cnt() < INT_MAX)
 	{
 		print_by_unit(s, &format, ap);
-		if (get_cnt() == EOF)
-			break ;
+		if (get_cnt() > INT_MAX)
+		{
+			del_cnt();
+			return (EOF);
+		}
 	}
 	cnt = get_cnt();
 	del_cnt();

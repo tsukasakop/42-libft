@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/22 02:27:41 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/22 04:04:55 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,29 +62,18 @@ int	is_overflow(t_print *p)
 
 void	ft_fputc_wrapper(int c, t_file *stream)
 {
-	if (get_cnt() == EOF)
-		return ;
-	if (ft_fputc(c, stream) == EOF)
-		set_cnt(EOF);
-	else
+	if (ft_fputc(c, stream) != EOF)
 		add_cnt(1);
 }
 
 void	print_data(t_file *s, t_print *p)
 {
 	size_t	cnt;
-	char	c;
 
 	cnt = 0;
 	while (cnt < p->inner_len)
 	{
-		if (!p->base)
-			c = p->p[cnt];
-		else
-			c = p->base[p->p[cnt]];
-		ft_fputc_wrapper(c, s);
-		if (get_cnt() == EOF)
-			return ;
+		ft_fputc_wrapper(p->p[cnt], s);
 		cnt++;
 	}
 }
