@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 03:11:49 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/21 21:22:45 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/22 02:20:01 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ struct					s_print
 {
 	char				sign;
 	const char			*prefix;
-	int					l_ws_len;
-	int					zero_len;
-	int					inner_len;
-	int					r_ws_len;
+	size_t				l_ws_len;
+	size_t				zero_len;
+	size_t				inner_len;
+	size_t				r_ws_len;
 	const char			*base;
 	const unsigned char	*p;
 };
@@ -60,8 +60,8 @@ struct					s_print
 int						get_cnt(void);
 void					set_cnt(int cnt);
 void					del_cnt(void);
-int						can_add_to_cnt(int c);
-int						add_cnt(int rhs);
+int						can_add_to_cnt(size_t c);
+int						add_cnt(size_t rhs);
 void					read_flag(const char **f, t_format *fmt);
 int						read_nbr(const char **f);
 int						read_arg(const char **f, t_format *p, va_list ap);

@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/21 13:48:29 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/22 02:23:21 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	init_print_d(t_format *f, t_print *p)
 			"0123456789",
 			10);
 	ft_g_mmadd((void *)p->p);
-	p->inner_len = ft_strnlen((const char *)p->p, (size_t)INT_MAX);
+	p->inner_len = ft_strlen((const char *)p->p);
 	if (!f->u_val.nbr && f->s_flag.period && !f->prec)
 		p->inner_len = 0;
 	set_prec(p, f);
@@ -36,7 +36,7 @@ void	init_print_u(t_format *f, t_print *p)
 			"0123456789",
 			10);
 	ft_g_mmadd((void *)p->p);
-	p->inner_len = ft_strnlen((const char *)p->p, (size_t)INT_MAX);
+	p->inner_len = ft_strlen((const char *)p->p);
 	if (!f->u_val.nbr && f->s_flag.period && !f->prec)
 		p->inner_len = 0;
 	set_prec(p, f);
@@ -52,7 +52,7 @@ void	init_print_x(t_format *f, t_print *p)
 			"0123456789abcdef",
 			16);
 	ft_g_mmadd((void *)p->p);
-	p->inner_len = ft_strnlen((const char *)p->p, (size_t)INT_MAX);
+	p->inner_len = ft_strlen((const char *)p->p);
 	if (!f->u_val.nbr && f->s_flag.period && !f->prec)
 		p->inner_len = 0;
 	set_prec(p, f);
@@ -68,7 +68,7 @@ void	init_print_xx(t_format *f, t_print *p)
 			"0123456789ABCDEF",
 			16);
 	ft_g_mmadd((void *)p->p);
-	p->inner_len = ft_strnlen((const char *)p->p, (size_t)INT_MAX);
+	p->inner_len = ft_strlen((const char *)p->p);
 	if (!f->u_val.nbr && f->s_flag.period && !f->prec)
 		p->inner_len = 0;
 	set_prec(p, f);
@@ -88,7 +88,7 @@ void	init_print_p(t_format *f, t_print *p)
 				16);
 		ft_g_mmadd((void *)p->p);
 	}
-	p->inner_len = ft_strnlen((const char *)p->p, (size_t)INT_MAX);
+	p->inner_len = ft_strlen((const char *)p->p);
 	set_prec(p, f);
 	set_f_width(p, f);
 }

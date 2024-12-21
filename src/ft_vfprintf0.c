@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/21 21:23:13 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/22 02:33:22 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,17 @@ void	del_cnt(void)
 	ft_delone_global("_vfp_cnt", NULL);
 }
 
-int can_add_to_cnt(int c)
+int	can_add_to_cnt(size_t c)
 {
-	int cnt;
+	size_t	cnt;
 
 	cnt = get_cnt();
 	return (cnt < INT_MAX && c >= 0 && cnt < INT_MAX - c);
 }
-	
-int	add_cnt(int rhs)
+
+int	add_cnt(size_t rhs)
 {
-	if(!can_add_to_cnt(rhs))
+	if (!can_add_to_cnt(rhs))
 		set_cnt(EOF);
 	else
 		set_cnt(get_cnt() + rhs);

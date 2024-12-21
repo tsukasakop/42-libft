@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/21 21:21:47 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/22 02:27:41 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	ft_fputc_wrapper(int c, t_file *stream)
 
 void	print_data(t_file *s, t_print *p)
 {
-	int		cnt;
+	size_t	cnt;
 	char	c;
 
 	cnt = 0;
@@ -91,7 +91,7 @@ void	print_data(t_file *s, t_print *p)
 
 void	print_unit(t_file *s, t_print *p)
 {
-	int	cnt;
+	size_t	cnt;
 
 	cnt = 0;
 	while (cnt++ < p->l_ws_len)
