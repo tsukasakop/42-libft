@@ -6,13 +6,13 @@
 #    By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
-#    Updated: 2024/12/20 18:03:45 by tkondo           ###   ########.fr        #
+#    Updated: 2024/12/21 11:07:36 by tkondo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 INC_DIR = include
-CFLAGS = -fPIE -Wall -Wextra -Werror -I$(INC_DIR)
+CFLAGS = -c -fPIE -Wall -Wextra -Werror -I$(INC_DIR)
 
 SRC_DIR = src
 OBJ_DIR = bin
@@ -87,7 +87,11 @@ $(NAME): $(OBJS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $< -o $@
+
+bin/ft_vfprintf.o: src/ft_vfprintf0.c src/ft_vfprintf1.c src/ft_vfprintf2.c src/ft_vfprintf3.c src/ft_vfprintf4.c src/ft_vfprintf5.c src/ft_vfprintf6.c
+	@mkdir -p $(OBJ_DIR)
+	cat $^ | $(CC) $(CFLAGS) -x c - -o $@
 
 clean:
 	rm -f $(OBJS)
