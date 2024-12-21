@@ -6,17 +6,17 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 03:11:49 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/21 13:52:46 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/21 19:46:03 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _FT_STDIO_H
 # define _FT_STDIO_H
+# include "ft_ctype.h"
 # include "ft_global.h"
 # include "ft_memory.h"
 # include "ft_stdio.h"
-# include "ft_stdio.h"
-# include "ft_ctype.h"
+# include "ft_stdlib.h"
 # include "ft_string.h"
 # include <limits.h>
 # include <stdlib.h>
@@ -34,12 +34,12 @@ struct					s_format
 	} u_val;
 	struct
 	{
-		unsigned int zero : 1;
-		unsigned int minus : 1;
-		unsigned int space : 1;
-		unsigned int plus : 1;
-		unsigned int num : 1;
-		unsigned int period : 1;
+		unsigned int	zero : 1;
+		unsigned int	minus : 1;
+		unsigned int	space : 1;
+		unsigned int	plus : 1;
+		unsigned int	num : 1;
+		unsigned int	period : 1;
 	} s_flag;
 	int					prec;
 	int					field;
@@ -81,9 +81,16 @@ void					init_print_xx(t_format *f, t_print *p);
 void					init_print_p(t_format *f, t_print *p);
 t_print					*norm_fmt(t_format *f);
 int						is_overflow(t_print *p);
-void					ft_fputc_wrapper(int c, FILE *stream);
-void					print_data(FILE *s, t_print *p);
-void					print_unit(FILE *s, t_print *p);
-void					print_by_unit(FILE *s, const char **f, va_list ap);
+void					ft_fputc_wrapper(int c, t_file *stream);
+void					print_data(t_file *s, t_print *p);
+void					print_unit(t_file *s, t_print *p);
+void					print_by_unit(t_file *s, const char **f, va_list ap);
+
+t_file					*ft_filenew(void);
+void					ft_fset_fd(t_file *f, int fd);
+t_file					*ft_stdin(void);
+t_file					*ft_stdout(void);
+t_file					*ft_stderr(void);
+t_file					*ft_fd2file(int fd);
 
 #endif

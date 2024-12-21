@@ -6,7 +6,7 @@
 #    By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
-#    Updated: 2024/12/21 13:51:22 by tkondo           ###   ########.fr        #
+#    Updated: 2024/12/21 20:24:48 by tkondo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,10 @@ TARGET =\
 	ft_fwrite\
 	ft_fputc\
 	ft_fflush\
+	ft_fputs\
+	ft_fd2file\
+	ft_filenew\
+	ft_fset_fd\
 	ft_vfprintf0\
 	ft_vfprintf1\
 	ft_vfprintf2\

@@ -6,13 +6,13 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/21 13:50:32 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/21 19:15:42 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_ft_stdio.h"
 
-void	print_by_unit(FILE *s, const char **f, va_list ap)
+void	print_by_unit(t_file *s, const char **f, va_list ap)
 {
 	t_print		*p;
 	t_format	*fmt;
@@ -26,7 +26,7 @@ void	print_by_unit(FILE *s, const char **f, va_list ap)
 	ft_g_mmfree();
 }
 
-int	ft_vfprintf(FILE *s, const char *format, va_list ap)
+int	ft_vfprintf(t_file *s, const char *format, va_list ap)
 {
 	int	cnt;
 

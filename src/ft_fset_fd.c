@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_fset_fd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/13 03:20:31 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/21 19:16:55 by tkondo           ###   ########.fr       */
+/*   Created: 2024/12/21 18:57:25 by tkondo            #+#    #+#             */
+/*   Updated: 2024/12/21 20:03:55 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_ft_stdio.h"
 
-int	ft_printf(const char *format, ...)
-{
-	va_list	args;
-	int		n;
+#ifndef USE_STD_FILE_TYPE
 
-	va_start(args, format);
-	n = ft_vfprintf(ft_stdout(), format, args);
-	va_end(args);
-	return (n);
+void	ft_fset_fd(t_file *f, int fd)
+{
+	f->_fd = fd;
 }
+
+#else
+
+void	ft_fset_fd(t_file *f, int fd)
+{
+	(void)f;
+	(void)fd;
+}
+
+#endif

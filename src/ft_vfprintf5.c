@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/21 13:42:28 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/21 19:14:51 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	is_overflow(t_print *p)
 	return (0);
 }
 
-void	ft_fputc_wrapper(int c, FILE *stream)
+void	ft_fputc_wrapper(int c, t_file *stream)
 {
 	if (get_cnt() == EOF)
 		return ;
@@ -75,7 +75,7 @@ void	ft_fputc_wrapper(int c, FILE *stream)
 		add_cnt(1);
 }
 
-void	print_data(FILE *s, t_print *p)
+void	print_data(t_file *s, t_print *p)
 {
 	int		cnt;
 	char	c;
@@ -94,7 +94,7 @@ void	print_data(FILE *s, t_print *p)
 	}
 }
 
-void	print_unit(FILE *s, t_print *p)
+void	print_unit(t_file *s, t_print *p)
 {
 	int	cnt;
 

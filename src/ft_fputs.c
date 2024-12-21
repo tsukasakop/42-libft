@@ -6,13 +6,13 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/13 05:01:31 by tkondo            #+#    #+#             */
-/*   Updated: 2024/09/13 05:01:31 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/21 20:08:01 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_stdio.h"
+#include "_ft_stdio.h"
 
-int	fputs(const char *s, FILE *stream)
+int	ft_fputs(const char *s, t_file *stream)
 {
 	int	cnt;
 
@@ -21,7 +21,7 @@ int	fputs(const char *s, FILE *stream)
 	{
 		if (cnt == INT_MAX)
 			return (EOF);
-		if (fputc(s[cnt], stream) == EOF)
+		if (ft_fputc(s[cnt], stream) == EOF)
 			return (EOF);
 		cnt++;
 	}

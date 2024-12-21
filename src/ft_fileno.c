@@ -6,22 +6,24 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/25 15:50:13 by tkondo            #+#    #+#             */
-/*   Updated: 2024/09/11 01:43:41 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/21 20:01:11 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "_ft_stdio.h"
 
-#ifdef __APPLE__
+#ifdef USE_STD_FILE_TYPE
 
-int	ft_fileno(FILE *stream)
+int	ft_fileno(t_file *stream)
 {
-	return (stream->_file);
+	return (fileno(stream));
 }
-#elif __linux__
 
-int	ft_fileno(FILE *stream)
+#else
+
+int	ft_fileno(t_file *stream)
 {
-	return (stream->_fileno);
+	return (stream->_fd);
 }
+
 #endif
