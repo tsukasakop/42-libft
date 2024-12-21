@@ -6,9 +6,11 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/21 10:30:43 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/21 13:50:32 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "_ft_stdio.h"
 
 void	print_by_unit(FILE *s, const char **f, va_list ap)
 {

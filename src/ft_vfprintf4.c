@@ -6,9 +6,11 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/21 10:26:55 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/21 13:48:29 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "_ft_stdio.h"
 
 void	init_print_d(t_format *f, t_print *p)
 {

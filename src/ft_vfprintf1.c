@@ -6,9 +6,11 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/21 10:23:46 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/21 13:46:42 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "_ft_stdio.h"
 
 void	read_flag(const char **f, t_format *fmt)
 {

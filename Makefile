@@ -6,7 +6,7 @@
 #    By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
-#    Updated: 2024/12/21 11:07:36 by tkondo           ###   ########.fr        #
+#    Updated: 2024/12/21 13:51:22 by tkondo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,7 +66,13 @@ TARGET =\
 	ft_fwrite\
 	ft_fputc\
 	ft_fflush\
-	ft_vfprintf\
+	ft_vfprintf0\
+	ft_vfprintf1\
+	ft_vfprintf2\
+	ft_vfprintf3\
+	ft_vfprintf4\
+	ft_vfprintf5\
+	ft_vfprintf6\
 	ft_printf\
 	ft_htbl0\
 	ft_htbl1\
@@ -88,10 +94,6 @@ $(NAME): $(OBJS)
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
 	$(CC) $(CFLAGS) $< -o $@
-
-bin/ft_vfprintf.o: src/ft_vfprintf0.c src/ft_vfprintf1.c src/ft_vfprintf2.c src/ft_vfprintf3.c src/ft_vfprintf4.c src/ft_vfprintf5.c src/ft_vfprintf6.c
-	@mkdir -p $(OBJ_DIR)
-	cat $^ | $(CC) $(CFLAGS) -x c - -o $@
 
 clean:
 	rm -f $(OBJS)
