@@ -16,8 +16,6 @@
 //usr/bin/cat ft.txt
 //usr/bin/echo '```'
 //usr/bin/echo -n; exit;
-//usr/bin/cc $0 -O0 -g -fsanitize=address -Iinclude -L. -lftprintf -o ./a.out && ./a.out > /tmp/printf.txt; exit
-//usr/bin/watch -n 1 "vmstat -S M -s | grep memory; echo; ls -l /tmp/*printf*.txt"
 
 
 #ifdef USE_STD_PRINTF
