@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/21 13:46:42 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/23 18:26:31 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	read_nbr(const char **f)
 	while (ft_isdigit(**f))
 	{
 		if (n > (INT_MAX - **f + '0') / 10)
-			return (EOF);
+			set_cnt(EOF);
 		n = **f - '0' + n * 10;
 		++*f;
 	}

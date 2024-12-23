@@ -1,30 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_fd2file.c                                       :+:      :+:    :+:   */
+/*   ft_stderr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/26 16:59:44 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/23 19:10:30 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/23 19:10:11 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_ft_stdio.h"
 
-t_file	*ft_fd2file(int fd)
-{
-	t_file	*f;
+#ifndef USE_STD_FILE_TYPE
 
-	if (fd == 0)
-		return (ft_stdin());
-	if (fd == 1)
-		return (ft_stdout());
-	if (fd == 2)
-		return (ft_stderr());
-	f = ft_filenew();
-	if (!f)
-		return (NULL);
-	ft_fset_fd(f, fd);
-	return (f);
+t_file	*ft_stderr(void)
+{
+	static unsigned int	has_build;
+	static t_file		f;
+
+	if (!has_build)
+	{
+		ft_fset_fd(&f, STDERR_FILENO);
+		has_build = 1;
+	}
+	return (&f);
 }
+
+#else
+
+t_file	*ft_stderr(void)
+{
+	return (stderr);
+}
+
+#endif

@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/22 04:04:55 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/23 19:02:49 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_print	*norm_fmt(t_format *f)
 
 int	is_overflow(t_print *p)
 {
-	int	cnt;
+	size_t	cnt;
 
 	cnt = !!p->sign;
 	if (!can_add_to_cnt(cnt))
@@ -83,7 +83,7 @@ void	print_unit(t_file *s, t_print *p)
 	size_t	cnt;
 
 	cnt = 0;
-	while (cnt++ < p->l_ws_len)
+	while (cnt++ < (size_t)p->l_ws_len)
 		ft_fputc_wrapper(' ', s);
 	if (p->sign)
 		ft_fputc_wrapper(p->sign, s);
@@ -94,10 +94,10 @@ void	print_unit(t_file *s, t_print *p)
 			ft_fputc_wrapper(p->prefix[cnt++], s);
 	}
 	cnt = 0;
-	while (cnt++ < p->zero_len)
+	while (cnt++ < (size_t)p->zero_len)
 		ft_fputc_wrapper('0', s);
 	print_data(s, p);
 	cnt = 0;
-	while (cnt++ < p->r_ws_len)
+	while (cnt++ < (size_t)p->r_ws_len)
 		ft_fputc_wrapper(' ', s);
 }

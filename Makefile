@@ -6,7 +6,7 @@
 #    By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
-#    Updated: 2024/12/21 20:24:48 by tkondo           ###   ########.fr        #
+#    Updated: 2024/12/23 19:19:34 by tkondo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ CFLAGS = -c -fPIE -Wall -Wextra -Werror -I$(INC_DIR)
 
 SRC_DIR = src
 OBJ_DIR = bin
-NAME = libft.a
+NAME = libftprintf.a
 TARGET =\
 	ft_isalpha\
 	ft_isdigit\
@@ -68,6 +68,9 @@ TARGET =\
 	ft_fflush\
 	ft_fputs\
 	ft_fd2file\
+	ft_stdin\
+	ft_stdout\
+	ft_stderr\
 	ft_filenew\
 	ft_fset_fd\
 	ft_vfprintf0\

@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 03:11:49 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/22 04:49:21 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/23 19:16:51 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@
 typedef struct s_format	t_format;
 typedef struct s_print	t_print;
 
-struct					s_format
+struct				s_format
 {
 	unsigned char		mod;
 	union
 	{
-		int				nbr;
-		void			*ptr;
+		int			nbr;
+		void		*ptr;
 	} u_val;
 	struct
 	{
@@ -41,8 +41,8 @@ struct					s_format
 		unsigned int	num : 1;
 		unsigned int	period : 1;
 	} s_flag;
-	int					prec;
-	int					field;
+	size_t				prec;
+	size_t				field;
 };
 
 struct					s_print
@@ -59,7 +59,7 @@ struct					s_print
 size_t					get_cnt(void);
 void					set_cnt(size_t cnt);
 void					del_cnt(void);
-int						can_add_to_cnt(size_t c);
+size_t					can_add_to_cnt(size_t c);
 size_t					add_cnt(size_t rhs);
 void					read_flag(const char **f, t_format *fmt);
 int						read_nbr(const char **f);
@@ -67,6 +67,7 @@ int						read_arg(const char **f, t_format *p, va_list ap);
 void					read_raw(t_format *fmt, const char **f);
 t_format				*read_fmt(const char **f, va_list ap);
 char					get_sign(t_format *f);
+size_t					minus(size_t *lhs, size_t rhs);
 void					set_f_width(t_print *p, t_format *f);
 void					set_prec(t_print *p, t_format *f);
 char					*ft_ui64toa_base(uint64_t i, const char *base,
@@ -85,12 +86,5 @@ void					ft_fputc_wrapper(int c, t_file *stream);
 void					print_data(t_file *s, t_print *p);
 void					print_unit(t_file *s, t_print *p);
 void					print_by_unit(t_file *s, const char **f, va_list ap);
-
-t_file					*ft_filenew(void);
-void					ft_fset_fd(t_file *f, int fd);
-t_file					*ft_stdin(void);
-t_file					*ft_stdout(void);
-t_file					*ft_stderr(void);
-t_file					*ft_fd2file(int fd);
 
 #endif

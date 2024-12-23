@@ -1,8 +1,11 @@
-//usr/bin/cc $0 -g -fsanitize=address -Iinclude -L. -lft -o ./a.out	&& ./a.out; exit
+//usr/bin/cc $0 -O0 -g -fsanitize=address -Iinclude -L. -lftprintf -o ./a.out	&& ./a.out; exit
+//usr/bin/cc $0 -O0 -g -Iinclude -L. -lft -o ./a.out	&& ./a.out; exit
 
 #include "ft_stdio.h"
 #include "ft_string.h"
+#include "ft_memory.h"
 #include <limits.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -84,13 +87,109 @@ int	test_vfprintf(const char *restrict f, ...)
 		ret = -1;
 	}
 	if(ret)
+	{
+		printf("%s\n", f);
 		exit(ret);
+	}
 	return (ret);
+}
+
+int strlen_test(size_t s)
+{
+	char *p;
+
+	p = malloc(s + 1);
+	if(!p)
+		return 0;
+	memset(p, '*', s);
+	p[s] = 0;
+	printf("==== test print size: '%lu' ====\n", s);
+	test_vfprintf(p);
+	
+	free(p);
+	return 0;
+	//return test_vfprintf("%s%saiueo%saiueo", p,p,p);
 }
 
 int	main(void)
 {
-//*
+	//strlen_test(((size_t)1<<31) - 1);
+	//strlen_test(((size_t)1<<31));
+	//strlen_test(((size_t)1<<31) + 1);
+//ft_printf("asdsaf");
+test_vfprintf("%.3s", "didsfgsaf");
+test_vfprintf("%-5c", '\0');
+test_vfprintf("{%3c}", 0);
+	return 0;
+test_vfprintf("%p", ULONG_MAX);
+
+test_vfprintf("%-135p" ,(void*)166017542380380199lu);
+test_vfprintf("%-48p%-164c" ,(void*)9888845855039847185lu,114);
+test_vfprintf("%104.60s%109c%-9p" ,"}&@/h\n\f<C",36,(void*)14251011342640672780lu);
+test_vfprintf("%131p%--.42u%65c%-68c%-7c" ,(void*)14631880201060661778lu,1668628755u,110,-16,-32);
+test_vfprintf("%--189p" ,(void*)8440737604753056005lu);
+test_vfprintf("%64p%038.87d%23c%--182.49i%--76.110%" ,(void*)10278319775164267212lu,-1550079501,30,-862355787);
+test_vfprintf("%-120p" ,(void*)5150423256795085944lu);
+test_vfprintf("%120p%--55.128i" ,(void*)9377650025287837451lu,816352753);
+test_vfprintf("%--63p%-62.182d" ,(void*)1199013529227388230lu,568134778);
+test_vfprintf("%-166.180X%--18.47d%---111.87%%8p%0114.24X" ,1637127682u,-1931431309,(void*)3522468094256045905lu,4291674618u);
+test_vfprintf("%29p%0151.162x%---53.46u%-139.26X" ,(void*)17894711340605174765lu,1565093748u,662758369u,3536629372u);
+test_vfprintf("%-p%-35p%00042.14i%p" ,(void*)1508633298498623712lu,(void*)4610270612598633961lu,-1053760970,(void*)4955973954213917723lu);
+test_vfprintf("%108p%-175.188i" ,(void*)11721873312409420167lu,-653373315);
+
+test_vfprintf("%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c%-1c%-2c%-3c%-4c",(char)128,(char)129,(char)130, (char)131,(char)132,(char)133,(char)134,(char)135,(char)136,(char)137,(char)138,(char)139,(char)140,(char)141, (char)142,(char)143,(char)144,(char)145,(char)146,(char)147,(char)148,(char)149,(char)150,(char)151,(char)152, (char)153,(char)154,(char)155,(char)156,(char)157,(char)158,(char)159,(char)160,(char)161,(char)162,(char)163, (char)164,(char)165,(char)166,(char)167,(char)168,(char)169,(char)170,(char)171,(char)172,(char)173,(char)174, (char)175,(char)176,(char)177,(char)178,(char)179,(char)180,(char)181,(char)182,(char)183,(char)184,(char)185, (char)186,(char)187,(char)188,(char)189,(char)190,(char)191,(char)192,(char)193,(char)194,(char)195,(char)196, (char)197,(char)198,(char)199,(char)200,(char)201,(char)202,(char)203,(char)204,(char)205,(char)206,(char)207, (char)208,(char)209,(char)210,(char)211,(char)212,(char)213,(char)214,(char)215,(char)216,(char)217,(char)218, (char)219,(char)220,(char)221,(char)222,(char)223,(char)224,(char)225,(char)226,(char)227,(char)228,(char)229, (char)230,(char)231,(char)232,(char)233,(char)234,(char)235,(char)236,(char)237,(char)238,(char)239,(char)240, (char)241,(char)242,(char)243,(char)244,(char)245,(char)246,(char)247,(char)248,(char)249,(char)250,(char)251, (char)252,(char)253,(char)254,(char)255);
+test_vfprintf("%-135p" ,(void*)166017542380380199lu);
+test_vfprintf("%-48p%-164c" ,(void*)9888845855039847185lu,114);
+test_vfprintf("%104.60s%109c%-9p" ,"}&@/h\n\f<C",36,(void*)14251011342640672780lu);
+test_vfprintf("%131p%--.42u%65c%-68c%-7c" ,(void*)14631880201060661778lu,1668628755u,110,-16,-32);
+test_vfprintf("%--189p" ,(void*)8440737604753056005lu);
+test_vfprintf("%64p%038.87d%23c%--182.49i%--76.110%" ,(void*)10278319775164267212lu,-1550079501,30,-862355787);
+test_vfprintf("%-120p" ,(void*)5150423256795085944lu);
+test_vfprintf("%120p%--55.128i" ,(void*)9377650025287837451lu,816352753);
+test_vfprintf("%--63p%-62.182d" ,(void*)1199013529227388230lu,568134778);
+test_vfprintf("%-166.180X%--18.47d%---111.87%%8p%0114.24X" ,1637127682u,-1931431309,(void*)3522468094256045905lu,4291674618u);
+test_vfprintf("%29p%0151.162x%---53.46u%-139.26X" ,(void*)17894711340605174765lu,1565093748u,662758369u,3536629372u);
+test_vfprintf("%-p%-35p%00042.14i%p" ,(void*)1508633298498623712lu,(void*)4610270612598633961lu,-1053760970,(void*)4955973954213917723lu);
+test_vfprintf("%108p%-175.188i" ,(void*)11721873312409420167lu,-653373315);
+
+test_vfprintf("this %i number", 17);
+test_vfprintf("%i", 3);
+test_vfprintf("this %d number", 17);
+test_vfprintf("%i", 2147483647);
+test_vfprintf("%i", (int)(-2147483678));
+test_vfprintf("%7i", 33);
+test_vfprintf("%5i", 52625);
+test_vfprintf("%4i", 94827);
+test_vfprintf("%-7i", 33);
+
+test_vfprintf("%s", NULL);
+test_vfprintf("%-s", NULL);
+test_vfprintf("%23s", NULL);
+test_vfprintf("%p", NULL);
+test_vfprintf("%s", NULL);
+test_vfprintf("hello, %s.", NULL);
+test_vfprintf("%s", NULL);
+test_vfprintf("%32s", NULL);
+test_vfprintf("%2s", NULL);
+test_vfprintf("%-32s", NULL);
+test_vfprintf("%-16s", NULL);
+test_vfprintf("%-3s", NULL);
+test_vfprintf("%p", NULL);
+test_vfprintf("Hello 42 school! %s", NULL);
+test_vfprintf("%p\n", NULL);
+test_vfprintf("%15p\n", NULL);
+test_vfprintf("%-15p\n", NULL);
+test_vfprintf("%10s", NULL);
+test_vfprintf("%.p", NULL);
+test_vfprintf("%.p", NULL);
+test_vfprintf("%1.p", NULL);
+test_vfprintf("%1.p", NULL);
+test_vfprintf("%5.p", NULL);
+test_vfprintf("%5.p", NULL);
+test_vfprintf("-->|%-16.p|<-- ", NULL);
+test_vfprintf("-->|%-16.p|<-- ", NULL);
+
+test_vfprintf("%.0i", 1);
 test_vfprintf("aiueo");
 test_vfprintf("%%");
 test_vfprintf("%.%");
@@ -123,9 +222,7 @@ test_vfprintf("%.i", 42);
 test_vfprintf("%.u", 42);
 test_vfprintf("%.p", 42);
 test_vfprintf("%.%" );
-//*/
 
-//*
 test_vfprintf("%d", -42);
 test_vfprintf("%d", 42);
 test_vfprintf("%d", INT_MAX);
@@ -141,9 +238,7 @@ test_vfprintf("%015.10d", 12345);
 test_vfprintf("%015.0d", 12345);
 test_vfprintf("%015d", 12345);
 test_vfprintf("ai%s", "ueo");
-//*/
 
-//*
 test_vfprintf("%.3s", NULL);
 test_vfprintf("%.3s", "hello");
 test_vfprintf("%.s", "hello");
@@ -180,9 +275,7 @@ test_vfprintf("%-9.1s", NULL);
 test_vfprintf("%07i", -54);
 test_vfprintf("%.1i", -54);
 test_vfprintf("%c", '\0');
-//*/
 
-//*
 test_vfprintf("%.0i", 1);
 test_vfprintf("%.0i", 0);
 test_vfprintf("%.i", 0);
@@ -235,9 +328,7 @@ test_vfprintf("%5.0u", 0);
 test_vfprintf("%5.u", 0);
 test_vfprintf("%-5.0u", 0);
 test_vfprintf("%-5.u", 0);
-//*/
 
-//*
 test_vfprintf("%.0x", 0);
 test_vfprintf("%.x", 0);
 test_vfprintf("%5.0x", 0);
@@ -341,9 +432,7 @@ test_vfprintf("%20.x", 0u);
 test_vfprintf("%20.X", 0u);
 test_vfprintf("%--194.54X" ,3852169892u);
 test_vfprintf("%-114.24i%-174.164i" ,-608242235,-1247846882);
-//*/
 
-//*
 test_vfprintf("%-135p" ,(void*)166017542380380199lu);
 test_vfprintf("%--73.154d" ,-1185050931);
 test_vfprintf("%-78.100u%0091.158x" ,2490445787u,628341766u);

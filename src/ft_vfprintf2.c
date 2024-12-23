@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/21 13:47:34 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/23 19:15:04 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,16 +23,26 @@ char	get_sign(t_format *f)
 	return ('\0');
 }
 
+size_t	minus(size_t *lhs, size_t rhs)
+{
+	if (*lhs < rhs)
+		return (0);
+	(*lhs) = (*lhs) - rhs;
+	return (1);
+}
+
 void	set_f_width(t_print *p, t_format *f)
 {
-	int	f_width;
+	size_t	f_width;
 
-	f_width = f->field - p->inner_len - p->zero_len;
-	if (p->sign)
-		f_width--;
-	if (p->prefix)
-		f_width -= ft_strlen(p->prefix);
-	if (f_width < 0)
+	f_width = f->field;
+	if (!minus(&f_width, p->inner_len))
+		return ;
+	if (!minus(&f_width, p->zero_len))
+		return ;
+	if (p->sign && !minus(&f_width, 1))
+		return ;
+	if (p->prefix && !minus(&f_width, 2))
 		return ;
 	if (f->s_flag.minus)
 		p->r_ws_len = f_width;
@@ -44,14 +54,14 @@ void	set_f_width(t_print *p, t_format *f)
 
 void	set_prec(t_print *p, t_format *f)
 {
-	int	prec;
+	size_t	prec;
 
-	prec = f->prec - p->inner_len;
-	if (prec < 0)
+	if (!f->s_flag.period)
 		return ;
-	if (f->s_flag.period)
-		p->zero_len = prec;
-	set_f_width(p, f);
+	prec = f->prec;
+	if (!minus(&prec, p->inner_len))
+		return ;
+	p->zero_len = prec;
 }
 
 char	*ft_ui64toa_base(uint64_t i, const char *base, unsigned char base_len)

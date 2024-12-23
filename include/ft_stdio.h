@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:52:48 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/21 20:15:31 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/23 19:16:37 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdarg.h>
 # include <stdio.h>
 # include <unistd.h>
+# include <stddef.h>
 
 # ifndef USE_STD_FILE_TYPE
 
@@ -42,5 +43,12 @@ int				ft_fputc(int c, t_file *stream);
 int				ft_fputs(const char *c, t_file *stream);
 int				ft_printf(const char *format, ...);
 int				ft_vfprintf(t_file *s, const char *format, va_list ap);
+
+t_file			*ft_filenew(void);
+void			ft_fset_fd(t_file *f, int fd);
+t_file			*ft_stdin(void);
+t_file			*ft_stdout(void);
+t_file			*ft_stderr(void);
+t_file			*ft_fd2file(int fd);
 
 #endif
