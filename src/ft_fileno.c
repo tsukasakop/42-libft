@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_fileno.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/24 05:07:23 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 02:44:04 by tkondo           ###   ########.fr       */
+/*   Created: 2024/08/25 15:50:13 by tkondo            #+#    #+#             */
+/*   Updated: 2024/12/21 20:01:11 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
-#include <stdlib.h>
+#include "_ft_stdio.h"
 
-char	*ft_strdup(const char *s1)
+#ifdef USE_STD_FILE_TYPE
+
+int	ft_fileno(t_file *stream)
 {
-	return (ft_strndup(s1, ft_strlen(s1)));
+	return (fileno(stream));
 }
 
-char	*ft_strndup(const char *s1, size_t size)
-{
-	char	*p;
+#else
 
-	p = malloc(size + 1);
-	if (p == NULL)
-		return (NULL);
-	ft_memcpy(p, s1, size);
-	ft_memset(p + size, 0, 1);
-	return (p);
+int	ft_fileno(t_file *stream)
+{
+	return (stream->_fd);
 }
+
+#endif

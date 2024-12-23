@@ -1,31 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_assert.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/24 05:07:23 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 02:44:04 by tkondo           ###   ########.fr       */
+/*   Created: 2024/10/24 16:50:58 by tkondo            #+#    #+#             */
+/*   Updated: 2024/10/24 16:53:18 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
-#include <stdlib.h>
+#ifndef FT_ASSERT_H
+# define FT_ASSERT_H
 
-char	*ft_strdup(const char *s1)
-{
-	return (ft_strndup(s1, ft_strlen(s1)));
-}
+void	ft_assert(int is_safe, const signed char *msg);
 
-char	*ft_strndup(const char *s1, size_t size)
-{
-	char	*p;
-
-	p = malloc(size + 1);
-	if (p == NULL)
-		return (NULL);
-	ft_memcpy(p, s1, size);
-	ft_memset(p + size, 0, 1);
-	return (p);
-}
+#endif

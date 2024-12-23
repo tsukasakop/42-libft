@@ -1,32 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_global.c                                      :+:      :+:    :+:   */
+/*   ft_filenew.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/11 15:54:46 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/11 15:55:41 by tkondo           ###   ########.fr       */
+/*   Created: 2024/12/21 18:54:02 by tkondo            #+#    #+#             */
+/*   Updated: 2024/12/21 19:43:01 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_global.h"
-#include "ft_string.h"
+#include "_ft_stdio.h"
 
-void	ch_test(void)
+t_file	*ft_filenew(void)
 {
-	char	*p;
-
-	p = ft_strdup("miyumiyu");
-	ft_set_global("mfunakos", p);
-}
-
-int	main(void)
-{
-	char	*p;
-
-	p = ft_strdup("kon.d.tsukasa");
-	ft_set_global("tkondo", p);
-	ch_test();
-	ft_mmfree();
+	return ((t_file *)ft_calloc(sizeof(t_file), 1));
 }

@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_fwrite.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/24 05:07:23 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 02:44:04 by tkondo           ###   ########.fr       */
+/*   Created: 2024/07/06 01:02:25 by tkondo            #+#    #+#             */
+/*   Updated: 2024/12/21 19:09:32 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
-#include <stdlib.h>
+#include "ft_stdio.h"
 
-char	*ft_strdup(const char *s1)
+size_t	ft_fwrite(const void *ptr, size_t size, size_t nitems, t_file *stream)
 {
-	return (ft_strndup(s1, ft_strlen(s1)));
-}
+	size_t	i;
+	size_t	j;
 
-char	*ft_strndup(const char *s1, size_t size)
-{
-	char	*p;
-
-	p = malloc(size + 1);
-	if (p == NULL)
-		return (NULL);
-	ft_memcpy(p, s1, size);
-	ft_memset(p + size, 0, 1);
-	return (p);
+	i = 0;
+	j = 0;
+	while (i < nitems)
+	{
+		while (j < size)
+		{
+			if (ft_fputc(((unsigned char *)ptr)[size * i + j], stream) == EOF)
+				return (i);
+			j++;
+		}
+		i++;
+	}
+	return (i);
 }

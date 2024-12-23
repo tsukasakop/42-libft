@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   ft_fset_fd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tkondo <marvin@42.fr>                      +#+  +:+       +#+        */
+/*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/16 18:37:00 by tkondo            #+#    #+#             */
-/*   Updated: 2024/09/11 18:10:35 by tkondo           ###   ########.fr       */
+/*   Created: 2024/12/21 18:57:25 by tkondo            #+#    #+#             */
+/*   Updated: 2024/12/21 20:03:55 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "_ft_stdio.h"
 
-size_t	ft_strlen(const char *s)
+#ifndef USE_STD_FILE_TYPE
+
+void	ft_fset_fd(t_file *f, int fd)
 {
-	const char	*t;
-
-	t = s;
-	while (*t)
-		t++;
-	return (t - s);
+	f->_fd = fd;
 }
 
-size_t	ft_strnlen(const char *s, size_t maxlen)
-{
-	size_t	cnt;
+#else
 
-	cnt = 0;
-	while (cnt < maxlen && s[cnt])
-		cnt++;
-	return (cnt);
+void	ft_fset_fd(t_file *f, int fd)
+{
+	(void)f;
+	(void)fd;
 }
+
+#endif

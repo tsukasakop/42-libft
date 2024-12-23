@@ -1,31 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_stdout.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/24 05:07:23 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 02:44:04 by tkondo           ###   ########.fr       */
+/*   Created: 2024/10/26 16:59:44 by tkondo            #+#    #+#             */
+/*   Updated: 2024/12/23 19:09:50 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_string.h"
-#include <stdlib.h>
+#include "_ft_stdio.h"
 
-char	*ft_strdup(const char *s1)
+#ifndef USE_STD_FILE_TYPE
+
+t_file	*ft_stdout(void)
 {
-	return (ft_strndup(s1, ft_strlen(s1)));
+	static unsigned int	has_build;
+	static t_file		f;
+
+	if (!has_build)
+	{
+		ft_fset_fd(&f, STDOUT_FILENO);
+		has_build = 1;
+	}
+	return (&f);
 }
 
-char	*ft_strndup(const char *s1, size_t size)
-{
-	char	*p;
+#else
 
-	p = malloc(size + 1);
-	if (p == NULL)
-		return (NULL);
-	ft_memcpy(p, s1, size);
-	ft_memset(p + size, 0, 1);
-	return (p);
+t_file	*ft_stdout(void)
+{
+	return (stdout);
 }
+
+#endif

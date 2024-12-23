@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+         #
+#    By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
-#    Updated: 2024/12/19 17:20:14 by tkondo           ###   ########.fr        #
+#    Updated: 2024/12/24 01:52:47 by tkondo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 INC_DIR = include
-CFLAGS = -Wall -Wextra -Werror -I$(INC_DIR)
+CFLAGS = -c -fPIE -Wall -Wextra -Werror -I$(INC_DIR)
 
 SRC_DIR = src
 OBJ_DIR = bin
@@ -62,6 +62,25 @@ TARGET =\
 	ft_lstclear\
 	ft_lstiter\
 	ft_lstmap\
+	ft_fileno\
+	ft_fwrite\
+	ft_fputc\
+	ft_fflush\
+	ft_fputs\
+	ft_fd2file\
+	ft_stdin\
+	ft_stdout\
+	ft_stderr\
+	ft_filenew\
+	ft_fset_fd\
+	ft_vfprintf0\
+	ft_vfprintf1\
+	ft_vfprintf2\
+	ft_vfprintf3\
+	ft_vfprintf4\
+	ft_vfprintf5\
+	ft_vfprintf6\
+	ft_printf\
 	ft_htbl0\
 	ft_htbl1\
 	ft_blocked_node\
@@ -73,7 +92,7 @@ OBJS = $(addprefix $(OBJ_DIR)/,$(addsuffix .o,$(TARGET)))
 
 all: $(NAME)
 
-dev: CFLAGS+=-g -fsanitize=address
+dev: CFLAGS+=-O0 -g -fsanitize=address
 dev: all
 
 $(NAME): $(OBJS)
@@ -81,7 +100,7 @@ $(NAME): $(OBJS)
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(OBJ_DIR)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(CFLAGS) $< -o $@
 
 clean:
 	rm -f $(OBJS)
@@ -91,4 +110,6 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: dev all clean fclean re init
+devre: fclean dev
+
+.PHONY: dev devre all clean fclean re init
