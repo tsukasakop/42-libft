@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 17:06:05 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/19 17:19:48 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/26 20:42:42 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_blocked_node	*ft_bnnew(void)
 
 int	ft_bnadd(t_blocked_node *bn, void *ptr)
 {
-	while (bn->cnt == BN_STORE_MAX && bn->next)
+	while (bn->cnt == BN_STORE_MAX)
 	{
 		if (!bn->next)
 		{
