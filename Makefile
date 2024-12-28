@@ -6,7 +6,7 @@
 #    By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
-#    Updated: 2024/12/26 03:15:17 by tkondo           ###   ########.fr        #
+#    Updated: 2024/12/28 23:29:52 by tkondo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -87,6 +87,7 @@ TARGET =\
 	ft_memory\
 	ft_gmemory\
 	ft_global\
+	ft_exit\
 	get_next_line\
 
 OBJS = $(addprefix $(OBJ_DIR)/,$(addsuffix .o,$(TARGET)))
