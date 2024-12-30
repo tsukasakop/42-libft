@@ -6,7 +6,7 @@
 /*   By: tkondo <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/28 23:42:12 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/28 23:55:08 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/31 01:40:45 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_atexit(void *function)
 	if (i == FT_MAX_F_ATEXIT)
 		return (-1);
 	fs = _get_func_atexit();
-	fs[i] = function;
+	fs[i] = f;
 	i++;
 	return (0);
 }
