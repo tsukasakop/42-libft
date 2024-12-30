@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 01:20:53 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 01:16:14 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/31 02:09:54 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 t_htbl	htnew(void)
 {
-	return ((t_htbl)calloc(sizeof(t_htnode *), HTSIZE));
+	return ((t_htbl)ft_calloc(sizeof(t_htnode *), HTSIZE));
 }
 
 uint8_t	hash(const char *key)
