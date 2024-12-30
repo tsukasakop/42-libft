@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/23 18:26:31 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/31 03:18:32 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	read_raw(t_format *fmt, const char **f)
 	while ((*f)[i] && (*f)[i] != '%')
 		++i;
 	fmt->u_val.ptr = (void *)ft_strndup(*f, i);
-	ft_g_mmadd(fmt->u_val.ptr);
+	ft_mmadd(vfpmm(), fmt->u_val.ptr);
 	*f += i;
 }
 
@@ -79,7 +79,7 @@ t_format	*read_fmt(const char **f, va_list ap)
 {
 	t_format	*fmt;
 
-	fmt = ft_g_mmcalloc(1, sizeof(t_format));
+	fmt = ft_mmcalloc(vfpmm(), 1, sizeof(t_format));
 	if (fmt == NULL)
 		return (NULL);
 	if (**f != '%')

@@ -1,8 +1,8 @@
-//usr/bin/cc $0 -L. -I. -lftprintf -D USE_STD_PRINTF -o std.out || exit;
-//usr/bin/cc $0 -L. -I. -lftprintf -o ft.out || exit;
+//usr/bin/cc $0 -L. -I. -lft -D USE_STD_PRINTF -o std.out || exit;
+//usr/bin/cc $0 -L. -I. -lft -o ft.out || exit;
 //$PWD/std.out > std.txt; echo "$?" > std.ret;
 //$PWD/ft.out > ft.txt; echo "$?" > ft.ret;
-//usr/bin/echo "# Check output:"
+///bin/echo "# Check output:"
 //usr/bin/diff ft.txt std.txt && echo " - No difference found";
 //usr/bin/echo "# Check return value:"
 //usr/bin/diff ft.ret std.ret && echo " - No difference found";
@@ -30,5 +30,5 @@ int main()
 {
 	char a = 'a';
 	
-	return PRINTF("aa%c%s%p%d%i%u%x%%");
+	return PRINTF("%s", "aiueo");
 }

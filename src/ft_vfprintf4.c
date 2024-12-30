@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/23 18:49:15 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/31 03:20:09 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_print_d(t_format *f, t_print *p)
 			(uint64_t)(uint32_t)f->u_val.nbr,
 			"0123456789",
 			10);
-	ft_g_mmadd((void *)p->p);
+	ft_mmadd(vfpmm(), (void *)p->p);
 	p->inner_len = ft_strlen((const char *)p->p);
 	if (!f->u_val.nbr && f->s_flag.period && !f->prec)
 		p->inner_len = 0;
@@ -35,7 +35,7 @@ void	init_print_u(t_format *f, t_print *p)
 			(uint64_t)(uint32_t)f->u_val.nbr,
 			"0123456789",
 			10);
-	ft_g_mmadd((void *)p->p);
+	ft_mmadd(vfpmm(), (void *)p->p);
 	p->inner_len = ft_strlen((const char *)p->p);
 	if (!f->u_val.nbr && f->s_flag.period && !f->prec)
 		p->inner_len = 0;
@@ -51,7 +51,7 @@ void	init_print_x(t_format *f, t_print *p)
 			(uint64_t)(uint32_t)f->u_val.nbr,
 			"0123456789abcdef",
 			16);
-	ft_g_mmadd((void *)p->p);
+	ft_mmadd(vfpmm(), (void *)p->p);
 	p->inner_len = ft_strlen((const char *)p->p);
 	if (!f->u_val.nbr && f->s_flag.period && !f->prec)
 		p->inner_len = 0;
@@ -67,7 +67,7 @@ void	init_print_xx(t_format *f, t_print *p)
 			(uint64_t)(uint32_t)f->u_val.nbr,
 			"0123456789ABCDEF",
 			16);
-	ft_g_mmadd((void *)p->p);
+	ft_mmadd(vfpmm(), (void *)p->p);
 	p->inner_len = ft_strlen((const char *)p->p);
 	if (!f->u_val.nbr && f->s_flag.period && !f->prec)
 		p->inner_len = 0;
@@ -86,7 +86,7 @@ void	init_print_p(t_format *f, t_print *p)
 				(uint64_t)f->u_val.ptr,
 				"0123456789abcdef",
 				16);
-		ft_g_mmadd((void *)p->p);
+		ft_mmadd(vfpmm(), (void *)p->p);
 	}
 	p->inner_len = ft_strlen((const char *)p->p);
 	set_prec(p, f);

@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/06 03:11:49 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/23 19:16:51 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/31 03:27:20 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@
 typedef struct s_format	t_format;
 typedef struct s_print	t_print;
 
-struct				s_format
+struct					s_format
 {
 	unsigned char		mod;
 	union
 	{
-		int			nbr;
-		void		*ptr;
+		int				nbr;
+		void			*ptr;
 	} u_val;
 	struct
 	{
@@ -86,5 +86,6 @@ void					ft_fputc_wrapper(int c, t_file *stream);
 void					print_data(t_file *s, t_print *p);
 void					print_unit(t_file *s, t_print *p);
 void					print_by_unit(t_file *s, const char **f, va_list ap);
+t_memory_manager		*vfpmm(void);
 
 #endif

@@ -6,22 +6,28 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/23 18:49:48 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/31 03:25:30 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_ft_stdio.h"
+
+t_memory_manager	*vfpmm(void)
+{
+	return ((t_memory_manager *)ft_get_global("ft-vfp-mm$"));
+}
 
 void	print_by_unit(t_file *s, const char **f, va_list ap)
 {
 	t_print		*p;
 	t_format	*fmt;
 
+	ft_set_global("ft-vfp-mm", (void *)ft_mmnew());
 	fmt = read_fmt(f, ap);
 	p = norm_fmt(fmt);
 	if (p)
 		print_unit(s, p);
-	ft_g_mmfree();
+	ft_mmfree(vfpmm());
 }
 
 int	ft_vfprintf(t_file *s, const char *format, va_list ap)

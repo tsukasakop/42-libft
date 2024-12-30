@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/23 19:02:49 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/31 03:20:25 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_print	*norm_fmt(t_format *f)
 {
 	t_print	*p;
 
-	p = (t_print *)ft_g_mmcalloc(sizeof(t_print), 1);
+	p = (t_print *)ft_mmcalloc(vfpmm(), sizeof(t_print), 1);
 	if (!p)
 		return (NULL);
 	if (f->mod == 'R' || f->mod == 's')
