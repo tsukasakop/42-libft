@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:52:48 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/23 19:16:37 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/31 01:55:52 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ size_t			ft_fwrite(const void *ptr, size_t size, size_t n_items,
 int				ft_fputc(int c, t_file *stream);
 int				ft_fputs(const char *c, t_file *stream);
 int				ft_printf(const char *format, ...);
+int				ft_fprintf(t_file *s, const char *format, ...);
 int				ft_vfprintf(t_file *s, const char *format, va_list ap);
 
 t_file			*ft_filenew(void);

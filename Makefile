@@ -6,7 +6,7 @@
 #    By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/05/09 00:35:59 by tkondo            #+#    #+#              #
-#    Updated: 2024/12/28 23:29:52 by tkondo           ###   ########.fr        #
+#    Updated: 2024/12/31 01:55:19 by tkondo           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,6 +81,7 @@ TARGET =\
 	ft_vfprintf5\
 	ft_vfprintf6\
 	ft_printf\
+	ft_fprintf\
 	ft_htbl0\
 	ft_htbl1\
 	ft_blocked_node\
