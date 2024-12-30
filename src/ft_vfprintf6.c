@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/31 03:25:30 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/31 04:08:50 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_memory_manager	*vfpmm(void)
 {
-	return ((t_memory_manager *)ft_get_global("ft-vfp-mm$"));
+	return ((t_memory_manager *)ft_get_global("ft-vfp-mm"));
 }
 
 void	print_by_unit(t_file *s, const char **f, va_list ap)
