@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/05 22:41:55 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/31 04:08:50 by tkondo           ###   ########.fr       */
+/*   Updated: 2024/12/31 10:17:37 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	print_by_unit(t_file *s, const char **f, va_list ap)
 	if (p)
 		print_unit(s, p);
 	ft_mmfree(vfpmm());
+	ft_delone_global("ft-vfp-mm", NULL);
 }
 
 int	ft_vfprintf(t_file *s, const char *format, va_list ap)
