@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 01:25:15 by tkondo            #+#    #+#             */
-/*   Updated: 2025/01/04 12:28:39 by tkondo           ###   ########.fr       */
+/*   Updated: 2025/01/04 14:16:10 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 static void	htnodedel(t_htnode *htnode, void (*del)(t_htnode *))
 {
 	if (del)
-		del(htnode->val);
+		del(htnode);
 	free(htnode);
 }
 
