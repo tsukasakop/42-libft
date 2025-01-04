@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 11:21:31 by tkondo            #+#    #+#             */
-/*   Updated: 2025/01/04 11:53:44 by tkondo           ###   ########.fr       */
+/*   Updated: 2025/01/04 12:37:02 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ t_htbl	*_getenvp(void)
 	if (!p)
 		p = htnew();
 	return (&p);
+}
+
+void	_delenv(t_htnode *n)
+{
+	free((void *)n->key);
+	free((void *)n->val);
 }
 
 int	ft_initenv(char **envp)
@@ -42,6 +48,6 @@ void	ft_clearenv(void)
 	p = _getenvp();
 	if (p == NULL)
 		return ;
-	htclear(*p, free);
+	htclear(*p, _delenv);
 	*p = NULL;
 }

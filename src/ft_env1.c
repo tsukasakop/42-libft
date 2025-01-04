@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 11:19:40 by tkondo            #+#    #+#             */
-/*   Updated: 2025/01/04 11:45:31 by tkondo           ###   ########.fr       */
+/*   Updated: 2025/01/04 12:22:18 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,6 @@ int	ft_unsetenv(const char *name)
 	p = _getenvp();
 	if (p == NULL)
 		return (-1);
-	htdelone(*p, name, free);
+	htdelone(*p, name, _delenv);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 15:44:16 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/20 00:58:00 by tkondo           ###   ########.fr       */
+/*   Updated: 2025/01/04 12:30:03 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	*ft_get_global(const char *key)
 	return (htget(dict, key));
 }
 
-void	ft_delone_global(const char *key, void (*del)(void *))
+void	ft_delone_global(const char *key, void (*del)(t_htnode *))
 {
 	t_htbl	dict;
 

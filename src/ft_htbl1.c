@@ -6,7 +6,7 @@
 /*   By: tkondo <tkondo@student.42tokyo.jp>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/11 01:25:15 by tkondo            #+#    #+#             */
-/*   Updated: 2024/12/11 02:16:00 by tkondo           ###   ########.fr       */
+/*   Updated: 2025/01/04 12:28:39 by tkondo           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@
 #include <stdlib.h>
 #include <string.h>
 
-static void	htnodedel(t_htnode *htnode, void (*del)(void *))
+static void	htnodedel(t_htnode *htnode, void (*del)(t_htnode *))
 {
 	if (del)
 		del(htnode->val);
 	free(htnode);
 }
 
-void	htdelone(t_htnode **ht, const char *key, void (*del)(void *))
+void	htdelone(t_htnode **ht, const char *key, void (*del)(t_htnode *))
 {
 	uint8_t		h;
 	t_htnode	*i;
@@ -46,7 +46,7 @@ void	htdelone(t_htnode **ht, const char *key, void (*del)(void *))
 	}
 }
 
-void	htclear(t_htnode **ht, void (*del)(void *))
+void	htclear(t_htnode **ht, void (*del)(t_htnode *))
 {
 	uint8_t		h;
 	t_htnode	*i;
