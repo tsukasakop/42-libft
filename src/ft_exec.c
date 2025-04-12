@@ -13,30 +13,44 @@
 #include <_ft_unistd.h>
 #include <ft_stdlib.h>
 
+static void	free_dirs(char **dirs)
+{
+	size_t	i;
+
+	i = 0;
+	while (dirs && dirs[i])
+	{
+		free(dirs[i]);
+		i++;
+	}
+	free(dirs);
+}
+
 static const char	*find_path(const char *name)
 {
 	char	*tmp;
 	char	*path;
 	char	**dirs;
+	size_t	i;
 
 	if (ft_getenv("PATH") == NULL)
 		return (NULL);
 	dirs = ft_split(ft_getenv("PATH"), ':');
-	while (dirs && *dirs)
+	i = 0;
+	while (dirs && dirs[i])
 	{
 		tmp = ft_strjoin(*dirs, "/");
 		path = ft_strjoin(tmp, name);
 		free(tmp);
-		if (access(path, X_OK) == 0)
+		if (access(path, F_OK) == 0)
 		{
-			while (*dirs)
-				free(*dirs++);
+			free_dirs(dirs);
 			return ((const char *)path);
 		}
 		free(path);
-		free(*dirs);
-		dirs++;
+		i++;
 	}
+	free_dirs(dirs);
 	return (NULL);
 }
 
